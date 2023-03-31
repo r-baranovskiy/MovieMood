@@ -13,6 +13,15 @@
 		80AD557B29D7884C00A8F1C3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80AD557929D7884C00A8F1C3 /* LaunchScreen.storyboard */; };
 		80AD558B29D7894A00A8F1C3 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD558A29D7894A00A8F1C3 /* AuthManager.swift */; };
 		80AD558D29D7896800A8F1C3 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD558C29D7896800A8F1C3 /* Movie.swift */; };
+		80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD558E29D78AAF00A8F1C3 /* OnboardingViewController.swift */; };
+		80AD559129D78ACF00A8F1C3 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559029D78ACF00A8F1C3 /* AuthViewController.swift */; };
+		80AD559329D78B2500A8F1C3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559229D78B2500A8F1C3 /* ProfileViewController.swift */; };
+		80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559429D78B4500A8F1C3 /* SearchViewController.swift */; };
+		80AD559729D78B6C00A8F1C3 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559629D78B6C00A8F1C3 /* FavoriteViewController.swift */; };
+		80AD559929D78BAD00A8F1C3 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559829D78BAD00A8F1C3 /* DetailViewController.swift */; };
+		80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */; };
+		80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559C29D78C0500A8F1C3 /* RealmManager.swift */; };
+		80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +33,15 @@
 		80AD557C29D7884C00A8F1C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80AD558A29D7894A00A8F1C3 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		80AD558C29D7896800A8F1C3 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		80AD558E29D78AAF00A8F1C3 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		80AD559029D78ACF00A8F1C3 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		80AD559229D78B2500A8F1C3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		80AD559429D78B4500A8F1C3 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		80AD559629D78B6C00A8F1C3 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		80AD559829D78BAD00A8F1C3 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		80AD559C29D78C0500A8F1C3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +97,9 @@
 			isa = PBXGroup;
 			children = (
 				80AD558829D788D900A8F1C3 /* Core */,
+				80AD558E29D78AAF00A8F1C3 /* OnboardingViewController.swift */,
+				80AD559029D78ACF00A8F1C3 /* AuthViewController.swift */,
+				80AD559829D78BAD00A8F1C3 /* DetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -103,6 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				80AD558A29D7894A00A8F1C3 /* AuthManager.swift */,
+				80AD559C29D78C0500A8F1C3 /* RealmManager.swift */,
+				80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -119,6 +142,10 @@
 			isa = PBXGroup;
 			children = (
 				80AD557229D7884A00A8F1C3 /* MainTabBarController.swift */,
+				80AD559229D78B2500A8F1C3 /* ProfileViewController.swift */,
+				80AD559429D78B4500A8F1C3 /* SearchViewController.swift */,
+				80AD559629D78B6C00A8F1C3 /* FavoriteViewController.swift */,
+				80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -195,7 +222,16 @@
 			files = (
 				80AD557329D7884A00A8F1C3 /* MainTabBarController.swift in Sources */,
 				80AD558B29D7894A00A8F1C3 /* AuthManager.swift in Sources */,
+				80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */,
+				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,
+				80AD559729D78B6C00A8F1C3 /* FavoriteViewController.swift in Sources */,
+				80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */,
+				80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */,
 				80AD558D29D7896800A8F1C3 /* Movie.swift in Sources */,
+				80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */,
+				80AD559329D78B2500A8F1C3 /* ProfileViewController.swift in Sources */,
+				80AD559929D78BAD00A8F1C3 /* DetailViewController.swift in Sources */,
+				80AD559129D78ACF00A8F1C3 /* AuthViewController.swift in Sources */,
 				80AD556F29D7884A00A8F1C3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
