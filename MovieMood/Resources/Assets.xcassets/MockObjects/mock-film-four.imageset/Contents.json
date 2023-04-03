@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "mock-film-four.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */; };
+		808E8CBF29DAC998003DD106 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 808E8CBE29DAC998003DD106 /* README.md */; };
+		808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC029DAC9E8003DD106 /* HomeViewController.swift */; };
+		808E8CC429DACA44003DD106 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC329DACA44003DD106 /* SignUpViewController.swift */; };
 		80AD556F29D7884A00A8F1C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD556E29D7884A00A8F1C3 /* AppDelegate.swift */; };
 		80AD557329D7884A00A8F1C3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD557229D7884A00A8F1C3 /* MainTabBarController.swift */; };
 		80AD557829D7884C00A8F1C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80AD557729D7884C00A8F1C3 /* Assets.xcassets */; };
@@ -27,6 +30,9 @@
 
 /* Begin PBXFileReference section */
 		808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
+		808E8CBE29DAC998003DD106 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		808E8CC029DAC9E8003DD106 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		808E8CC329DACA44003DD106 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		80AD556B29D7884A00A8F1C3 /* MovieMood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieMood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80AD556E29D7884A00A8F1C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80AD557229D7884A00A8F1C3 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -73,9 +79,21 @@
 			path = UIKit;
 			sourceTree = "<group>";
 		};
+		808E8CC229DACA0C003DD106 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				80AD558E29D78AAF00A8F1C3 /* OnboardingViewController.swift */,
+				80AD559029D78ACF00A8F1C3 /* AuthViewController.swift */,
+				80AD559829D78BAD00A8F1C3 /* DetailViewController.swift */,
+				808E8CC329DACA44003DD106 /* SignUpViewController.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
 		80AD556229D7884A00A8F1C3 = {
 			isa = PBXGroup;
 			children = (
+				808E8CBE29DAC998003DD106 /* README.md */,
 				80AD556D29D7884A00A8F1C3 /* MovieMood */,
 				80AD556C29D7884A00A8F1C3 /* Products */,
 			);
@@ -116,9 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				80AD558829D788D900A8F1C3 /* Core */,
-				80AD558E29D78AAF00A8F1C3 /* OnboardingViewController.swift */,
-				80AD559029D78ACF00A8F1C3 /* AuthViewController.swift */,
-				80AD559829D78BAD00A8F1C3 /* DetailViewController.swift */,
+				808E8CC229DACA0C003DD106 /* Other */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -165,6 +181,7 @@
 				80AD559429D78B4500A8F1C3 /* SearchViewController.swift */,
 				80AD559629D78B6C00A8F1C3 /* FavoriteViewController.swift */,
 				80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */,
+				808E8CC029DAC9E8003DD106 /* HomeViewController.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -227,6 +244,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				808E8CBF29DAC998003DD106 /* README.md in Resources */,
 				80AD557B29D7884C00A8F1C3 /* LaunchScreen.storyboard in Resources */,
 				80AD557829D7884C00A8F1C3 /* Assets.xcassets in Resources */,
 			);
@@ -244,10 +262,12 @@
 				80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */,
 				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,
 				80AD559729D78B6C00A8F1C3 /* FavoriteViewController.swift in Sources */,
+				808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */,
 				80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */,
 				80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */,
 				808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */,
 				80AD558D29D7896800A8F1C3 /* Movie.swift in Sources */,
+				808E8CC429DACA44003DD106 /* SignUpViewController.swift in Sources */,
 				80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */,
 				80AD559329D78B2500A8F1C3 /* ProfileViewController.swift in Sources */,
 				80AD559929D78BAD00A8F1C3 /* DetailViewController.swift in Sources */,
