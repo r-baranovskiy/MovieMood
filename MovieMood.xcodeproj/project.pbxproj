@@ -12,6 +12,12 @@
 		1E55F50829DC61D500CE4C5B /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50729DC61D500CE4C5B /* APIKey.swift */; };
 		1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50929DC690C00CE4C5B /* MoviesModelResponse.swift */; };
 		1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */; };
+		804CB41129DC730000955FA9 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 804CB40929DC6F1700955FA9 /* GoogleSignInSwift */; };
+		804CB41229DC730000955FA9 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 804CB40C29DC6F3D00955FA9 /* SDWebImage */; };
+		804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */; };
+		804CB41829DC73C000955FA9 /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB41529DC73C000955FA9 /* AuthTextField.swift */; };
+		804CB41929DC73C000955FA9 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB41629DC73C000955FA9 /* CustomLabel.swift */; };
+		804CB41B29DC740700955FA9 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB41A29DC740700955FA9 /* HapticsManager.swift */; };
 		808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */; };
 		808E8CBF29DAC998003DD106 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 808E8CBE29DAC998003DD106 /* README.md */; };
 		808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC029DAC9E8003DD106 /* HomeViewController.swift */; };
@@ -41,6 +47,10 @@
 		1E55F50729DC61D500CE4C5B /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		1E55F50929DC690C00CE4C5B /* MoviesModelResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesModelResponse.swift; sourceTree = "<group>"; };
 		1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailResponse.swift; sourceTree = "<group>"; };
+		804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DontHaveAccButton.swift; sourceTree = "<group>"; };
+		804CB41529DC73C000955FA9 /* AuthTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
+		804CB41629DC73C000955FA9 /* CustomLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
+		804CB41A29DC740700955FA9 /* HapticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
 		808E8CBE29DAC998003DD106 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		808E8CC029DAC9E8003DD106 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -71,14 +81,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				804CB40D29DC6F3D00955FA9 /* SDWebImage in Frameworks */,
-				804CB40A29DC6F1700955FA9 /* GoogleSignInSwift in Frameworks */,
+				804CB41229DC730000955FA9 /* SDWebImage in Frameworks */,
+				804CB41129DC730000955FA9 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		804CB41329DC730000955FA9 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				CEA3D23129DC5F04004C2412 /* CustomLabel.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		808E8CBA29DAC173003DD106 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,7 +120,6 @@
 				80AD559029D78ACF00A8F1C3 /* AuthViewController.swift */,
 				80AD559829D78BAD00A8F1C3 /* DetailViewController.swift */,
 				808E8CC329DACA44003DD106 /* SignUpViewController.swift */,
-				804CB40429DC54A400955FA9 /* SignInViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -113,6 +130,7 @@
 				808E8CBE29DAC998003DD106 /* README.md */,
 				80AD556D29D7884A00A8F1C3 /* MovieMood */,
 				80AD556C29D7884A00A8F1C3 /* Products */,
+				804CB41329DC730000955FA9 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -160,9 +178,10 @@
 			isa = PBXGroup;
 			children = (
 				80AD557929D7884C00A8F1C3 /* LaunchScreen.storyboard */,
+				804CB41529DC73C000955FA9 /* AuthTextField.swift */,
+				804CB41629DC73C000955FA9 /* CustomLabel.swift */,
+				804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */,
 				808E8CC629DB07B9003DD106 /* BlueButton.swift */,
-				804CB3D229DC119B00955FA9 /* AuthTextField.swift */,
-				804CB40E29DC712F00955FA9 /* DontHaveAccButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -186,6 +205,7 @@
 				1E55F50329DC60E900CE4C5B /* JSONDecoderManager.swift */,
 				1E55F50429DC60E900CE4C5B /* NetworkManager.swift */,
 				1E55F50729DC61D500CE4C5B /* APIKey.swift */,
+				804CB41A29DC740700955FA9 /* HapticsManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -296,25 +316,25 @@
 				1E55F50529DC60E900CE4C5B /* JSONDecoderManager.swift in Sources */,
 				80AD558B29D7894A00A8F1C3 /* AuthManager.swift in Sources */,
 				1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */,
+				804CB41829DC73C000955FA9 /* AuthTextField.swift in Sources */,
+				804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */,
 				80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */,
+				804CB41B29DC740700955FA9 /* HapticsManager.swift in Sources */,
+				804CB41929DC73C000955FA9 /* CustomLabel.swift in Sources */,
 				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,
 				1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */,
 				80AD559729D78B6C00A8F1C3 /* FavoriteViewController.swift in Sources */,
 				808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */,
-				804CB3D529DC163000955FA9 /* HapticsManager.swift in Sources */,
 				80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */,
-				804CB40529DC54A400955FA9 /* SignInViewController.swift in Sources */,
 				80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */,
 				808E8CC729DB07B9003DD106 /* BlueButton.swift in Sources */,
 				808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */,
-				804CB40F29DC712F00955FA9 /* DontHaveAccButton.swift in Sources */,
 				80AD558D29D7896800A8F1C3 /* Movie.swift in Sources */,
 				CEA3D23229DC5F04004C2412 /* CustomLabel.swift in Sources */,
 				808E8CC429DACA44003DD106 /* SignUpViewController.swift in Sources */,
 				80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */,
 				80AD559329D78B2500A8F1C3 /* ProfileViewController.swift in Sources */,
 				80AD559929D78BAD00A8F1C3 /* DetailViewController.swift in Sources */,
-				804CB3D329DC119B00955FA9 /* AuthTextField.swift in Sources */,
 				80AD559129D78ACF00A8F1C3 /* AuthViewController.swift in Sources */,
 				80AD556F29D7884A00A8F1C3 /* AppDelegate.swift in Sources */,
 			);

@@ -80,12 +80,6 @@ extension SignUpViewController {
             )
         ])
         
-        view.addSubview(subLabel)
-        NSLayoutConstraint.activate([
-            subLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            subLabel.topAnchor.constraint(equalTo: completeLabel.bottomAnchor, constant: 8)
-        ])
-        
         let stack = UIStackView(arrangedSubviews: [
             emailTextField, firstNameTextField, lastNameTextField,
             passwordTextField, confirmPasswordTextField, signUpButton

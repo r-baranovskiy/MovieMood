@@ -58,5 +58,4 @@ final class CustomLabel: UILabel {
             font = UIFont.systemFont(ofSize: 14, weight: .regular)
         }
     }
-    
 }
