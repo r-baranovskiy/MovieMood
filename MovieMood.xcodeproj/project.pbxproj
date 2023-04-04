@@ -7,12 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		804CB3D329DC119B00955FA9 /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB3D229DC119B00955FA9 /* AuthTextField.swift */; };
-		804CB3D529DC163000955FA9 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB3D429DC163000955FA9 /* HapticsManager.swift */; };
-		804CB40529DC54A400955FA9 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB40429DC54A400955FA9 /* SignInViewController.swift */; };
-		804CB40A29DC6F1700955FA9 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 804CB40929DC6F1700955FA9 /* GoogleSignInSwift */; };
-		804CB40D29DC6F3D00955FA9 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 804CB40C29DC6F3D00955FA9 /* SDWebImage */; };
-		804CB40F29DC712F00955FA9 /* DontHaveAccButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB40E29DC712F00955FA9 /* DontHaveAccButton.swift */; };
+		1E55F50529DC60E900CE4C5B /* JSONDecoderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50329DC60E900CE4C5B /* JSONDecoderManager.swift */; };
+		1E55F50629DC60E900CE4C5B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50429DC60E900CE4C5B /* NetworkManager.swift */; };
+		1E55F50829DC61D500CE4C5B /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50729DC61D500CE4C5B /* APIKey.swift */; };
+		1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50929DC690C00CE4C5B /* MoviesModelResponse.swift */; };
+		1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */; };
 		808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */; };
 		808E8CBF29DAC998003DD106 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 808E8CBE29DAC998003DD106 /* README.md */; };
 		808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC029DAC9E8003DD106 /* HomeViewController.swift */; };
@@ -37,10 +36,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		804CB3D229DC119B00955FA9 /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
-		804CB3D429DC163000955FA9 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
-		804CB40429DC54A400955FA9 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
-		804CB40E29DC712F00955FA9 /* DontHaveAccButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontHaveAccButton.swift; sourceTree = "<group>"; };
+		1E55F50329DC60E900CE4C5B /* JSONDecoderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONDecoderManager.swift; sourceTree = "<group>"; };
+		1E55F50429DC60E900CE4C5B /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		1E55F50729DC61D500CE4C5B /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		1E55F50929DC690C00CE4C5B /* MoviesModelResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesModelResponse.swift; sourceTree = "<group>"; };
+		1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailResponse.swift; sourceTree = "<group>"; };
 		808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
 		808E8CBE29DAC998003DD106 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		808E8CC029DAC9E8003DD106 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +171,8 @@
 			isa = PBXGroup;
 			children = (
 				80AD558C29D7896800A8F1C3 /* Movie.swift */,
+				1E55F50929DC690C00CE4C5B /* MoviesModelResponse.swift */,
+				1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -181,7 +183,9 @@
 				80AD558A29D7894A00A8F1C3 /* AuthManager.swift */,
 				80AD559C29D78C0500A8F1C3 /* RealmManager.swift */,
 				80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */,
-				804CB3D429DC163000955FA9 /* HapticsManager.swift */,
+				1E55F50329DC60E900CE4C5B /* JSONDecoderManager.swift */,
+				1E55F50429DC60E900CE4C5B /* NetworkManager.swift */,
+				1E55F50729DC61D500CE4C5B /* APIKey.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -286,10 +290,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E55F50629DC60E900CE4C5B /* NetworkManager.swift in Sources */,
+				1E55F50829DC61D500CE4C5B /* APIKey.swift in Sources */,
 				80AD557329D7884A00A8F1C3 /* MainTabBarController.swift in Sources */,
+				1E55F50529DC60E900CE4C5B /* JSONDecoderManager.swift in Sources */,
 				80AD558B29D7894A00A8F1C3 /* AuthManager.swift in Sources */,
+				1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */,
 				80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */,
 				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,
+				1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */,
 				80AD559729D78B6C00A8F1C3 /* FavoriteViewController.swift in Sources */,
 				808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */,
 				804CB3D529DC163000955FA9 /* HapticsManager.swift in Sources */,
