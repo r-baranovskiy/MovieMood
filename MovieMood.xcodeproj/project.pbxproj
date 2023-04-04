@@ -12,6 +12,8 @@
 		1E55F50829DC61D500CE4C5B /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50729DC61D500CE4C5B /* APIKey.swift */; };
 		1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50929DC690C00CE4C5B /* MoviesModelResponse.swift */; };
 		1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */; };
+		57CD4F2329DCAC12004B73F4 /* ReusableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */; };
+		57CD4F2629DCAC99004B73F4 /* ExampleTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CD4F2529DCAC99004B73F4 /* ExampleTableView.swift */; };
 		803898C829DC7BCA00103156 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803898C729DC7BC900103156 /* SignInViewController.swift */; };
 		804CB41129DC730000955FA9 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 804CB40929DC6F1700955FA9 /* GoogleSignInSwift */; };
 		804CB41229DC730000955FA9 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 804CB40C29DC6F3D00955FA9 /* SDWebImage */; };
@@ -47,6 +49,8 @@
 		1E55F50729DC61D500CE4C5B /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		1E55F50929DC690C00CE4C5B /* MoviesModelResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesModelResponse.swift; sourceTree = "<group>"; };
 		1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailResponse.swift; sourceTree = "<group>"; };
+		57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableTableViewCell.swift; sourceTree = "<group>"; };
+		57CD4F2529DCAC99004B73F4 /* ExampleTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleTableView.swift; sourceTree = "<group>"; };
 		803898C729DC7BC900103156 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DontHaveAccButton.swift; sourceTree = "<group>"; };
 		804CB41529DC73C000955FA9 /* AuthTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
@@ -89,6 +93,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		57CD4F2429DCAC77004B73F4 /* ExampleViews */ = {
+			isa = PBXGroup;
+			children = (
+				57CD4F2529DCAC99004B73F4 /* ExampleTableView.swift */,
+			);
+			path = ExampleViews;
+			sourceTree = "<group>";
+		};
 		808E8CBA29DAC173003DD106 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,11 +181,13 @@
 		80AD558429D7889D00A8F1C3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				57CD4F2429DCAC77004B73F4 /* ExampleViews */,
 				80AD557929D7884C00A8F1C3 /* LaunchScreen.storyboard */,
 				804CB41529DC73C000955FA9 /* AuthTextField.swift */,
 				804CB41629DC73C000955FA9 /* CustomLabel.swift */,
 				804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */,
 				808E8CC629DB07B9003DD106 /* BlueButton.swift */,
+				57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -309,11 +323,13 @@
 				80AD558B29D7894A00A8F1C3 /* AuthManager.swift in Sources */,
 				1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */,
 				804CB41829DC73C000955FA9 /* AuthTextField.swift in Sources */,
+				57CD4F2629DCAC99004B73F4 /* ExampleTableView.swift in Sources */,
 				804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */,
 				80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */,
 				804CB41B29DC740700955FA9 /* HapticsManager.swift in Sources */,
 				804CB41929DC73C000955FA9 /* CustomLabel.swift in Sources */,
 				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,
+				57CD4F2329DCAC12004B73F4 /* ReusableTableViewCell.swift in Sources */,
 				1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */,
 				80AD559729D78B6C00A8F1C3 /* FavoriteViewController.swift in Sources */,
 				803898C829DC7BCA00103156 /* SignInViewController.swift in Sources */,
