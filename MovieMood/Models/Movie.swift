@@ -6,5 +6,5 @@ struct Movie {
     var movieCategory: String
     var movieDuration: String
     var movieRating: Float?
-    var movieRatingVoits: Float?
+    var movieRatingVoits: Int?
 }

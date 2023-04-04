@@ -1,9 +1,6 @@
-//
-//  ReusableCell.swift
-//  MovieMood
-//
-//  Created by иван Бирюков on 04.04.2023.
-//
+
+
+// For best configurations RowHeight Should be set up to 90.
 
 import UIKit
 
@@ -11,7 +8,12 @@ class ReusableCell: UITableViewCell {
     
     var movie : Movie? {
         didSet{
-            
+            movieImage.image = movie?.movieImage
+            movieCategoryLabel.text = movie?.movieCategory
+            movieNameLabel.text = movie?.movieName
+            durationLabel.text = movie?.movieDuration
+            ratingLabel.text = "\(movie?.movieRating ?? 0.0)"
+            amountVoiteLabel.text = "(\(movie?.movieRatingVoits ?? 0))"
         }
     }
     
@@ -28,7 +30,7 @@ class ReusableCell: UITableViewCell {
         let label = UILabel()
         label.text = "Action"
         label.textColor = .lightGray
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -96,6 +98,7 @@ class ReusableCell: UITableViewCell {
         return voites
     }()
     
+   // MARK: - Setting up UI
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -109,30 +112,7 @@ class ReusableCell: UITableViewCell {
         contentView.addSubview(ratingLabel)
         contentView.addSubview(amountVoiteLabel)
         
-        let durationStackView = UIStackView(arrangedSubviews: [timeIcon, durationLabel])
-        durationStackView.axis = .horizontal
-        durationStackView.distribution = .equalSpacing
-        durationStackView.spacing = 5
-        
-        let ratingStackView = UIStackView(arrangedSubviews: [starIcon, ratingLabel, amountVoiteLabel])
-        ratingStackView.axis = .horizontal
-        ratingStackView.distribution = .equalSpacing
-        
-        let leftStackView = UIStackView(arrangedSubviews: [movieCategoryLabel, movieNameLabel, durationStackView])
-        leftStackView.axis = .vertical
-        leftStackView.distribution = .fillEqually
-        
-        let rightStackView = UIStackView(arrangedSubviews: [likeButton, ratingStackView])
-        rightStackView.axis = .vertical
-        rightStackView.distribution = .equalSpacing
-        
-        let mainStackView = UIStackView(arrangedSubviews: [leftStackView, rightStackView])
-        mainStackView.axis = .horizontal
-        mainStackView.distribution = .fill
-        contentView.addSubview(mainStackView)
-        
-        
-        movieImage.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 24, paddingBottom: 5, paddingRight: 0, width: 80, height: 80, enableInsets: false)
+        setupContent()
         
     }
     
@@ -140,5 +120,43 @@ class ReusableCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupContent() {
+        NSLayoutConstraint.activate([
+            movieImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            movieImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+            movieImage.heightAnchor.constraint(equalToConstant: 80),
+            movieImage.widthAnchor.constraint(equalToConstant: 80),
+            
+            movieCategoryLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            movieCategoryLabel.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 12),
+            
+            likeButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
+            likeButton.heightAnchor.constraint(equalToConstant: 17),
+            likeButton.widthAnchor.constraint(equalToConstant: 19),
+            
+            movieNameLabel.topAnchor.constraint(equalTo: movieCategoryLabel.bottomAnchor),
+            movieNameLabel.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 12),
+            
+            timeIcon.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor, constant: 9),
+            timeIcon.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 12),
+            timeIcon.widthAnchor.constraint(equalToConstant: 16),
+            timeIcon.heightAnchor.constraint(equalToConstant: 15),
+            
+            durationLabel.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor, constant: 9),
+            durationLabel.leadingAnchor.constraint(equalTo: timeIcon.trailingAnchor, constant: 5),
+            
+            amountVoiteLabel.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor, constant: 9),
+            amountVoiteLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            
+            ratingLabel.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor, constant: 9),
+            ratingLabel.trailingAnchor.constraint(equalTo: amountVoiteLabel.leadingAnchor, constant: -2),
+            
+            starIcon.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor, constant: 9),
+            starIcon.trailingAnchor.constraint(equalTo: ratingLabel.leadingAnchor, constant: -4),
+            starIcon.heightAnchor.constraint(equalToConstant: 14),
+            starIcon.widthAnchor.constraint(equalToConstant: 14),
+        ])
+    }
 }
 

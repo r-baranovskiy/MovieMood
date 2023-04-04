@@ -8,7 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let rootVC = MainTabBarController()
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = Example()
+        window.rootViewController = ExampleTableView()
         window.makeKeyAndVisible()
         self.window = window
         return true
