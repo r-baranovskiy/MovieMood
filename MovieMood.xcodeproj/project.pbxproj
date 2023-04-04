@@ -10,6 +10,9 @@
 		804CB3D329DC119B00955FA9 /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB3D229DC119B00955FA9 /* AuthTextField.swift */; };
 		804CB3D529DC163000955FA9 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB3D429DC163000955FA9 /* HapticsManager.swift */; };
 		804CB40529DC54A400955FA9 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB40429DC54A400955FA9 /* SignInViewController.swift */; };
+		804CB40A29DC6F1700955FA9 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 804CB40929DC6F1700955FA9 /* GoogleSignInSwift */; };
+		804CB40D29DC6F3D00955FA9 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 804CB40C29DC6F3D00955FA9 /* SDWebImage */; };
+		804CB40F29DC712F00955FA9 /* DontHaveAccButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB40E29DC712F00955FA9 /* DontHaveAccButton.swift */; };
 		808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */; };
 		808E8CBF29DAC998003DD106 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 808E8CBE29DAC998003DD106 /* README.md */; };
 		808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC029DAC9E8003DD106 /* HomeViewController.swift */; };
@@ -37,6 +40,7 @@
 		804CB3D229DC119B00955FA9 /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
 		804CB3D429DC163000955FA9 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		804CB40429DC54A400955FA9 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		804CB40E29DC712F00955FA9 /* DontHaveAccButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontHaveAccButton.swift; sourceTree = "<group>"; };
 		808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
 		808E8CBE29DAC998003DD106 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		808E8CC029DAC9E8003DD106 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				804CB40D29DC6F3D00955FA9 /* SDWebImage in Frameworks */,
+				804CB40A29DC6F1700955FA9 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,7 +162,7 @@
 				80AD557929D7884C00A8F1C3 /* LaunchScreen.storyboard */,
 				808E8CC629DB07B9003DD106 /* BlueButton.swift */,
 				804CB3D229DC119B00955FA9 /* AuthTextField.swift */,
-				CEA3D23129DC5F04004C2412 /* CustomLabel.swift */,
+				804CB40E29DC712F00955FA9 /* DontHaveAccButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -217,6 +223,10 @@
 			dependencies = (
 			);
 			name = MovieMood;
+			packageProductDependencies = (
+				804CB40929DC6F1700955FA9 /* GoogleSignInSwift */,
+				804CB40C29DC6F3D00955FA9 /* SDWebImage */,
+			);
 			productName = MovieMood;
 			productReference = 80AD556B29D7884A00A8F1C3 /* MovieMood.app */;
 			productType = "com.apple.product-type.application";
@@ -245,6 +255,10 @@
 				Base,
 			);
 			mainGroup = 80AD556229D7884A00A8F1C3;
+			packageReferences = (
+				804CB40829DC6F1700955FA9 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				804CB40B29DC6F3D00955FA9 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			productRefGroup = 80AD556C29D7884A00A8F1C3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -284,6 +298,7 @@
 				80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */,
 				808E8CC729DB07B9003DD106 /* BlueButton.swift in Sources */,
 				808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */,
+				804CB40F29DC712F00955FA9 /* DontHaveAccButton.swift in Sources */,
 				80AD558D29D7896800A8F1C3 /* Movie.swift in Sources */,
 				CEA3D23229DC5F04004C2412 /* CustomLabel.swift in Sources */,
 				808E8CC429DACA44003DD106 /* SignUpViewController.swift in Sources */,
@@ -508,6 +523,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		804CB40829DC6F1700955FA9 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		804CB40B29DC6F3D00955FA9 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		804CB40929DC6F1700955FA9 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 804CB40829DC6F1700955FA9 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+		804CB40C29DC6F3D00955FA9 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 804CB40B29DC6F3D00955FA9 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 80AD556329D7884A00A8F1C3 /* Project object */;
 }
