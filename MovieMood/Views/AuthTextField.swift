@@ -86,7 +86,10 @@ final class AuthTextField: UITextField {
                 NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16,
                                                                weight: .regular)
             ])
+        heightAnchor.constraint(equalToConstant: 52).isActive = true
         layer.cornerRadius = 24
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.custom.lightGray.cgColor
         
         if fieldStyle == .password || fieldStyle == .confirmPassword {
             isSecureTextEntry = isPrivatePassword
