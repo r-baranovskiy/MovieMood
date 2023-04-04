@@ -20,9 +20,17 @@ final class SignUpViewController: UIViewController {
         label.textAlignment = .center
         label.textColor = .label
         label.font = .systemFont(ofSize: 24, weight: .semibold)
-        label.text = "Complete your acctount"
+        label.text = "Complete your account"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private let backButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setBackgroundImage(UIImage(named: "back-button-icon"),
+                                  for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     private let signUpButton = BlueButton(withStyle: .signUp)
@@ -49,6 +57,18 @@ extension SignUpViewController {
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10
+            )
+        ])
+        
+        view.addSubview(backButton)
+        NSLayoutConstraint.activate([
+            backButton.heightAnchor.constraint(equalToConstant: 48),
+            backButton.widthAnchor.constraint(equalToConstant: 48),
+            backButton.centerYAnchor.constraint(
+                equalTo: titleLabel.centerYAnchor
+            ),
+            backButton.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor, constant: 24
             )
         ])
         
@@ -86,23 +106,3 @@ extension SignUpViewController {
         ])
     }
 }
-
-import SwiftUI
-struct ListProvider: PreviewProvider {
-    static var previews: some View {
-        ContainerView().edgesIgnoringSafeArea(.all)
-    }
-    
-    struct ContainerView: UIViewControllerRepresentable {
-        
-        let listVC = SignUpViewController()
-        
-        func makeUIViewController(context: UIViewControllerRepresentableContext<ListProvider.ContainerView>) -> SignUpViewController {
-            return listVC
-        }
-        
-        func updateUIViewController(_ uiViewController: ListProvider.ContainerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ListProvider.ContainerView>) {
-        }
-    }
-}
-

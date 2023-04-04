@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		804CB3D329DC119B00955FA9 /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB3D229DC119B00955FA9 /* AuthTextField.swift */; };
 		804CB3D529DC163000955FA9 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB3D429DC163000955FA9 /* HapticsManager.swift */; };
+		804CB40529DC54A400955FA9 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB40429DC54A400955FA9 /* SignInViewController.swift */; };
 		808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */; };
 		808E8CBF29DAC998003DD106 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 808E8CBE29DAC998003DD106 /* README.md */; };
 		808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC029DAC9E8003DD106 /* HomeViewController.swift */; };
@@ -34,6 +35,7 @@
 /* Begin PBXFileReference section */
 		804CB3D229DC119B00955FA9 /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
 		804CB3D429DC163000955FA9 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
+		804CB40429DC54A400955FA9 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
 		808E8CBE29DAC998003DD106 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		808E8CC029DAC9E8003DD106 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				80AD559029D78ACF00A8F1C3 /* AuthViewController.swift */,
 				80AD559829D78BAD00A8F1C3 /* DetailViewController.swift */,
 				808E8CC329DACA44003DD106 /* SignUpViewController.swift */,
+				804CB40429DC54A400955FA9 /* SignInViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 				808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */,
 				804CB3D529DC163000955FA9 /* HapticsManager.swift in Sources */,
 				80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */,
+				804CB40529DC54A400955FA9 /* SignInViewController.swift in Sources */,
 				80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */,
 				808E8CC729DB07B9003DD106 /* BlueButton.swift in Sources */,
 				808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */,

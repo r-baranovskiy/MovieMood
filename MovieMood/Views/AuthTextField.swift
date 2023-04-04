@@ -13,19 +13,29 @@ final class AuthTextField: UITextField {
     
     // MARK: - Properties
     
+    private lazy var showPasswordButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setBackgroundImage(rightPasswordImage, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     /// Textfield type that need init
     private let fieldStyle: TextFieldStyle
     
     /// Insets from figma design
     private let textPadding = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 66)
-    
-    private var isPrivatePassword = true
-    
+        
     private var rightPasswordImage: UIImage? {
         return isShowPassword ? UIImage(named: "Eye") : UIImage(named: "EyeClose")
     }
     
-    private var isShowPassword = true
+    private var isShowPassword = false {
+        didSet {
+            isSecureTextEntry.toggle()
+            showPasswordButton.setBackgroundImage(rightPasswordImage, for: .normal)
+        }
+    }
     
     // MARK: - Observed properties
     
@@ -75,7 +85,7 @@ final class AuthTextField: UITextField {
     
     @objc
     private func didTapShowPassword() {
-        let imageName = isPrivatePassword
+        isShowPassword.toggle()
     }
     
     /// Configure custom text field
@@ -92,10 +102,7 @@ final class AuthTextField: UITextField {
         layer.borderColor = UIColor.custom.lightGray.cgColor
         
         if fieldStyle == .password || fieldStyle == .confirmPassword {
-            isSecureTextEntry = isPrivatePassword
-            let showPasswordButton = UIButton(type: .system)
-            showPasswordButton.setBackgroundImage(rightPasswordImage, for: .normal)
-            showPasswordButton.translatesAutoresizingMaskIntoConstraints = false
+            isSecureTextEntry = !isShowPassword
             addSubview(showPasswordButton)
             showPasswordButton.addTarget(self,
                                          action: #selector(didTapShowPassword),
