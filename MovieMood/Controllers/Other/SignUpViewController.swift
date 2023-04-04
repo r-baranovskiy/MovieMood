@@ -5,25 +5,9 @@ final class SignUpViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = .label
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
-        label.text = "Sign Up"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let completeLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = .label
-        label.font = .systemFont(ofSize: 24, weight: .semibold)
-        label.text = "Complete your acctount"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let titleLabel = CustomLabel(withText: "Sign Up", style: .title)
+    private let completeLabel = CustomLabel(withText: "Complete your account", style: .head)
+    private let subLabel = CustomLabel(withText: "Lorem ipsum dolor sit amet", style: .subHead)
     
     private let emailTextField = AuthTextField(forStyle: .email)
     private let firstNameTextField = AuthTextField(forStyle: .firstName)
@@ -58,6 +42,12 @@ extension SignUpViewController {
             )
         ])
         
+        view.addSubview(subLabel)
+        NSLayoutConstraint.activate([
+            subLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            subLabel.topAnchor.constraint(equalTo: completeLabel.bottomAnchor, constant: 8)
+        ])
+        
         let stack = UIStackView(arrangedSubviews: [
             emailTextField, firstNameTextField, lastNameTextField,
             passwordTextField, confirmPasswordTextField
@@ -70,7 +60,7 @@ extension SignUpViewController {
         view.addSubview(stack)
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(
-                equalTo: completeLabel.bottomAnchor, constant: 41
+                equalTo: subLabel.bottomAnchor, constant: 32
             ),
             stack.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor, constant: 24

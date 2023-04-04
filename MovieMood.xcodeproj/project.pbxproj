@@ -29,6 +29,7 @@
 		80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */; };
 		80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559C29D78C0500A8F1C3 /* RealmManager.swift */; };
 		80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */; };
+		CEA3D23229DC5F04004C2412 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3D23129DC5F04004C2412 /* CustomLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		80AD559C29D78C0500A8F1C3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
+		CEA3D23129DC5F04004C2412 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 				80AD557929D7884C00A8F1C3 /* LaunchScreen.storyboard */,
 				808E8CC629DB07B9003DD106 /* BlueButton.swift */,
 				804CB3D229DC119B00955FA9 /* AuthTextField.swift */,
+				CEA3D23129DC5F04004C2412 /* CustomLabel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				808E8CC729DB07B9003DD106 /* BlueButton.swift in Sources */,
 				808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */,
 				80AD558D29D7896800A8F1C3 /* Movie.swift in Sources */,
+				CEA3D23229DC5F04004C2412 /* CustomLabel.swift in Sources */,
 				808E8CC429DACA44003DD106 /* SignUpViewController.swift in Sources */,
 				80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */,
 				80AD559329D78B2500A8F1C3 /* ProfileViewController.swift in Sources */,

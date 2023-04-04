@@ -3,7 +3,7 @@ import UIKit
 final class BlueButton: UIButton {
     
     enum ButtonStyle: String {
-        case signUp = "Sign UP"
+        case signUp = "Sign Up"
         case ation = "Action"
     }
     
