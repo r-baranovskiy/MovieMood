@@ -5,6 +5,7 @@ final class BlueButton: UIButton {
     enum ButtonStyle: String {
         case signUp = "Sign UP"
         case ation = "Action"
+        case continueEmail = "Continue with Email"
     }
     
     private let style: ButtonStyle
