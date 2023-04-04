@@ -25,6 +25,8 @@ final class SignUpViewController: UIViewController {
         return label
     }()
     
+    private let signUpButton = BlueButton(withStyle: .signUp)
+    
     private let emailTextField = AuthTextField(forStyle: .email)
     private let firstNameTextField = AuthTextField(forStyle: .firstName)
     private let lastNameTextField = AuthTextField(forStyle: .lastName)
@@ -46,7 +48,7 @@ extension SignUpViewController {
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.topAnchor.constraint(
-                equalTo: view.topAnchor, constant: 71
+                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10
             )
         ])
         
@@ -60,17 +62,20 @@ extension SignUpViewController {
         
         let stack = UIStackView(arrangedSubviews: [
             emailTextField, firstNameTextField, lastNameTextField,
-            passwordTextField, confirmPasswordTextField
+            passwordTextField, confirmPasswordTextField, signUpButton
         ])
         stack.axis = .vertical
-        stack.spacing = 46
+        stack.spacing = 25
         stack.distribution = .equalSpacing
         stack.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(stack)
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(
-                equalTo: completeLabel.bottomAnchor, constant: 41
+                lessThanOrEqualTo: completeLabel.bottomAnchor, constant: 120
+            ),
+            stack.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10
             ),
             stack.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor, constant: 24

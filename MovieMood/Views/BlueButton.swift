@@ -24,7 +24,7 @@ final class BlueButton: UIButton {
         setTitleColor(.white, for: .normal)
         backgroundColor = UIColor.custom.mainBlue
         layer.cornerRadius = 24
-        
+        heightAnchor.constraint(equalToConstant: 56).isActive = true
         if style == .ation {
             layer.cornerRadius = 6
         }
