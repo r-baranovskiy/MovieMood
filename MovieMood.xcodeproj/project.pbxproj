@@ -12,6 +12,7 @@
 		1E55F50829DC61D500CE4C5B /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50729DC61D500CE4C5B /* APIKey.swift */; };
 		1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50929DC690C00CE4C5B /* MoviesModelResponse.swift */; };
 		1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */; };
+		803898C829DC7BCA00103156 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803898C729DC7BC900103156 /* SignInViewController.swift */; };
 		804CB41129DC730000955FA9 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 804CB40929DC6F1700955FA9 /* GoogleSignInSwift */; };
 		804CB41229DC730000955FA9 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 804CB40C29DC6F3D00955FA9 /* SDWebImage */; };
 		804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */; };
@@ -38,7 +39,6 @@
 		80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */; };
 		80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559C29D78C0500A8F1C3 /* RealmManager.swift */; };
 		80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */; };
-		CEA3D23229DC5F04004C2412 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3D23129DC5F04004C2412 /* CustomLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +47,7 @@
 		1E55F50729DC61D500CE4C5B /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		1E55F50929DC690C00CE4C5B /* MoviesModelResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesModelResponse.swift; sourceTree = "<group>"; };
 		1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailResponse.swift; sourceTree = "<group>"; };
+		803898C729DC7BC900103156 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DontHaveAccButton.swift; sourceTree = "<group>"; };
 		804CB41529DC73C000955FA9 /* AuthTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
 		804CB41629DC73C000955FA9 /* CustomLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
@@ -73,7 +74,6 @@
 		80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		80AD559C29D78C0500A8F1C3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
-		CEA3D23129DC5F04004C2412 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,14 +89,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		804CB41329DC730000955FA9 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				CEA3D23129DC5F04004C2412 /* CustomLabel.swift */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		808E8CBA29DAC173003DD106 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +111,7 @@
 				80AD558E29D78AAF00A8F1C3 /* OnboardingViewController.swift */,
 				80AD559029D78ACF00A8F1C3 /* AuthViewController.swift */,
 				80AD559829D78BAD00A8F1C3 /* DetailViewController.swift */,
+				803898C729DC7BC900103156 /* SignInViewController.swift */,
 				808E8CC329DACA44003DD106 /* SignUpViewController.swift */,
 			);
 			path = Other;
@@ -130,7 +123,6 @@
 				808E8CBE29DAC998003DD106 /* README.md */,
 				80AD556D29D7884A00A8F1C3 /* MovieMood */,
 				80AD556C29D7884A00A8F1C3 /* Products */,
-				804CB41329DC730000955FA9 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -324,13 +316,13 @@
 				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,
 				1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */,
 				80AD559729D78B6C00A8F1C3 /* FavoriteViewController.swift in Sources */,
+				803898C829DC7BCA00103156 /* SignInViewController.swift in Sources */,
 				808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */,
 				80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */,
 				80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */,
 				808E8CC729DB07B9003DD106 /* BlueButton.swift in Sources */,
 				808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */,
 				80AD558D29D7896800A8F1C3 /* Movie.swift in Sources */,
-				CEA3D23229DC5F04004C2412 /* CustomLabel.swift in Sources */,
 				808E8CC429DACA44003DD106 /* SignUpViewController.swift in Sources */,
 				80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */,
 				80AD559329D78B2500A8F1C3 /* ProfileViewController.swift in Sources */,
