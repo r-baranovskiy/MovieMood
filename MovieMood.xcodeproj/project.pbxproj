@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		804CB3D329DC119B00955FA9 /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB3D229DC119B00955FA9 /* AuthTextField.swift */; };
+		804CB3D529DC163000955FA9 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB3D429DC163000955FA9 /* HapticsManager.swift */; };
 		808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */; };
 		808E8CBF29DAC998003DD106 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 808E8CBE29DAC998003DD106 /* README.md */; };
 		808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC029DAC9E8003DD106 /* HomeViewController.swift */; };
@@ -30,6 +32,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		804CB3D229DC119B00955FA9 /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
+		804CB3D429DC163000955FA9 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
 		808E8CBE29DAC998003DD106 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		808E8CC029DAC9E8003DD106 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -146,6 +150,7 @@
 			children = (
 				80AD557929D7884C00A8F1C3 /* LaunchScreen.storyboard */,
 				808E8CC629DB07B9003DD106 /* BlueButton.swift */,
+				804CB3D229DC119B00955FA9 /* AuthTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -164,6 +169,7 @@
 				80AD558A29D7894A00A8F1C3 /* AuthManager.swift */,
 				80AD559C29D78C0500A8F1C3 /* RealmManager.swift */,
 				80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */,
+				804CB3D429DC163000955FA9 /* HapticsManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -266,6 +272,7 @@
 				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,
 				80AD559729D78B6C00A8F1C3 /* FavoriteViewController.swift in Sources */,
 				808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */,
+				804CB3D529DC163000955FA9 /* HapticsManager.swift in Sources */,
 				80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */,
 				80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */,
 				808E8CC729DB07B9003DD106 /* BlueButton.swift in Sources */,
@@ -275,6 +282,7 @@
 				80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */,
 				80AD559329D78B2500A8F1C3 /* ProfileViewController.swift in Sources */,
 				80AD559929D78BAD00A8F1C3 /* DetailViewController.swift in Sources */,
+				804CB3D329DC119B00955FA9 /* AuthTextField.swift in Sources */,
 				80AD559129D78ACF00A8F1C3 /* AuthViewController.swift in Sources */,
 				80AD556F29D7884A00A8F1C3 /* AppDelegate.swift in Sources */,
 			);
