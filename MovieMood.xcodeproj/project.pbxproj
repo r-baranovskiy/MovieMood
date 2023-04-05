@@ -14,6 +14,8 @@
 		1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */; };
 		57CD4F2329DCAC12004B73F4 /* ReusableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */; };
 		57CD4F2629DCAC99004B73F4 /* ExampleTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CD4F2529DCAC99004B73F4 /* ExampleTableView.swift */; };
+		57D5C9E729DE05DF00C99198 /* ReusableCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D5C9E629DE05DF00C99198 /* ReusableCollectionViewCell.swift */; };
+		57D5C9E929DE066D00C99198 /* ExampleCollectionViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D5C9E829DE066D00C99198 /* ExampleCollectionViewViewController.swift */; };
 		8021866929DD7D660078D701 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8021866829DD7D660078D701 /* FirebaseAuth */; };
 		803898C829DC7BCA00103156 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803898C729DC7BC900103156 /* SignInViewController.swift */; };
 		804CB41129DC730000955FA9 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 804CB40929DC6F1700955FA9 /* GoogleSignInSwift */; };
@@ -56,6 +58,8 @@
 		1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailResponse.swift; sourceTree = "<group>"; };
 		57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableTableViewCell.swift; sourceTree = "<group>"; };
 		57CD4F2529DCAC99004B73F4 /* ExampleTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleTableView.swift; sourceTree = "<group>"; };
+		57D5C9E629DE05DF00C99198 /* ReusableCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCollectionViewCell.swift; sourceTree = "<group>"; };
+		57D5C9E829DE066D00C99198 /* ExampleCollectionViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCollectionViewViewController.swift; sourceTree = "<group>"; };
 		803898C729DC7BC900103156 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DontHaveAccButton.swift; sourceTree = "<group>"; };
 		804CB41529DC73C000955FA9 /* AuthTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
@@ -107,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				57CD4F2529DCAC99004B73F4 /* ExampleTableView.swift */,
+				57D5C9E829DE066D00C99198 /* ExampleCollectionViewViewController.swift */,
 			);
 			path = ExampleViews;
 			sourceTree = "<group>";
@@ -200,6 +205,7 @@
 				804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */,
 				808E8CC629DB07B9003DD106 /* BlueButton.swift */,
 				57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */,
+				57D5C9E629DE05DF00C99198 /* ReusableCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -343,11 +349,13 @@
 				57CD4F2629DCAC99004B73F4 /* ExampleTableView.swift in Sources */,
 				804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */,
 				80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */,
+				57D5C9E929DE066D00C99198 /* ExampleCollectionViewViewController.swift in Sources */,
 				809FE97B29DD8F3E007EAF7A /* UIViewController + Extension.swift in Sources */,
 				804CB41B29DC740700955FA9 /* HapticsManager.swift in Sources */,
 				804CB41929DC73C000955FA9 /* CustomLabel.swift in Sources */,
 				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,
 				57CD4F2329DCAC12004B73F4 /* ReusableTableViewCell.swift in Sources */,
+				57D5C9E729DE05DF00C99198 /* ReusableCollectionViewCell.swift in Sources */,
 				1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */,
 				80AD559729D78B6C00A8F1C3 /* FavoriteViewController.swift in Sources */,
 				803898C829DC7BCA00103156 /* SignInViewController.swift in Sources */,
@@ -503,7 +511,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = X6QCC36TXK;
+				DEVELOPMENT_TEAM = 8RR26756PN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MovieMood/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

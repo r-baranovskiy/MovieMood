@@ -8,4 +8,5 @@ struct Movie {
     var movieDuration: String
     var movieRating: Float?
     var movieRatingVoits: Int?
+    var dateCreating: String?
 }
