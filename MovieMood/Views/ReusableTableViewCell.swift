@@ -37,8 +37,10 @@ class ReusableCell: UITableViewCell {
     
     private let likeButton : UIButton = {
         let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(likeButtonPressed), for: .touchUpInside)
         button.setImage(UIImage(named: "heart-icon"), for: .normal)
         button.setTitle(nil, for: .normal)
+        button.tag = 0
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -157,5 +159,15 @@ class ReusableCell: UITableViewCell {
             starIcon.heightAnchor.constraint(equalToConstant: 14),
             starIcon.widthAnchor.constraint(equalToConstant: 14),
         ])
+    }
+    
+    @objc func likeButtonPressed() {
+        if likeButton.tag == 0 {
+            likeButton.setImage(UIImage(named: "heart-icon-fill"), for: .normal)
+            likeButton.tag = 1
+        } else {
+            likeButton.setImage(UIImage(named: "heart-icon"), for: .normal)
+            likeButton.tag = 0
+        }
     }
 }
