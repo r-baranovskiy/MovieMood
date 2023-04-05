@@ -1,15 +1,9 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-    
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
-    
-    private let mainView: UIView = {
-        let view = UIView()
+
+    private let mainView: UIScrollView = {
+        let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -123,6 +117,14 @@ final class DetailViewController: UIViewController {
     
     // Stars
     
+    private let starsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = 6
+        return stackView
+    }()
+    
     //
     private let informationStackView: UIStackView = {
         let stackView = UIStackView()
@@ -150,7 +152,18 @@ final class DetailViewController: UIViewController {
     }()
     
     // Cast and Crew
+    private let castAndCrewLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.text = "Cast and Crew"
+        return label
+    }()
     
+    private lazy var collectionView: UICollectionView = {
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: setupFlowLayout())
+        collection.dataSource = self
+        return collection
+    }()
     
     // Button
     private let watchButton: BlueButton = {
@@ -159,11 +172,72 @@ final class DetailViewController: UIViewController {
         return button
     }()
     
+    var collection: [Int] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
+
+        collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "\(DetailCollectionViewCell.self)")
+        getStarsImage(with: 0.5)
         setupUI()
+    }
+    
+    private func setupFlowLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        
+        return layout
+    }
+    
+    private func getStarsImage(with stars: Double) {
+        
+        switch stars {
+        case 0..<1:
+            for _ in 1...5 {
+                let star = UIImageView(image: UIImage(named: "star"))
+                starsStackView.addArrangedSubview(star)
+            }
+        case 1..<2:
+            let star1 = UIImageView(image: UIImage(named: "star1"))
+            starsStackView.addArrangedSubview(star1)
+            for _ in 1...4 {
+                let star = UIImageView(image: UIImage(named: "star"))
+                starsStackView.addArrangedSubview(star)
+            }
+        case 2..<3:
+            for _ in 1...2 {
+                let star1 = UIImageView(image: UIImage(named: "star1"))
+                starsStackView.addArrangedSubview(star1)
+            }
+            for _ in 1...3 {
+                let star = UIImageView(image: UIImage(named: "star"))
+                starsStackView.addArrangedSubview(star)
+            }
+        case 3..<4:
+            for _ in 1...3 {
+                let star1 = UIImageView(image: UIImage(named: "star1"))
+                starsStackView.addArrangedSubview(star1)
+            }
+            for _ in 1...2 {
+                let star = UIImageView(image: UIImage(named: "star"))
+                starsStackView.addArrangedSubview(star)
+            }
+        case 4..<5:
+            for _ in 1...4 {
+                let star1 = UIImageView(image: UIImage(named: "star1"))
+                starsStackView.addArrangedSubview(star1)
+            }
+            let star = UIImageView(image: UIImage(named: "star"))
+            starsStackView.addArrangedSubview(star)
+        case 5...:
+            for _ in 1...5 {
+                let star1 = UIImageView(image: UIImage(named: "star1"))
+                starsStackView.addArrangedSubview(star1)
+            }
+        default:
+            return
+        }
     }
     
     private func setupUI() {
@@ -182,17 +256,16 @@ final class DetailViewController: UIViewController {
         
         informationStackView.addArrangedSubview(nameMovieLabel)
         informationStackView.addArrangedSubview(horizontalInformationStack)
-        //informationStackView.addArrangedSubview(starsView)
+        informationStackView.addArrangedSubview(starsStackView)
         
-        scrollView.addSubview(mainView)
-        
-        view.addSubview(scrollView)
+        view.addSubview(mainView)
         
         let subviews = [movieImageView,
                         informationStackView,
                         storyLineLabel,
                         textView,
-                        // cast and Crew,
+                        castAndCrewLabel,
+                        collectionView,
                         watchButton]
         subviews.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -200,40 +273,51 @@ final class DetailViewController: UIViewController {
         }
         
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            mainView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            mainView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
-            mainView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
-            mainView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            mainView.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
-            mainView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            mainView.topAnchor.constraint(equalTo: view.topAnchor),
+            mainView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            mainView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            mainView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             movieImageView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 40),
             movieImageView.heightAnchor.constraint(equalToConstant: 300),
             movieImageView.widthAnchor.constraint(equalToConstant: 225),
-            movieImageView.centerXAnchor.constraint(equalTo: mainView.centerXAnchor),
+            movieImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             informationStackView.topAnchor.constraint(equalTo: movieImageView.bottomAnchor, constant: 24),
-            informationStackView.leftAnchor.constraint(equalTo: mainView.leftAnchor, constant: 30),
-            informationStackView.rightAnchor.constraint(equalTo: mainView.rightAnchor, constant: -30),
+            informationStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30),
+            informationStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30),
             
             storyLineLabel.topAnchor.constraint(equalTo: informationStackView.bottomAnchor, constant: 30),
-            storyLineLabel.leftAnchor.constraint(equalTo: mainView.leftAnchor, constant: 24),
-            //storyLineLabel.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -40),
+            storyLineLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
             
             textView.topAnchor.constraint(equalTo: storyLineLabel.bottomAnchor, constant: 16),
-            textView.leftAnchor.constraint(equalTo: mainView.leftAnchor, constant: 24),
-            textView.rightAnchor.constraint(equalTo: mainView.rightAnchor, constant: -24),
+            textView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
+            textView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24),
             
-            // Cast and Crew Constraint
+            castAndCrewLabel.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 24),
+            castAndCrewLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
             
-            watchButton.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 30),
-            watchButton.centerXAnchor.constraint(equalTo: mainView.centerXAnchor),
+            collectionView.topAnchor.constraint(equalTo: castAndCrewLabel.bottomAnchor, constant: 16),
+            collectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
+            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24),
+            
+            watchButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 28),
+            watchButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             watchButton.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -20)
         ])
     }
+}
+
+extension DetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        collection.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DetailCollectionViewCell.self)", for: indexPath) as? DetailCollectionViewCell else { return UICollectionViewCell() }
+        
+        return cell
+    }
+    
+    
 }
