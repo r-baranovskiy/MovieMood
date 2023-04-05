@@ -27,6 +27,8 @@
 		808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC029DAC9E8003DD106 /* HomeViewController.swift */; };
 		808E8CC429DACA44003DD106 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC329DACA44003DD106 /* SignUpViewController.swift */; };
 		808E8CC729DB07B9003DD106 /* BlueButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC629DB07B9003DD106 /* BlueButton.swift */; };
+		809FE97429DD7E74007EAF7A /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809FE97329DD7E74007EAF7A /* AuthError.swift */; };
+		809FE97629DD7FAE007EAF7A /* MovieUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809FE97529DD7FAE007EAF7A /* MovieUser.swift */; };
 		80AD556F29D7884A00A8F1C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD556E29D7884A00A8F1C3 /* AppDelegate.swift */; };
 		80AD557329D7884A00A8F1C3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD557229D7884A00A8F1C3 /* MainTabBarController.swift */; };
 		80AD557829D7884C00A8F1C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80AD557729D7884C00A8F1C3 /* Assets.xcassets */; };
@@ -62,6 +64,8 @@
 		808E8CC029DAC9E8003DD106 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		808E8CC329DACA44003DD106 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		808E8CC629DB07B9003DD106 /* BlueButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueButton.swift; sourceTree = "<group>"; };
+		809FE97329DD7E74007EAF7A /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
+		809FE97529DD7FAE007EAF7A /* MovieUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieUser.swift; sourceTree = "<group>"; };
 		80AD556B29D7884A00A8F1C3 /* MovieMood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieMood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80AD556E29D7884A00A8F1C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80AD557229D7884A00A8F1C3 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -200,6 +204,8 @@
 				80AD558C29D7896800A8F1C3 /* Movie.swift */,
 				1E55F50929DC690C00CE4C5B /* MoviesModelResponse.swift */,
 				1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */,
+				809FE97329DD7E74007EAF7A /* AuthError.swift */,
+				809FE97529DD7FAE007EAF7A /* MovieUser.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -344,11 +350,13 @@
 				808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */,
 				80AD558D29D7896800A8F1C3 /* Movie.swift in Sources */,
 				808E8CC429DACA44003DD106 /* SignUpViewController.swift in Sources */,
+				809FE97429DD7E74007EAF7A /* AuthError.swift in Sources */,
 				80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */,
 				80AD559329D78B2500A8F1C3 /* ProfileViewController.swift in Sources */,
 				80AD559929D78BAD00A8F1C3 /* DetailViewController.swift in Sources */,
 				80AD559129D78ACF00A8F1C3 /* AuthViewController.swift in Sources */,
 				80AD556F29D7884A00A8F1C3 /* AppDelegate.swift in Sources */,
+				809FE97629DD7FAE007EAF7A /* MovieUser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
