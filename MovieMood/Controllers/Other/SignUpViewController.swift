@@ -63,12 +63,15 @@ final class SignUpViewController: UIViewController {
             email: emailTextField.text, password: passwordTextField.text,
             confirmPassword: confirmPasswordTextField.text,
             firstName: firstNameTextField.text,
-            lastName: lastNameTextField.text) { result in
+            lastName: lastNameTextField.text) { [weak self] result in
                 switch result {
                 case .success(let user):
                     print(user.email)
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    let alert = UIAlertController.errorAlert(
+                        title: "Error", message: error.localizedDescription
+                    )
+                    self?.present(alert, animated: true)
                 }
             }
     }
