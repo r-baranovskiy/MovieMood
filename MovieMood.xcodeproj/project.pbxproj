@@ -39,6 +39,10 @@
 		80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */; };
 		80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559C29D78C0500A8F1C3 /* RealmManager.swift */; };
 		80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */; };
+		CEAA5F7829DC82CF00C7A381 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA5F7729DC82CF00C7A381 /* ProfileImageView.swift */; };
+		CEAA5F7C29DCE03300C7A381 /* ProfileTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA5F7B29DCE03300C7A381 /* ProfileTextField.swift */; };
+		CEAA5F7E29DCE08600C7A381 /* ProfileFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA5F7D29DCE08600C7A381 /* ProfileFieldView.swift */; };
+		CEAA5F8029DCE65F00C7A381 /* ProfileSubTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA5F7F29DCE65F00C7A381 /* ProfileSubTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +78,10 @@
 		80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		80AD559C29D78C0500A8F1C3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
+		CEAA5F7729DC82CF00C7A381 /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
+		CEAA5F7B29DCE03300C7A381 /* ProfileTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTextField.swift; sourceTree = "<group>"; };
+		CEAA5F7D29DCE08600C7A381 /* ProfileFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFieldView.swift; sourceTree = "<group>"; };
+		CEAA5F7F29DCE65F00C7A381 /* ProfileSubTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSubTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +182,10 @@
 				804CB41629DC73C000955FA9 /* CustomLabel.swift */,
 				804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */,
 				808E8CC629DB07B9003DD106 /* BlueButton.swift */,
+				CEAA5F7729DC82CF00C7A381 /* ProfileImageView.swift */,
+				CEAA5F7D29DCE08600C7A381 /* ProfileFieldView.swift */,
+				CEAA5F7B29DCE03300C7A381 /* ProfileTextField.swift */,
+				CEAA5F7F29DCE65F00C7A381 /* ProfileSubTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -306,15 +318,19 @@
 				1E55F50829DC61D500CE4C5B /* APIKey.swift in Sources */,
 				80AD557329D7884A00A8F1C3 /* MainTabBarController.swift in Sources */,
 				1E55F50529DC60E900CE4C5B /* JSONDecoderManager.swift in Sources */,
+				CEAA5F8029DCE65F00C7A381 /* ProfileSubTextField.swift in Sources */,
 				80AD558B29D7894A00A8F1C3 /* AuthManager.swift in Sources */,
 				1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */,
+				CEAA5F7C29DCE03300C7A381 /* ProfileTextField.swift in Sources */,
 				804CB41829DC73C000955FA9 /* AuthTextField.swift in Sources */,
 				804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */,
+				CEAA5F7829DC82CF00C7A381 /* ProfileImageView.swift in Sources */,
 				80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */,
 				804CB41B29DC740700955FA9 /* HapticsManager.swift in Sources */,
 				804CB41929DC73C000955FA9 /* CustomLabel.swift in Sources */,
 				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,
 				1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */,
+				CEAA5F7E29DCE08600C7A381 /* ProfileFieldView.swift in Sources */,
 				80AD559729D78B6C00A8F1C3 /* FavoriteViewController.swift in Sources */,
 				803898C829DC7BCA00103156 /* SignInViewController.swift in Sources */,
 				808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */,
