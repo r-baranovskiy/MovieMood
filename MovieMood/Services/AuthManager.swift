@@ -11,12 +11,17 @@ final class AuthManager {
     ///   - email: User email
     ///   - password: User password
     ///   - confirmPassword: User confirm password
+    ///   - firstName: User Firstname
+    ///   - lastName: User Lastname
     ///   - completion: Callback that returns MovieUser or result
     func createUser(email: String?, password: String?, confirmPassword: String?,
+                    firstName: String?, lastName: String?,
                     completion: @escaping (Result<MovieUser, Error>) -> Void) {
         guard let email = email, let password = password,
-              let confirmPassword = confirmPassword, email != "",
-              password != "", confirmPassword != "" else {
+              let confirmPassword = confirmPassword,
+              let firstName = firstName, let lastName = lastName,
+              email != "", password != "", confirmPassword != "",
+              firstName != "", lastName != "" else {
             completion(.failure(AuthError.notFilled))
             return
         }
@@ -35,7 +40,10 @@ final class AuthManager {
             
             if let result = result {
                 if let email = result.user.email {
-                    let user = MovieUser(id: result.user.uid, email: email)
+                    let user = MovieUser(
+                        id: result.user.uid,
+                        firstName: firstName, lastName: lastName, email: email
+                    )
                     completion(.success(user))
                 } else {
                     completion(.failure(AuthError.unknownError))

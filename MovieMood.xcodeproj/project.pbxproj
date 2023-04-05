@@ -29,6 +29,7 @@
 		808E8CC729DB07B9003DD106 /* BlueButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC629DB07B9003DD106 /* BlueButton.swift */; };
 		809FE97429DD7E74007EAF7A /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809FE97329DD7E74007EAF7A /* AuthError.swift */; };
 		809FE97629DD7FAE007EAF7A /* MovieUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809FE97529DD7FAE007EAF7A /* MovieUser.swift */; };
+		809FE97829DD8B92007EAF7A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 809FE97729DD8B92007EAF7A /* GoogleService-Info.plist */; };
 		80AD556F29D7884A00A8F1C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD556E29D7884A00A8F1C3 /* AppDelegate.swift */; };
 		80AD557329D7884A00A8F1C3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD557229D7884A00A8F1C3 /* MainTabBarController.swift */; };
 		80AD557829D7884C00A8F1C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80AD557729D7884C00A8F1C3 /* Assets.xcassets */; };
@@ -66,6 +67,7 @@
 		808E8CC629DB07B9003DD106 /* BlueButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueButton.swift; sourceTree = "<group>"; };
 		809FE97329DD7E74007EAF7A /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		809FE97529DD7FAE007EAF7A /* MovieUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieUser.swift; sourceTree = "<group>"; };
+		809FE97729DD8B92007EAF7A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		80AD556B29D7884A00A8F1C3 /* MovieMood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieMood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80AD556E29D7884A00A8F1C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80AD557229D7884A00A8F1C3 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 		80AD558229D7889000A8F1C3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				809FE97729DD8B92007EAF7A /* GoogleService-Info.plist */,
 				80AD557729D7884C00A8F1C3 /* Assets.xcassets */,
 				80AD557C29D7884C00A8F1C3 /* Info.plist */,
 			);
@@ -314,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				808E8CBF29DAC998003DD106 /* README.md in Resources */,
+				809FE97829DD8B92007EAF7A /* GoogleService-Info.plist in Resources */,
 				80AD557B29D7884C00A8F1C3 /* LaunchScreen.storyboard in Resources */,
 				80AD557829D7884C00A8F1C3 /* Assets.xcassets in Resources */,
 			);

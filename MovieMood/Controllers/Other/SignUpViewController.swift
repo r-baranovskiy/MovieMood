@@ -47,6 +47,30 @@ final class SignUpViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .custom.mainBackground
         setupView()
+        addTargets()
+    }
+    
+    private func addTargets() {
+        signUpButton.addTarget(self, action: #selector(didTapSignUp),
+                               for: .touchUpInside)
+    }
+    
+    // MARK: - Actions
+    
+    @objc
+    private func didTapSignUp() {
+        AuthManager.shared.createUser(
+            email: emailTextField.text, password: passwordTextField.text,
+            confirmPassword: confirmPasswordTextField.text,
+            firstName: firstNameTextField.text,
+            lastName: lastNameTextField.text) { result in
+                switch result {
+                case .success(let user):
+                    print(user.email)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
     }
 }
 
