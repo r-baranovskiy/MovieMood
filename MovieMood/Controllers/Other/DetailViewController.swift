@@ -1,6 +1,18 @@
 import UIKit
 
+struct Model {
+    let photo: UIImage
+    let name: String
+    let prof: String
+}
+
 final class DetailViewController: UIViewController {
+    
+    let model = [Model(photo: UIImage(named: "mock-person") ?? UIImage(), name: "Bill", prof: "Director"),
+                 Model(photo: UIImage(named: "mock-person") ?? UIImage(), name: "Bill", prof: "Director"),
+                 Model(photo: UIImage(named: "mock-person") ?? UIImage(), name: "Bill", prof: "Director"),
+                 Model(photo: UIImage(named: "mock-person") ?? UIImage(), name: "Bill", prof: "Director"),
+                 Model(photo: UIImage(named: "mock-person") ?? UIImage(), name: "Bill", prof: "Director"),]
 
     private let mainView: UIScrollView = {
         let view = UIScrollView()
@@ -19,7 +31,7 @@ final class DetailViewController: UIViewController {
     private let nameMovieLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 24)
+        label.font = .systemFont(ofSize: 24, weight: .bold)
         label.numberOfLines = 0
         
         label.text = "Luck"
@@ -139,13 +151,15 @@ final class DetailViewController: UIViewController {
     // Story Line
     private let storyLineLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.text = "Story Line"
         return label
     }()
     
     private let textView: UILabel = {
         let text = UILabel()
+        text.font = .systemFont(ofSize: 14)
+        text.textColor = UIColor(red: 0.471, green: 0.51, blue: 0.541, alpha: 1)
         text.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book Show More. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book Show More. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book Show More. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book Show More"
         text.numberOfLines = 0
         return text
@@ -154,7 +168,7 @@ final class DetailViewController: UIViewController {
     // Cast and Crew
     private let castAndCrewLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.text = "Cast and Crew"
         return label
     }()
@@ -169,43 +183,45 @@ final class DetailViewController: UIViewController {
     private let watchButton: BlueButton = {
         let button = BlueButton(withStyle: .ation)
         button.setTitle("Watch now", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        button.layer.cornerRadius = 24
         return button
     }()
-    
-    var collection: [Int] = []
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
 
         collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "\(DetailCollectionViewCell.self)")
-        getStarsImage(with: 0.5)
+        getStarsImage(with: 7.5)
         setupUI()
     }
     
     private func setupFlowLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
-        
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 20
         return layout
     }
     
     private func getStarsImage(with stars: Double) {
         
         switch stars {
-        case 0..<1:
+        case 0..<2:
             for _ in 1...5 {
                 let star = UIImageView(image: UIImage(named: "star"))
                 starsStackView.addArrangedSubview(star)
             }
-        case 1..<2:
+        case 2..<4:
             let star1 = UIImageView(image: UIImage(named: "star1"))
             starsStackView.addArrangedSubview(star1)
             for _ in 1...4 {
                 let star = UIImageView(image: UIImage(named: "star"))
                 starsStackView.addArrangedSubview(star)
             }
-        case 2..<3:
+        case 4..<6:
             for _ in 1...2 {
                 let star1 = UIImageView(image: UIImage(named: "star1"))
                 starsStackView.addArrangedSubview(star1)
@@ -214,7 +230,7 @@ final class DetailViewController: UIViewController {
                 let star = UIImageView(image: UIImage(named: "star"))
                 starsStackView.addArrangedSubview(star)
             }
-        case 3..<4:
+        case 6..<8:
             for _ in 1...3 {
                 let star1 = UIImageView(image: UIImage(named: "star1"))
                 starsStackView.addArrangedSubview(star1)
@@ -223,7 +239,7 @@ final class DetailViewController: UIViewController {
                 let star = UIImageView(image: UIImage(named: "star"))
                 starsStackView.addArrangedSubview(star)
             }
-        case 4..<5:
+        case 8..<10:
             for _ in 1...4 {
                 let star1 = UIImageView(image: UIImage(named: "star1"))
                 starsStackView.addArrangedSubview(star1)
@@ -300,9 +316,12 @@ final class DetailViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: castAndCrewLabel.bottomAnchor, constant: 16),
             collectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
             collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24),
+            collectionView.heightAnchor.constraint(equalToConstant: 40),
             
             watchButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 28),
             watchButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            watchButton.widthAnchor.constraint(equalToConstant: 181),
+            watchButton.heightAnchor.constraint(equalToConstant: 56),
             watchButton.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -20)
         ])
     }
@@ -310,11 +329,14 @@ final class DetailViewController: UIViewController {
 
 extension DetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        collection.count
+        model.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DetailCollectionViewCell.self)", for: indexPath) as? DetailCollectionViewCell else { return UICollectionViewCell() }
+        cell.photoImageView.image = model[indexPath.item].photo
+        cell.nameLabel.text = model[indexPath.item].name
+        cell.professionLabel.text = model[indexPath.item].prof
         
         return cell
     }
