@@ -14,6 +14,41 @@ final class AuthManager {
         return Auth.auth().currentUser != nil
     }
     
+    /// Attempt to logout from account
+    /// - Parameter completion: Returns success
+    func logOut(completion: @escaping (Result<Bool, Error>) -> Void) {
+        do {
+            try Auth.auth().signOut()
+            completion(.success(true))
+        } catch let error{
+            completion(.failure(error))
+        }
+    }
+    
+    func loginWithEmail(email: String?, password: String?,
+                        completion: @escaping (Result<User, Error>) -> Void) {
+        guard let email = email, let password = password,
+              email != "", password != "" else {
+            completion(.failure(AuthError.notFilled))
+            return
+        }
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            if let result = result {
+                completion(.success(result.user))
+            } else {
+                completion(.failure(AuthError.unknownError))
+            }
+        }
+    }
+    
+    /// Attempt to sign in with google
+    /// - Parameters:
+    ///   - viewController: View controller that called this method
+    ///   - completion: Returns MovieUser
     func loginWithGoogle(viewController: UIViewController,
                          completion: @escaping (Result<MovieUser, Error>) -> Void) {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }

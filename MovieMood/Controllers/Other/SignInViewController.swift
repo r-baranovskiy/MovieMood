@@ -75,6 +75,8 @@ final class SignInViewController: UIViewController {
     }
     
     private func addTargets() {
+        continueButton.addTarget(self, action: #selector(didTapContinue),
+                                 for: .touchUpInside)
         googleButton.addTarget(self, action: #selector(didTapGoogle),
                                for: .touchUpInside)
     }
@@ -82,8 +84,26 @@ final class SignInViewController: UIViewController {
     // MARK: - Actions
     
     @objc
+    private func didTapContinue() {
+        AuthManager.shared.loginWithEmail(
+            email: emailTextField.text,
+            password: passwordTextField.text) { [weak self] result in
+                switch result {
+                case .success(let user):
+                    print(user.email)
+                case .failure(let error):
+                    let alert = UIAlertController.errorAlert(
+                        title: "Error", message: error.localizedDescription
+                    )
+                    self?.present(alert, animated: true)
+                }
+        }
+    }
+    
+    @objc
     private func didTapGoogle() {
-        AuthManager.shared.loginWithGoogle(viewController: self) { [weak self] result in
+        AuthManager.shared.loginWithGoogle(viewController: self)
+        { [weak self] result in
             switch result {
             case .success(let user):
                 print(user)
@@ -103,26 +123,34 @@ extension SignInViewController {
         view.addSubview(topView)
         view.addSubview(bottomView)
         NSLayoutConstraint.activate([
-            bottomView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.70),
+            bottomView.heightAnchor.constraint(
+                equalTo: view.heightAnchor, multiplier: 0.70
+            ),
             bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             topView.topAnchor.constraint(equalTo: view.topAnchor),
-            topView.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -30),
+            topView.bottomAnchor.constraint(
+                equalTo: bottomView.bottomAnchor, constant: -30
+            ),
             topView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             topView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         
         topView.addSubview(welcomeLabel)
         NSLayoutConstraint.activate([
-            welcomeLabel.topAnchor.constraint(equalTo: topView.topAnchor, constant: 70),
+            welcomeLabel.topAnchor.constraint(
+                equalTo: topView.topAnchor, constant: 70
+            ),
             welcomeLabel.centerXAnchor.constraint(equalTo: topView.centerXAnchor)
         ])
         
         topView.addSubview(accountLabel)
         NSLayoutConstraint.activate([
-            accountLabel.topAnchor.constraint(equalTo: welcomeLabel.topAnchor, constant: 50),
+            accountLabel.topAnchor.constraint(
+                equalTo: welcomeLabel.topAnchor, constant: 50
+            ),
             accountLabel.centerXAnchor.constraint(equalTo: topView.centerXAnchor)
         ])
         

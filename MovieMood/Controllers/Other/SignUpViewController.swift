@@ -66,7 +66,10 @@ final class SignUpViewController: UIViewController {
             lastName: lastNameTextField.text) { [weak self] result in
                 switch result {
                 case .success(let user):
-                    print(user.email)
+                    let tabBar = MainTabBarController()
+                    tabBar.modalTransitionStyle = .crossDissolve
+                    tabBar.modalPresentationStyle = .fullScreen
+                    self?.present(tabBar, animated: false)
                 case .failure(let error):
                     let alert = UIAlertController.errorAlert(
                         title: "Error", message: error.localizedDescription
