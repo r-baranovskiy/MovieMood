@@ -47,6 +47,43 @@ final class SignUpViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .custom.mainBackground
         setupView()
+        addTargets()
+    }
+    
+    private func addTargets() {
+        backButton.addTarget(self, action: #selector(didTapBack),
+                             for: .touchUpInside)
+        signUpButton.addTarget(self, action: #selector(didTapSignUp),
+                               for: .touchUpInside)
+    }
+    
+    // MARK: - Actions
+    
+    @objc
+    private func didTapBack() {
+        self.dismiss(animated: true)
+    }
+    
+    @objc
+    private func didTapSignUp() {
+        AuthManager.shared.createUser(
+            email: emailTextField.text, password: passwordTextField.text,
+            confirmPassword: confirmPasswordTextField.text,
+            firstName: firstNameTextField.text,
+            lastName: lastNameTextField.text) { [weak self] result in
+                switch result {
+                case .success(let user):
+                    let tabBar = MainTabBarController()
+                    tabBar.modalTransitionStyle = .crossDissolve
+                    tabBar.modalPresentationStyle = .fullScreen
+                    self?.present(tabBar, animated: false)
+                case .failure(let error):
+                    let alert = UIAlertController.errorAlert(
+                        title: "Error", message: error.localizedDescription
+                    )
+                    self?.present(alert, animated: true)
+                }
+            }
     }
 }
 
@@ -65,7 +102,7 @@ extension SignUpViewController {
             backButton.heightAnchor.constraint(equalToConstant: 48),
             backButton.widthAnchor.constraint(equalToConstant: 48),
             backButton.centerYAnchor.constraint(
-                equalTo: titleLabel.centerYAnchor
+                equalTo: titleLabel.centerYAnchor, constant: 10
             ),
             backButton.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor, constant: 24

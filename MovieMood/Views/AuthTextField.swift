@@ -90,6 +90,9 @@ final class AuthTextField: UITextField {
     
     /// Configure custom text field
     private func configure() {
+        autocorrectionType = .no
+        autocapitalizationType = .none
+        
         attributedPlaceholder = NSAttributedString(
             string: fieldStyle.rawValue, attributes: [
                 NSAttributedString.Key.foregroundColor: UIColor.custom.lightGray,

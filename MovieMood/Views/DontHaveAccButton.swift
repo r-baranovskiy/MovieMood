@@ -18,13 +18,13 @@ final class DontHaveAccButton: UIButton {
         let attributedTitle = NSMutableAttributedString(
             string: title, attributes: [
                 NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16),
-                NSAttributedString.Key.foregroundColor: UIColor.label
+                NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel
             ]
         )
         attributedTitle.append(NSAttributedString(
             string: subtitle, attributes: [
                 NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16),
-                NSAttributedString.Key.foregroundColor: UIColor.systemBlue
+                NSAttributedString.Key.foregroundColor: UIColor.custom.mainBlue
             ]
         ))
         setAttributedTitle(attributedTitle, for: .normal)
