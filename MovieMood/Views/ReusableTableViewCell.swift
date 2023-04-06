@@ -1,9 +1,14 @@
-
-// For best configurations RowHeight Should be set up to 90.
-
 import UIKit
 
-class ReusableCell: UITableViewCell {
+protocol ReusableCellDelegate: AnyObject {
+    func didTapFavorite()
+}
+
+final class ReusableCell: UITableViewCell {
+    
+    static let identifier = "ReusableCell"
+    
+    weak var delegate: ReusableCellDelegate?
     
     var movie : Movie? {    
         didSet{
@@ -37,7 +42,6 @@ class ReusableCell: UITableViewCell {
     
     private let likeButton : UIButton = {
         let button = UIButton(type: .custom)
-        button.addTarget(self, action: #selector(likeButtonPressed), for: .touchUpInside)
         button.setImage(UIImage(named: "heart-icon"), for: .normal)
         button.setTitle(nil, for: .normal)
         button.tag = 0
@@ -103,7 +107,7 @@ class ReusableCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        likeButton.addTarget(self, action: #selector(likeButtonPressed), for: .touchUpInside)
         contentView.addSubview(movieImage)
         contentView.addSubview(movieCategoryLabel)
         contentView.addSubview(likeButton)
@@ -113,7 +117,6 @@ class ReusableCell: UITableViewCell {
         contentView.addSubview(starIcon)
         contentView.addSubview(ratingLabel)
         contentView.addSubview(amountVoiteLabel)
-        
         setupContent()
         
     }
@@ -162,6 +165,8 @@ class ReusableCell: UITableViewCell {
     }
     
     @objc func likeButtonPressed() {
+        delegate?.didTapFavorite()
+        
         if likeButton.tag == 0 {
             likeButton.setImage(UIImage(named: "heart-icon-fill"), for: .normal)
             likeButton.tag = 1

@@ -1,13 +1,15 @@
-//
-//  ReusableCollectionViewCell.swift
-//  MovieMood
-//
-//  Created by иван Бирюков on 05.04.2023.
-//
+protocol ReusableCollectionViewCellDelegate: AnyObject {
+    func didTapAction()
+    func didTapLike()
+}
 
 import UIKit
 
 class ReusableCollectionViewCell: UICollectionViewCell {
+    
+    static let identifier = "ReusableCollectionViewCell"
+    
+    weak var delegate: ReusableCollectionViewCellDelegate?
     
     var film : Movie? {
         didSet{
@@ -40,7 +42,6 @@ class ReusableCollectionViewCell: UICollectionViewCell {
     
     private let likeButton : UIButton = {
         let button = UIButton(type: .custom)
-        button.addTarget(self, action: #selector(likeButtonPressed), for: .touchUpInside)
         button.setImage(UIImage(named: "heart-icon"), for: .normal)
         button.setTitle(nil, for: .normal)
         button.tag = 0
@@ -91,7 +92,6 @@ class ReusableCollectionViewCell: UICollectionViewCell {
     
     private let actionButton : UIButton = {
         let btn =  BlueButton(withStyle: .ation)
-        btn.addTarget(self, action: #selector(actionButtonPressed), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -101,7 +101,9 @@ class ReusableCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame )
-        
+        likeButton.addTarget(self, action: #selector(likeButtonPressed), for: .touchUpInside)
+        actionButton.addTarget(self, action: #selector(actionButtonPressed), for: .touchUpInside)
+
         contentView.addSubview(movieImage)
         contentView.addSubview(movieNameLabel)
         contentView.addSubview(likeButton)
@@ -166,10 +168,12 @@ class ReusableCollectionViewCell: UICollectionViewCell {
     // MARK: - Buttons Methods
     
     @objc func actionButtonPressed() {
-        print("Action Button has been pressed")
+        delegate?.didTapAction()
     }
     
     @objc func likeButtonPressed() {
+        delegate?.didTapLike()
+        
         if likeButton.tag == 0 {
             likeButton.setImage(UIImage(named: "heart-icon-fill"), for: .normal)
             likeButton.tag = 1

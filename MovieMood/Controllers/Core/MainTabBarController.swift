@@ -7,8 +7,6 @@ private let apiManager: ApiManagerProtocol = ApiManager(networkManager: NetworkM
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        fetchMovies()
-        fetchMovieDetail()
         generateTabBar()
         setTabBarAppearance()
         setupHomeButton()
@@ -101,38 +99,5 @@ extension MainTabBarController {
 
     @objc private func homeButtonUp(sender: UIButton) {
         sender.layer.shadowOpacity = 0
-    }
-}
-
-extension MainTabBarController {
-    func fetchMovies() {
-        Task(priority: .userInitiated) {
-            do {
-                let movies = try await apiManager.fetchMovies()
-                await MainActor.run(body: {
-                    print(movies)
-                })
-            } catch {
-                await MainActor.run(body: {
-                    print(error, error.localizedDescription)
-                })
-            }
-        }
-    }
-    
-    func fetchMovieDetail() {
-        Task(priority: .userInitiated) {
-            do {
-                let movieDetail = try await apiManager.fetchMovieDetail(with: 980078)
-                await MainActor.run(body: {
-                    print(movieDetail)
-                })
-            } catch {
-                await MainActor.run(body: {
-                    print(error, error.localizedDescription)
-                })
-            }
-        }
-
     }
 }
