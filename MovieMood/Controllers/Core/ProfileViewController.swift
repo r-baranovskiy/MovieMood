@@ -6,11 +6,12 @@ final class ProfileViewController: UIViewController {
     private let titleLabel = CustomLabel(withText: "Profile", style: .title)
     private let profileImageView = ProfileImageView(UIImage(named: "mock-person")!)
     
-    private let firstNameField = ProfileFieldView(style: .firstName)
-    private let lastNameField = ProfileFieldView(style: .lastName)
-    private let emailField = ProfileFieldView(style: .email)
+    private let firstNameField = ProfileFieldView(style: .firstName, value: "Maxim")
+    private let lastNameField = ProfileFieldView(style: .lastName, value: "Shantsev")
+    private let emailField = ProfileFieldView(style: .email, value: "shantsev.m@ya.ru")
+    private let genderSelector = ProfileGenderSelector()
     
-    private let saveButton = BlueButton(withStyle: .ation)
+    private let saveButton = BlueButton(withStyle: .saveChanges)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +52,29 @@ extension ProfileViewController {
             stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
         ])
         
+        genderSelector.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(genderSelector)
+        NSLayoutConstraint.activate([
+            genderSelector.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 16),
+            genderSelector.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            genderSelector.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+        ])
         
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(saveButton)
+        NSLayoutConstraint.activate([
+            saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -34)
+        ])
+        
+//        genderMaleButton.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(genderMaleButton)
+//        NSLayoutConstraint.activate([
+//            genderMaleButton.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 20),
+//            genderMaleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            genderMaleButton.widthAnchor.constraint(equalToConstant: 156)
+//        ])
+//
     }
 }

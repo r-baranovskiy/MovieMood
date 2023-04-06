@@ -2,10 +2,10 @@ import UIKit
 
 final class ProfileSubTextFiled: UILabel {
     
-    private let labelStyle: ProfileFieldStyle
+    private let labelText: String
     
-    init(style: ProfileFieldStyle) {
-        self.labelStyle = style
+    init(withText text: String) {
+        self.labelText = text
         super.init(frame: .zero)
         configure()
     }
@@ -16,7 +16,7 @@ final class ProfileSubTextFiled: UILabel {
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        text = labelStyle.rawValue
+        text = labelText
         textAlignment = .left
         font = UIFont.systemFont(ofSize: 14)
         textColor = .gray

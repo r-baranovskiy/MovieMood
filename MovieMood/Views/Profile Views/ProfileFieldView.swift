@@ -1,21 +1,22 @@
 import UIKit
 
-enum ProfileFieldStyle: String {
-    case firstName = "First Name"
-    case lastName = "Last Name"
-    case email = "E-mail"
-    case dateBirth = "Date of Birth"
-}
-
 final class ProfileFieldView: UIView {
     
+    enum ProfileFieldStyle: String {
+        case firstName = "First Name"
+        case lastName = "Last Name"
+        case email = "E-mail"
+    }
+    
     private let fieldStyle: ProfileFieldStyle
+    private let fieldValue: String
     
-    private lazy var profileSubText = ProfileSubTextFiled(style: fieldStyle)
-    private lazy var profileTextField = ProfileTextField(forStyle: fieldStyle)
+    private lazy var profileSubText = ProfileSubTextFiled(withText: fieldStyle.rawValue)
+    private lazy var profileTextField = ProfileTextField(withPlaceholder: fieldStyle.rawValue, value: fieldValue)
     
-    init(style: ProfileFieldStyle) {
+    init(style: ProfileFieldStyle, value: String) {
         self.fieldStyle = style
+        self.fieldValue = value
         super.init(frame: .zero)
         configure()
     }

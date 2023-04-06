@@ -2,12 +2,14 @@ import UIKit
 
 final class ProfileTextField: UITextField {
     
-    private let fieldStyle: ProfileFieldStyle
+    private let fieldPlaceholder: String
+    private let fieldValue: String
     
     private let textPadding = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 66)
     
-    init(forStyle style: ProfileFieldStyle) {
-        self .fieldStyle = style
+    init(withPlaceholder text: String, value: String) {
+        self.fieldPlaceholder = text
+        self.fieldValue = value
         super.init(frame: .zero)
         configure()
     }
@@ -40,7 +42,7 @@ final class ProfileTextField: UITextField {
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
         attributedPlaceholder = NSAttributedString(
-            string: fieldStyle.rawValue, attributes: [
+            string: fieldPlaceholder, attributes: [
                 NSAttributedString.Key.foregroundColor: UIColor.custom.lightGray,
                 NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16,
                                                                weight: .regular)
@@ -49,5 +51,6 @@ final class ProfileTextField: UITextField {
         layer.cornerRadius = 24
         layer.borderWidth = 1
         layer.borderColor = UIColor.custom.mainBlue.cgColor
+        text = fieldValue
     }
 }

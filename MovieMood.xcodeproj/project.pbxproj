@@ -43,6 +43,8 @@
 		CEAA5F7C29DCE03300C7A381 /* ProfileTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA5F7B29DCE03300C7A381 /* ProfileTextField.swift */; };
 		CEAA5F7E29DCE08600C7A381 /* ProfileFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA5F7D29DCE08600C7A381 /* ProfileFieldView.swift */; };
 		CEAA5F8029DCE65F00C7A381 /* ProfileSubTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA5F7F29DCE65F00C7A381 /* ProfileSubTextField.swift */; };
+		CEF00ED929DF4E250042841B /* ProfileGenderSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF00ED829DF4E250042841B /* ProfileGenderSelector.swift */; };
+		CEF00EDB29DF4FE50042841B /* ProfileGenderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF00EDA29DF4FE50042841B /* ProfileGenderButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +84,8 @@
 		CEAA5F7B29DCE03300C7A381 /* ProfileTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTextField.swift; sourceTree = "<group>"; };
 		CEAA5F7D29DCE08600C7A381 /* ProfileFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFieldView.swift; sourceTree = "<group>"; };
 		CEAA5F7F29DCE65F00C7A381 /* ProfileSubTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSubTextField.swift; sourceTree = "<group>"; };
+		CEF00ED829DF4E250042841B /* ProfileGenderSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileGenderSelector.swift; sourceTree = "<group>"; };
+		CEF00EDA29DF4FE50042841B /* ProfileGenderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileGenderButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,9 +187,7 @@
 				804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */,
 				808E8CC629DB07B9003DD106 /* BlueButton.swift */,
 				CEAA5F7729DC82CF00C7A381 /* ProfileImageView.swift */,
-				CEAA5F7D29DCE08600C7A381 /* ProfileFieldView.swift */,
-				CEAA5F7B29DCE03300C7A381 /* ProfileTextField.swift */,
-				CEAA5F7F29DCE65F00C7A381 /* ProfileSubTextField.swift */,
+				CEF00EDC29DF4FEC0042841B /* Profile Views */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -233,6 +235,18 @@
 				808E8CC029DAC9E8003DD106 /* HomeViewController.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		CEF00EDC29DF4FEC0042841B /* Profile Views */ = {
+			isa = PBXGroup;
+			children = (
+				CEAA5F7D29DCE08600C7A381 /* ProfileFieldView.swift */,
+				CEAA5F7B29DCE03300C7A381 /* ProfileTextField.swift */,
+				CEAA5F7F29DCE65F00C7A381 /* ProfileSubTextField.swift */,
+				CEF00ED829DF4E250042841B /* ProfileGenderSelector.swift */,
+				CEF00EDA29DF4FE50042841B /* ProfileGenderButton.swift */,
+			);
+			path = "Profile Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,6 +329,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E55F50629DC60E900CE4C5B /* NetworkManager.swift in Sources */,
+				CEF00EDB29DF4FE50042841B /* ProfileGenderButton.swift in Sources */,
 				1E55F50829DC61D500CE4C5B /* APIKey.swift in Sources */,
 				80AD557329D7884A00A8F1C3 /* MainTabBarController.swift in Sources */,
 				1E55F50529DC60E900CE4C5B /* JSONDecoderManager.swift in Sources */,
@@ -343,6 +358,7 @@
 				80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */,
 				80AD559329D78B2500A8F1C3 /* ProfileViewController.swift in Sources */,
 				80AD559929D78BAD00A8F1C3 /* DetailViewController.swift in Sources */,
+				CEF00ED929DF4E250042841B /* ProfileGenderSelector.swift in Sources */,
 				80AD559129D78ACF00A8F1C3 /* AuthViewController.swift in Sources */,
 				80AD556F29D7884A00A8F1C3 /* AppDelegate.swift in Sources */,
 			);
