@@ -56,7 +56,15 @@ final class HomeViewController: UIViewController {
         return label
     }()
     
+    private lazy var topView: UIView = {
+        return TransformView(
+            images: filmCovers, imageSize: CGSize(width: 100, height: 150),
+            viewSize: CGSize(width: view.frame.width, height: 150)
+        )
+    }()
+    
     private func setupUI() {
+        view.addSubview(topView)
         view.addSubview(upperView)
         upperView.addArrangedSubview(userImageView)
         upperView.addArrangedSubview(labelsView)
@@ -69,6 +77,8 @@ final class HomeViewController: UIViewController {
         labelsView.translatesAutoresizingMaskIntoConstraints = false
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
         additionalInfoLabel.translatesAutoresizingMaskIntoConstraints = false
+        topView.translatesAutoresizingMaskIntoConstraints = false
+
         
         NSLayoutConstraint.activate([
             
@@ -78,7 +88,12 @@ final class HomeViewController: UIViewController {
             upperView.heightAnchor.constraint(equalToConstant: 40),
             
             userImageView.widthAnchor.constraint(equalToConstant: 40),
-            userImageView.heightAnchor.constraint(equalToConstant: 40)
+            userImageView.heightAnchor.constraint(equalToConstant: 40),
+            
+            topView.topAnchor.constraint(equalTo: upperView.bottomAnchor, constant: 100),
+            topView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            topView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            topView.heightAnchor.constraint(equalToConstant: 150)
             ])
     }
     
