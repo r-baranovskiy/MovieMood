@@ -66,11 +66,34 @@ final class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        addTargets()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         bottomView.layer.cornerRadius = 30
+    }
+    
+    private func addTargets() {
+        googleButton.addTarget(self, action: #selector(didTapGoogle),
+                               for: .touchUpInside)
+    }
+    
+    // MARK: - Actions
+    
+    @objc
+    private func didTapGoogle() {
+        AuthManager.shared.loginWithGoogle(viewController: self) { [weak self] result in
+            switch result {
+            case .success(let user):
+                print(user)
+            case .failure(let error):
+                let alert = UIAlertController.errorAlert(
+                    title: "Error", message: error.localizedDescription
+                )
+                self?.present(alert, animated: true)
+            }
+        }
     }
 }
 

@@ -1,10 +1,61 @@
-import Foundation
+import UIKit
+import GoogleSignIn
+import FirebaseCore
 import FirebaseAuth
 
 /// Manager responsible for signing in, up, and out
 final class AuthManager {
     /// Singleton instance of the manager
     static let shared = AuthManager()
+    
+    /// Check on user logged in or not
+    /// - Returns: Returns true if yes or not if false
+    func checkOnLoggedIn() -> Bool {
+        return Auth.auth().currentUser != nil
+    }
+    
+    func loginWithGoogle(viewController: UIViewController,
+                         completion: @escaping (Result<MovieUser, Error>) -> Void) {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        
+        // Create Google Sign In configuration object.
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+        
+        // Start the sign in flow!
+        GIDSignIn.sharedInstance.signIn(withPresenting: viewController) { result, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let user = result?.user,
+                  let idToken = user.idToken?.tokenString
+            else {
+                completion(.failure(AuthError.unknownError))
+                return
+            }
+            
+            let credential = GoogleAuthProvider.credential(
+                withIDToken: idToken, accessToken: user.accessToken.tokenString)
+            
+            Auth.auth().signIn(with: credential) { result, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                guard let user = result?.user else {
+                    completion(.failure(AuthError.unknownError))
+                    return
+                }
+                let movieUser = MovieUser(id: user.uid,
+                                          firstName: user.displayName ?? "Guest",
+                                          email: user.email ?? "",
+                                          avatarImageUrl: user.photoURL)
+                completion(.success(movieUser))
+            }
+        }
+    }
     
     /// Attempt to sign up
     /// - Parameters:
