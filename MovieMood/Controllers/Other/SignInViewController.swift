@@ -60,6 +60,7 @@ final class SignInViewController: UIViewController {
     /// Buttons
     private let continueButton = BlueButton(withStyle: .continueEmail)
     private let googleButton = GIDSignInButton()
+    private let dontHaveAccButton = DontHaveAccButton(type: .system)
     
     // MARK: - Lifecycle
     
@@ -79,6 +80,8 @@ final class SignInViewController: UIViewController {
                                  for: .touchUpInside)
         googleButton.addTarget(self, action: #selector(didTapGoogle),
                                for: .touchUpInside)
+        dontHaveAccButton.addTarget(self, action: #selector(didTapDontHaveAcc),
+                                    for: .touchUpInside)
     }
     
     // MARK: - Actions
@@ -90,7 +93,10 @@ final class SignInViewController: UIViewController {
             password: passwordTextField.text) { [weak self] result in
                 switch result {
                 case .success(let user):
-                    print(user.email)
+                    let tabBar = UITabBarController()
+                    tabBar.modalTransitionStyle = .crossDissolve
+                    tabBar.modalPresentationStyle = .fullScreen
+                    self?.present(tabBar, animated: true)
                 case .failure(let error):
                     let alert = UIAlertController.errorAlert(
                         title: "Error", message: error.localizedDescription
@@ -114,6 +120,14 @@ final class SignInViewController: UIViewController {
                 self?.present(alert, animated: true)
             }
         }
+    }
+    
+    @objc
+    private func didTapDontHaveAcc() {
+        let signUpVC = SignUpViewController()
+        signUpVC.modalTransitionStyle = .crossDissolve
+        signUpVC.modalPresentationStyle = .fullScreen
+        self.present(signUpVC, animated: true)
     }
 }
 
@@ -161,7 +175,7 @@ extension SignInViewController {
         
         let stack = UIStackView(arrangedSubviews: [
             emailTextField, passwordTextField, continueButton,
-            orContinueLabel, googleButton
+            orContinueLabel, googleButton, dontHaveAccButton
         ])
         
         stack.axis = .vertical

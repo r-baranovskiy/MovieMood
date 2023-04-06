@@ -51,11 +51,18 @@ final class SignUpViewController: UIViewController {
     }
     
     private func addTargets() {
+        backButton.addTarget(self, action: #selector(didTapBack),
+                             for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(didTapSignUp),
                                for: .touchUpInside)
     }
     
     // MARK: - Actions
+    
+    @objc
+    private func didTapBack() {
+        self.dismiss(animated: true)
+    }
     
     @objc
     private func didTapSignUp() {
@@ -95,7 +102,7 @@ extension SignUpViewController {
             backButton.heightAnchor.constraint(equalToConstant: 48),
             backButton.widthAnchor.constraint(equalToConstant: 48),
             backButton.centerYAnchor.constraint(
-                equalTo: titleLabel.centerYAnchor
+                equalTo: titleLabel.centerYAnchor, constant: 10
             ),
             backButton.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor, constant: 24
