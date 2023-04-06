@@ -93,7 +93,7 @@ final class SignInViewController: UIViewController {
             password: passwordTextField.text) { [weak self] result in
                 switch result {
                 case .success(let user):
-                    let tabBar = UITabBarController()
+                    let tabBar = MainTabBarController()
                     tabBar.modalTransitionStyle = .crossDissolve
                     tabBar.modalPresentationStyle = .fullScreen
                     self?.present(tabBar, animated: true)
