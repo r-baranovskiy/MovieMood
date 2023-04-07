@@ -9,6 +9,7 @@ final class AppTextField: UITextField {
         case lastName = "Last Name"
         case password = "Password"
         case confirmPassword = "Confirm password"
+        case newPassword = "New password"
     }
     
     // MARK: - Properties
@@ -104,7 +105,8 @@ final class AppTextField: UITextField {
         layer.borderWidth = 1
         layer.borderColor = UIColor.custom.lightGray.cgColor
         
-        if fieldStyle == .password || fieldStyle == .confirmPassword {
+        if fieldStyle == .password || fieldStyle == .confirmPassword
+            || fieldStyle == .newPassword {
             isSecureTextEntry = !isShowPassword
             addSubview(showPasswordButton)
             showPasswordButton.addTarget(self,

@@ -9,9 +9,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        AuthManager.shared.logOut { result in
-            //
-        }
         let window = UIWindow(frame: UIScreen.main.bounds)
         AuthManager.shared.fetchCurrentMovieUser { result in
             switch result {

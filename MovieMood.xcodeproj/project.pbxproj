@@ -14,9 +14,7 @@
 		1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */; };
 		286DD87129DDCECB00F201F2 /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286DD87029DDCECB00F201F2 /* DetailCollectionViewCell.swift */; };
 		57CD4F2329DCAC12004B73F4 /* ReusableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */; };
-		57CD4F2629DCAC99004B73F4 /* ExampleTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CD4F2529DCAC99004B73F4 /* ExampleTableView.swift */; };
 		57D5C9E729DE05DF00C99198 /* ReusableCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D5C9E629DE05DF00C99198 /* ReusableCollectionViewCell.swift */; };
-		57D5C9E929DE066D00C99198 /* ExampleCollectionViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D5C9E829DE066D00C99198 /* ExampleCollectionViewViewController.swift */; };
 		80182A8429DF5A43002B99DD /* TransformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80182A8329DF5A43002B99DD /* TransformView.swift */; };
 		80182A8629DF5A59002B99DD /* CGFloat + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80182A8529DF5A59002B99DD /* CGFloat + Extension.swift */; };
 		8021866929DD7D660078D701 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8021866829DD7D660078D701 /* FirebaseAuth */; };
@@ -27,11 +25,11 @@
 		804CB41829DC73C000955FA9 /* AppTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB41529DC73C000955FA9 /* AppTextField.swift */; };
 		804CB41929DC73C000955FA9 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB41629DC73C000955FA9 /* CustomLabel.swift */; };
 		804CB41B29DC740700955FA9 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB41A29DC740700955FA9 /* HapticsManager.swift */; };
+		8058C56C29E09A9C003C4757 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058C56B29E09A9C003C4757 /* SettingsViewController.swift */; };
 		8081199729E008C9001A0E4A /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081199629E008C9001A0E4A /* CategoryCollectionViewCell.swift */; };
 		8081199929E00A5A001A0E4A /* UIStackView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081199829E00A5A001A0E4A /* UIStackView + Extension.swift */; };
 		8081199B29E00A82001A0E4A /* UILabel + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081199A29E00A82001A0E4A /* UILabel + Extension.swift */; };
 		8081199D29E00ADD001A0E4A /* UIView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081199C29E00ADD001A0E4A /* UIView + Extension.swift */; };
-		8081199F29E0326D001A0E4A /* GenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081199E29E0326D001A0E4A /* GenderView.swift */; };
 		808119A329E03517001A0E4A /* GenderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808119A229E03517001A0E4A /* GenderButton.swift */; };
 		808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */; };
 		808E8CBF29DAC998003DD106 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 808E8CBE29DAC998003DD106 /* README.md */; };
@@ -67,9 +65,7 @@
 		1E55F50B29DC6DC200CE4C5B /* MovieDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailResponse.swift; sourceTree = "<group>"; };
 		286DD87029DDCECB00F201F2 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableTableViewCell.swift; sourceTree = "<group>"; };
-		57CD4F2529DCAC99004B73F4 /* ExampleTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleTableView.swift; sourceTree = "<group>"; };
 		57D5C9E629DE05DF00C99198 /* ReusableCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCollectionViewCell.swift; sourceTree = "<group>"; };
-		57D5C9E829DE066D00C99198 /* ExampleCollectionViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCollectionViewViewController.swift; sourceTree = "<group>"; };
 		80182A8329DF5A43002B99DD /* TransformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformView.swift; sourceTree = "<group>"; };
 		80182A8529DF5A59002B99DD /* CGFloat + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat + Extension.swift"; sourceTree = "<group>"; };
 		803898C729DC7BC900103156 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -77,11 +73,11 @@
 		804CB41529DC73C000955FA9 /* AppTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppTextField.swift; sourceTree = "<group>"; };
 		804CB41629DC73C000955FA9 /* CustomLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		804CB41A29DC740700955FA9 /* HapticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
+		8058C56B29E09A9C003C4757 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8081199629E008C9001A0E4A /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		8081199829E00A5A001A0E4A /* UIStackView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView + Extension.swift"; sourceTree = "<group>"; };
 		8081199A29E00A82001A0E4A /* UILabel + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + Extension.swift"; sourceTree = "<group>"; };
 		8081199C29E00ADD001A0E4A /* UIView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Extension.swift"; sourceTree = "<group>"; };
-		8081199E29E0326D001A0E4A /* GenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderView.swift; sourceTree = "<group>"; };
 		808119A229E03517001A0E4A /* GenderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderButton.swift; sourceTree = "<group>"; };
 		808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
 		808E8CBE29DAC998003DD106 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -125,13 +121,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		57CD4F2429DCAC77004B73F4 /* ExampleViews */ = {
+		8058C56729E09A43003C4757 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				57CD4F2529DCAC99004B73F4 /* ExampleTableView.swift */,
-				57D5C9E829DE066D00C99198 /* ExampleCollectionViewViewController.swift */,
+				808E8CC629DB07B9003DD106 /* BlueButton.swift */,
+				804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */,
+				808119A229E03517001A0E4A /* GenderButton.swift */,
 			);
-			path = ExampleViews;
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		8058C56829E09A57003C4757 /* TextFields */ = {
+			isa = PBXGroup;
+			children = (
+				804CB41529DC73C000955FA9 /* AppTextField.swift */,
+			);
+			path = TextFields;
+			sourceTree = "<group>";
+		};
+		8058C56929E09A6D003C4757 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				80182A8329DF5A43002B99DD /* TransformView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8058C56A29E09A76003C4757 /* Any */ = {
+			isa = PBXGroup;
+			children = (
+				80AD557929D7884C00A8F1C3 /* LaunchScreen.storyboard */,
+				804CB41629DC73C000955FA9 /* CustomLabel.swift */,
+			);
+			path = Any;
 			sourceTree = "<group>";
 		};
 		8081199529E008A2001A0E4A /* Cells */ = {
@@ -142,15 +164,6 @@
 				8081199629E008C9001A0E4A /* CategoryCollectionViewCell.swift */,
 			);
 			path = Cells;
-			sourceTree = "<group>";
-		};
-		808119A029E034E9001A0E4A /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				8081199E29E0326D001A0E4A /* GenderView.swift */,
-				808119A229E03517001A0E4A /* GenderButton.swift */,
-			);
-			path = Profile;
 			sourceTree = "<group>";
 		};
 		808E8CBA29DAC173003DD106 /* Extensions */ = {
@@ -177,6 +190,7 @@
 		808E8CC229DACA0C003DD106 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				80AD559229D78B2500A8F1C3 /* ProfileViewController.swift */,
 				80AD558E29D78AAF00A8F1C3 /* OnboardingViewController.swift */,
 				80AD559029D78ACF00A8F1C3 /* AuthViewController.swift */,
 				80AD559829D78BAD00A8F1C3 /* DetailViewController.swift */,
@@ -240,15 +254,11 @@
 		80AD558429D7889D00A8F1C3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				808119A029E034E9001A0E4A /* Profile */,
+				8058C56A29E09A76003C4757 /* Any */,
+				8058C56929E09A6D003C4757 /* Views */,
+				8058C56829E09A57003C4757 /* TextFields */,
+				8058C56729E09A43003C4757 /* Buttons */,
 				8081199529E008A2001A0E4A /* Cells */,
-				57CD4F2429DCAC77004B73F4 /* ExampleViews */,
-				80AD557929D7884C00A8F1C3 /* LaunchScreen.storyboard */,
-				804CB41529DC73C000955FA9 /* AppTextField.swift */,
-				804CB41629DC73C000955FA9 /* CustomLabel.swift */,
-				804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */,
-				808E8CC629DB07B9003DD106 /* BlueButton.swift */,
-				80182A8329DF5A43002B99DD /* TransformView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -291,11 +301,11 @@
 			isa = PBXGroup;
 			children = (
 				80AD557229D7884A00A8F1C3 /* MainTabBarController.swift */,
-				80AD559229D78B2500A8F1C3 /* ProfileViewController.swift */,
 				80AD559429D78B4500A8F1C3 /* SearchViewController.swift */,
 				80AD559629D78B6C00A8F1C3 /* FavoriteViewController.swift */,
 				80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */,
 				808E8CC029DAC9E8003DD106 /* HomeViewController.swift */,
+				8058C56B29E09A9C003C4757 /* SettingsViewController.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -389,12 +399,11 @@
 				80AD558B29D7894A00A8F1C3 /* AuthManager.swift in Sources */,
 				80182A8429DF5A43002B99DD /* TransformView.swift in Sources */,
 				1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */,
+				8058C56C29E09A9C003C4757 /* SettingsViewController.swift in Sources */,
 				804CB41829DC73C000955FA9 /* AppTextField.swift in Sources */,
-				57CD4F2629DCAC99004B73F4 /* ExampleTableView.swift in Sources */,
 				804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */,
 				8081199729E008C9001A0E4A /* CategoryCollectionViewCell.swift in Sources */,
 				80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */,
-				57D5C9E929DE066D00C99198 /* ExampleCollectionViewViewController.swift in Sources */,
 				809FE97B29DD8F3E007EAF7A /* UIAlertController+ Extension.swift in Sources */,
 				286DD87129DDCECB00F201F2 /* DetailCollectionViewCell.swift in Sources */,
 				8081199929E00A5A001A0E4A /* UIStackView + Extension.swift in Sources */,
@@ -413,7 +422,6 @@
 				80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */,
 				808E8CC729DB07B9003DD106 /* BlueButton.swift in Sources */,
 				80182A8629DF5A59002B99DD /* CGFloat + Extension.swift in Sources */,
-				8081199F29E0326D001A0E4A /* GenderView.swift in Sources */,
 				808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */,
 				80AD558D29D7896800A8F1C3 /* Movie.swift in Sources */,
 				808E8CC429DACA44003DD106 /* SignUpViewController.swift in Sources */,

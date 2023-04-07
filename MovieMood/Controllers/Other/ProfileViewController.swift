@@ -1,7 +1,6 @@
 import UIKit
 import SDWebImage
 
-/// This class opens when user go to profile
 final class ProfileViewController: UIViewController {
     
     enum PicturePickerType {
@@ -35,6 +34,8 @@ final class ProfileViewController: UIViewController {
     private let saveButton = BlueButton(withStyle: .saveChanges)
     private let maleButton = GenderButton(sex: .male)
     private let femaleButton = GenderButton(sex: .female)
+    
+    // MARK: - Init
     
     init(user: MovieUser) {
         currentUser = user
@@ -148,7 +149,9 @@ extension ProfileViewController: UIImagePickerControllerDelegate,
                                didFinishPickingMediaWithInfo info:
                                [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
-        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+        guard let image = info[
+            UIImagePickerController.InfoKey.editedImage
+        ] as? UIImage else {
             return
         }
         avatarImageView.image = image
