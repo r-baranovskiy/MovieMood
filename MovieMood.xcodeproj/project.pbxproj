@@ -41,7 +41,7 @@
 		809FE97429DD7E74007EAF7A /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809FE97329DD7E74007EAF7A /* AuthError.swift */; };
 		809FE97629DD7FAE007EAF7A /* MovieUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809FE97529DD7FAE007EAF7A /* MovieUser.swift */; };
 		809FE97829DD8B92007EAF7A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 809FE97729DD8B92007EAF7A /* GoogleService-Info.plist */; };
-		809FE97B29DD8F3E007EAF7A /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809FE97A29DD8F3E007EAF7A /* UIViewController + Extension.swift */; };
+		809FE97B29DD8F3E007EAF7A /* UIAlertController+ Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809FE97A29DD8F3E007EAF7A /* UIAlertController+ Extension.swift */; };
 		80AD556F29D7884A00A8F1C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD556E29D7884A00A8F1C3 /* AppDelegate.swift */; };
 		80AD557329D7884A00A8F1C3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD557229D7884A00A8F1C3 /* MainTabBarController.swift */; };
 		80AD557829D7884C00A8F1C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80AD557729D7884C00A8F1C3 /* Assets.xcassets */; };
@@ -91,7 +91,7 @@
 		809FE97329DD7E74007EAF7A /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		809FE97529DD7FAE007EAF7A /* MovieUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieUser.swift; sourceTree = "<group>"; };
 		809FE97729DD8B92007EAF7A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		809FE97A29DD8F3E007EAF7A /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
+		809FE97A29DD8F3E007EAF7A /* UIAlertController+ Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+ Extension.swift"; sourceTree = "<group>"; };
 		80AD556B29D7884A00A8F1C3 /* MovieMood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieMood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80AD556E29D7884A00A8F1C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80AD557229D7884A00A8F1C3 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -165,7 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */,
-				809FE97A29DD8F3E007EAF7A /* UIViewController + Extension.swift */,
+				809FE97A29DD8F3E007EAF7A /* UIAlertController+ Extension.swift */,
 				80182A8529DF5A59002B99DD /* CGFloat + Extension.swift */,
 				8081199829E00A5A001A0E4A /* UIStackView + Extension.swift */,
 				8081199A29E00A82001A0E4A /* UILabel + Extension.swift */,
@@ -395,7 +395,7 @@
 				8081199729E008C9001A0E4A /* CategoryCollectionViewCell.swift in Sources */,
 				80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */,
 				57D5C9E929DE066D00C99198 /* ExampleCollectionViewViewController.swift in Sources */,
-				809FE97B29DD8F3E007EAF7A /* UIViewController + Extension.swift in Sources */,
+				809FE97B29DD8F3E007EAF7A /* UIAlertController+ Extension.swift in Sources */,
 				286DD87129DDCECB00F201F2 /* DetailCollectionViewCell.swift in Sources */,
 				8081199929E00A5A001A0E4A /* UIStackView + Extension.swift in Sources */,
 				804CB41B29DC740700955FA9 /* HapticsManager.swift in Sources */,

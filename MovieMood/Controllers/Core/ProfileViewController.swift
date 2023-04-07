@@ -3,15 +3,20 @@ import UIKit
 /// This class opens when user go to profile
 final class ProfileViewController: UIViewController {
     
+    enum PicturePickerType {
+        case camera
+        case photoLibrary
+    }
+    
     // MARK: - Properties
     
     private let currentUser: MovieUser
-        
+    
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = imageView.frame.height / 2
         imageView.image = UIImage(named: "mock-person")
         return imageView
     }()
@@ -35,6 +40,7 @@ final class ProfileViewController: UIViewController {
         currentUser = user
         super.init(nibName: nil, bundle: nil)
         firstNameField.text = currentUser.firstName
+        lastNameField.text = currentUser.lastName
         emailField.text = currentUser.email
     }
     
@@ -49,6 +55,12 @@ final class ProfileViewController: UIViewController {
         maleButton.isSelected = true
         setupView()
         addTargets()
+        addRecognizer()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        avatarImageView.layer.cornerRadius = avatarImageView.frame.height / 2
     }
     
     // MARK: - Behaviour
@@ -62,7 +74,50 @@ final class ProfileViewController: UIViewController {
         femaleButton.tag = 1
     }
     
+    private func addRecognizer() {
+        let recognizer = UITapGestureRecognizer()
+        recognizer.addTarget(self, action: #selector(didTapAvatar))
+        avatarImageView.addGestureRecognizer(recognizer)
+    }
+    
+    private func avatarAlert() {
+        let alert = UIAlertController(
+            title: "Profile Picture", message: nil, preferredStyle: .actionSheet
+        )
+        alert.addAction(UIAlertAction(
+            title: "Cancel", style: .cancel)
+        )
+        alert.addAction(UIAlertAction(
+            title: "Camera", style: .default, handler: { _ in
+                DispatchQueue.main.async {
+                    self.presentProfilePicturePicker(type: .camera)
+                }
+            })
+        )
+        alert.addAction(UIAlertAction(
+            title: "Photo Library", style: .default, handler: { _ in
+                DispatchQueue.main.async {
+                    self.presentProfilePicturePicker(type: .photoLibrary)
+                }
+            })
+        )
+        present(alert, animated: true)
+    }
+    
+    func presentProfilePicturePicker(type: PicturePickerType) {
+        let picker = UIImagePickerController()
+        picker.sourceType = type == .camera ? .camera : .photoLibrary
+        picker.delegate = self
+        picker.allowsEditing = true
+        present(picker, animated: true)
+    }
+    
     // MARK: - Actions
+    
+    @objc
+    private func didTapAvatar() {
+        avatarAlert()
+    }
     
     @objc
     private func didChangeGender(_ sender: UIButton) {
@@ -73,6 +128,25 @@ final class ProfileViewController: UIViewController {
             femaleButton.isSelected = true
             maleButton.isSelected = false
         }
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate
+
+extension ProfileViewController: UIImagePickerControllerDelegate,
+                                 UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info:
+                               [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+            return
+        }
+        avatarImageView.image = image
     }
 }
 
@@ -104,7 +178,7 @@ extension ProfileViewController {
                 equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10
             )
         ])
-
+        
         NSLayoutConstraint.activate([
             avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             avatarImageView.topAnchor.constraint(
