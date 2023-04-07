@@ -2,7 +2,7 @@ import UIKit
 
 final class HomeViewController: UIViewController {
     
-    //MARK: - Variables
+    //MARK: - Properties
     
     private let filmCovers: [UIImage] = [
         UIImage(named: "mock-film-one")!,
@@ -11,120 +11,153 @@ final class HomeViewController: UIViewController {
         UIImage(named: "mock-film-four")!
     ]
     
-    private let labelsView: UIStackView = {
-        let labelsSV = UIStackView()
-        labelsSV.axis = NSLayoutConstraint.Axis.vertical
-        labelsSV.distribution = .fill
-        labelsSV.alignment = .leading
-        labelsSV.spacing = 2
-        return labelsSV
-    }()
-    
-    private let upperView: UIStackView = {
-        let upSV = UIStackView()
-        upSV.axis = NSLayoutConstraint.Axis.horizontal
-        upSV.distribution = .fill
-        upSV.alignment = .leading
-        upSV.spacing = 15
-        return upSV
-    }()
-    
-    private let userImageView: UIImageView = {
+    private var userImageView: UIImageView = {
         let userIV = UIImageView()
-        userIV.contentMode = .scaleAspectFit
+        userIV.clipsToBounds = true
+        userIV.contentMode = .scaleAspectFill
+        userIV.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        userIV.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        userIV.layer.cornerRadius = userIV.frame.height / 2
         userIV.image = UIImage(named: "mock-person")
         return userIV
     }()
     
-    private let userNameLabel: UILabel = {
-        let label = UILabel()
-        let userName = "Nikolai"
-        label.textColor = UIColor(red: 0.067, green: 0.067, blue: 0.067, alpha: 1)
-        label.textAlignment = .left
-        label.font = UIFont(name: "PlusJakartaSans-Bold", size: 18)
-        label.text = "Hi, \(userName)"
-        return label
-    }()
+    private var usernameLabel = UILabel(
+        text: "HI, Nikolai", font: .systemFont(ofSize: 18, weight: .bold),
+        textAlignment: .left, color: .label
+    )
     
-    private let additionalInfoLabel: UILabel = {
-        let label = UILabel()
-        let additionalInfo = "only streaming movie lovers"
-        label.textColor = UIColor(red: 0.612, green: 0.643, blue: 0.671, alpha: 1)
-        label.textAlignment = .left
-        label.font = UIFont(name: "PlusJakartaSans-Bold", size: 12)
-        label.text = additionalInfo
-        return label
-    }()
+    private let additionalInfoLabel = UILabel(
+        text: "only streaming movie lovers",
+        font: .systemFont(ofSize: 12, weight: .medium),
+        textAlignment: .left, color: .custom.lightGray
+    )
     
-    private lazy var topView: UIView = {
+    private lazy var carouselView: UIView = {
         return TransformView(
             images: filmCovers, imageSize: CGSize(width: 100, height: 150),
             viewSize: CGSize(width: view.frame.width, height: 150)
         )
     }()
     
-    private func setupUI() {
-        view.addSubview(topView)
-        view.addSubview(upperView)
-        upperView.addArrangedSubview(userImageView)
-        upperView.addArrangedSubview(labelsView)
-        labelsView.addArrangedSubview(userNameLabel)
-        labelsView.addArrangedSubview(additionalInfoLabel)
-        
-        
-        upperView.translatesAutoresizingMaskIntoConstraints = false
-        userImageView.translatesAutoresizingMaskIntoConstraints = false
-        labelsView.translatesAutoresizingMaskIntoConstraints = false
-        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        additionalInfoLabel.translatesAutoresizingMaskIntoConstraints = false
-        topView.translatesAutoresizingMaskIntoConstraints = false
-
-        
-        NSLayoutConstraint.activate([
-            
-            upperView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            upperView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            upperView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 24),
-            upperView.heightAnchor.constraint(equalToConstant: 40),
-            
-            userImageView.widthAnchor.constraint(equalToConstant: 40),
-            userImageView.heightAnchor.constraint(equalToConstant: 40),
-            
-            topView.topAnchor.constraint(equalTo: upperView.bottomAnchor, constant: 100),
-            topView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            topView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            topView.heightAnchor.constraint(equalToConstant: 150)
-            ])
-    }
+    private let categoryCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let colletion = UICollectionView(
+            frame: .zero, collectionViewLayout: layout
+        )
+        colletion.register(
+            CategoryCollectionViewCell.self,
+            forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier
+        )
+        layout.estimatedItemSize = CGSize(width: 100, height: 30)
+        layout.minimumLineSpacing = 15
+        layout.minimumInteritemSpacing = 0
+        layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 8, left: 24, bottom: 8, right: 24)
+        colletion.contentInsetAdjustmentBehavior = .always
+        colletion.backgroundColor = .clear
+        colletion.bounces = false
+        colletion.showsHorizontalScrollIndicator = false
+        return colletion
+    }()
+    
+    private var categories = CategoryCellViewModel.fetchCategories()
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupUI()
-        
+        setupView()
+        setupCategoryCollection()
     }
     
-    
+    private func setupCategoryCollection() {
+        categoryCollection.delegate = self
+        categoryCollection.dataSource = self
+    }
 }
 
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
-
-//MARK: - Preview
-import SwiftUI
-struct ListProvider: PreviewProvider {
-    static var previews: some View {
-        ContainerView().edgesIgnoringSafeArea(.all)
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        categories.count
     }
     
-    struct ContainerView: UIViewControllerRepresentable {
-        
-        let listVC = HomeViewController()
-        
-        func makeUIViewController(context: UIViewControllerRepresentableContext<ListProvider.ContainerView>) -> HomeViewController {
-            return listVC
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CategoryCollectionViewCell.identifier,
+            for: indexPath) as? CategoryCollectionViewCell else {
+            return UICollectionViewCell()
         }
+        cell.configureCell(with: categories[indexPath.row])
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        func updateUIViewController(_ uiViewController: ListProvider.ContainerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ListProvider.ContainerView>) {
+        categories.enumerated().forEach { index, value in
+            if index == indexPath.row {
+                categories[index].isSelected = true
+            } else {
+                categories[index].isSelected = false
+            }
         }
+        categories = categories.map {
+            CategoryCellViewModel(title: $0.title, isSelected: $0.isSelected)
+        }
+        collectionView.reloadData()
+    }
+}
+
+// MARK: - Setup View
+
+extension HomeViewController {
+    private func setupView() {
+        let labelsStackView = UIStackView(
+            subviews: [usernameLabel, additionalInfoLabel],
+            axis: .vertical, spacing: 2, aligment: .leading,
+            distribution: .fill
+        )
+        
+        let topStackView = UIStackView(
+            subviews: [userImageView, labelsStackView], axis: .horizontal,
+            spacing: 15, aligment: .leading, distribution: .fill
+        )
+        
+        view.backgroundColor = .custom.mainBackground
+        view.addSubviewWithoutTranslates(
+            topStackView, carouselView, categoryCollection
+        )
+        
+        NSLayoutConstraint.activate([
+            topStackView.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16
+            ),
+            topStackView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor, constant: 24
+            ),
+            topStackView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor, constant: 24
+            ),
+            topStackView.heightAnchor.constraint(equalToConstant: 40),
+            
+            carouselView.topAnchor.constraint(
+                equalTo: topStackView.bottomAnchor, constant: 100
+            ),
+            carouselView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            carouselView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            carouselView.heightAnchor.constraint(equalToConstant: 150)
+        ])
+        
+        NSLayoutConstraint.activate([
+            categoryCollection.heightAnchor.constraint(equalToConstant: 50),
+            categoryCollection.topAnchor.constraint(
+                equalTo: carouselView.bottomAnchor, constant: 100
+            ),
+            categoryCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            categoryCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 }
