@@ -10,7 +10,7 @@ final class ReusableCell: UITableViewCell {
     
     weak var delegate: ReusableCellDelegate?
     
-    var movie : Movie? {    
+    var movie : Movie? {
         didSet{
             movieImage.image = movie?.movieImage
             movieCategoryLabel.text = movie?.movieCategory
