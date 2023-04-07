@@ -1,4 +1,5 @@
 import UIKit
+import SDWebImage
 
 /// This class opens when user go to profile
 final class ProfileViewController: UIViewController {
@@ -17,7 +18,6 @@ final class ProfileViewController: UIViewController {
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "mock-person")
         return imageView
     }()
     
@@ -42,6 +42,11 @@ final class ProfileViewController: UIViewController {
         firstNameField.text = currentUser.firstName
         lastNameField.text = currentUser.lastName
         emailField.text = currentUser.email
+        if let imageUrl = currentUser.avatarImageUrl {
+            avatarImageView.sd_setImage(with: imageUrl)
+        } else {
+            avatarImageView.image = UIImage(named: "mock-person")
+        }
     }
     
     required init?(coder: NSCoder) {
