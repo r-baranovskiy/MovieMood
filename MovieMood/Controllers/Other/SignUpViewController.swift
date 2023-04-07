@@ -78,7 +78,7 @@ final class SignUpViewController: UIViewController {
                     tabBar.modalPresentationStyle = .fullScreen
                     self?.present(tabBar, animated: false)
                 case .failure(let error):
-                    let alert = UIAlertController.errorAlert(
+                    let alert = UIAlertController.createAlert(
                         title: "Error", message: error.localizedDescription
                     )
                     self?.present(alert, animated: true)

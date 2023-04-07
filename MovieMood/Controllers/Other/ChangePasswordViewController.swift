@@ -40,7 +40,7 @@ final class ChangePasswordViewController: UIViewController {
                     self?.present(signInVC, animated: true)
                 }
             case .failure(let error):
-                let alert = UIAlertController.errorAlert(
+                let alert = UIAlertController.createAlert(
                     title: "Error", message: error.localizedDescription
                 )
                 self?.present(alert, animated: true)
@@ -50,7 +50,24 @@ final class ChangePasswordViewController: UIViewController {
     
     @objc
     private func didTapChange() {
-        
+        AuthManager.shared.changePassword(
+            password: passwordTextField.text,
+            newPassword: newPasswordTextField.text,
+            confirmPassword: confirmTextField.text) { [weak self] result in
+                switch result {
+                case .success:
+                    let alert = UIAlertController.createAlert(
+                        title: "Success",
+                        message: "The password has been changed"
+                    )
+                    self?.present(alert, animated: true)
+                case .failure(let error):
+                    let alert = UIAlertController.createAlert(
+                        title: "Error", message: error.localizedDescription
+                    )
+                    self?.present(alert, animated: true)
+                }
+            }
     }
 }
 
