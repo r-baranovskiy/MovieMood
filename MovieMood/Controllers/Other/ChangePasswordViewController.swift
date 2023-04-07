@@ -15,6 +15,7 @@ final class ChangePasswordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        addTargets()
     }
     
     // MARK: - Behaviour
@@ -68,6 +69,9 @@ final class ChangePasswordViewController: UIViewController {
                     self?.present(alert, animated: true)
                 }
             }
+        passwordTextField.text = nil
+        newPasswordTextField.text = nil
+        confirmTextField.text = nil
     }
 }
 
@@ -79,7 +83,8 @@ extension ChangePasswordViewController {
         
         let stack = UIStackView(
             subviews: [
-                passwordTextField, newPasswordTextField, confirmTextField
+                passwordTextField, newPasswordTextField, confirmTextField,
+                changeButton, logOutButton
             ],
             axis: .vertical, spacing: 16, aligment: .fill,
             distribution: .equalSpacing

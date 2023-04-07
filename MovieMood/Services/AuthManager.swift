@@ -46,11 +46,24 @@ final class AuthManager {
             return
         }
         
-        Auth.auth().currentUser?.updatePassword(to: password) { error in
-            if let error = error {
-                completion(.failure(error))
-            } else {
-                completion(.success(true))
+        let user = Auth.auth().currentUser
+        
+        if let email = user?.email {
+            let credential = EmailAuthProvider.credential(withEmail: email,
+                                                          password: password)
+            user?.reauthenticate(with: credential) { result, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                } else {
+                    user?.updatePassword(to: newPassword) { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            completion(.success(true))
+                        }
+                    }
+                }
             }
         }
     }
