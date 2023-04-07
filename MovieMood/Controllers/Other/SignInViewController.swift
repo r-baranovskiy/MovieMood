@@ -54,8 +54,8 @@ final class SignInViewController: UIViewController {
     }()
     
     /// TextFields
-    private let emailTextField = AuthTextField(forStyle: .email)
-    private let passwordTextField = AuthTextField(forStyle: .password)
+    private let emailTextField = AppTextField(forStyle: .email)
+    private let passwordTextField = AppTextField(forStyle: .password)
     
     /// Buttons
     private let continueButton = BlueButton(withStyle: .continueEmail)
@@ -93,7 +93,7 @@ final class SignInViewController: UIViewController {
             password: passwordTextField.text) { [weak self] result in
                 switch result {
                 case .success(let user):
-                    let tabBar = MainTabBarController()
+                    let tabBar = MainTabBarController(user: user)
                     tabBar.modalTransitionStyle = .crossDissolve
                     tabBar.modalPresentationStyle = .fullScreen
                     self?.present(tabBar, animated: true)
@@ -112,7 +112,7 @@ final class SignInViewController: UIViewController {
         { [weak self] result in
             switch result {
             case .success(let user):
-                let tabBar = MainTabBarController()
+                let tabBar = MainTabBarController(user: user)
                 tabBar.modalTransitionStyle = .crossDissolve
                 tabBar.modalPresentationStyle = .fullScreen
                 self?.present(tabBar, animated: true)

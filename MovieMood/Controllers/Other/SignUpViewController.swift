@@ -35,11 +35,11 @@ final class SignUpViewController: UIViewController {
     
     private let signUpButton = BlueButton(withStyle: .signUp)
     
-    private let emailTextField = AuthTextField(forStyle: .email)
-    private let firstNameTextField = AuthTextField(forStyle: .firstName)
-    private let lastNameTextField = AuthTextField(forStyle: .lastName)
-    private let passwordTextField = AuthTextField(forStyle: .password)
-    private let confirmPasswordTextField = AuthTextField(forStyle: .confirmPassword)
+    private let emailTextField = AppTextField(forStyle: .email)
+    private let firstNameTextField = AppTextField(forStyle: .firstName)
+    private let lastNameTextField = AppTextField(forStyle: .lastName)
+    private let passwordTextField = AppTextField(forStyle: .password)
+    private let confirmPasswordTextField = AppTextField(forStyle: .confirmPassword)
     
     // MARK: - Lifecycle
     
@@ -73,7 +73,7 @@ final class SignUpViewController: UIViewController {
             lastName: lastNameTextField.text) { [weak self] result in
                 switch result {
                 case .success(let user):
-                    let tabBar = MainTabBarController()
+                    let tabBar = MainTabBarController(user: user)
                     tabBar.modalTransitionStyle = .crossDissolve
                     tabBar.modalPresentationStyle = .fullScreen
                     self?.present(tabBar, animated: false)

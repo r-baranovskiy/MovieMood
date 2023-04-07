@@ -25,8 +25,28 @@ final class AuthManager {
         }
     }
     
+    /// Attempt to fetch current MovieUser
+    /// - Parameter completion: Returns Current MovieUser
+    func fetchCurrentMovieUser(completion: @escaping (Result<MovieUser,
+                                                      Error>) -> Void) {
+        guard let user = Auth.auth().currentUser else {
+            completion(.failure(AuthError.notLoggedIn))
+            return
+        }
+        
+        let movieUser = MovieUser(id: user.uid,
+                                  firstName: user.displayName ?? "",
+                                  email: user.email ?? "")
+        completion(.success(movieUser))
+    }
+    
+    /// Attempt to login user with email and password
+    /// - Parameters:
+    ///   - email: User email
+    ///   - password: User password
+    ///   - completion: Returns Firebase User
     func loginWithEmail(email: String?, password: String?,
-                        completion: @escaping (Result<User, Error>) -> Void) {
+                        completion: @escaping (Result<MovieUser, Error>) -> Void) {
         guard let email = email, let password = password,
               email != "", password != "" else {
             completion(.failure(AuthError.notFilled))
@@ -38,7 +58,9 @@ final class AuthManager {
                 return
             }
             if let result = result {
-                completion(.success(result.user))
+                let movieUser = MovieUser(id: result.user.uid,
+                                          email: result.user.email!)
+                completion(.success(movieUser))
             } else {
                 completion(.failure(AuthError.unknownError))
             }

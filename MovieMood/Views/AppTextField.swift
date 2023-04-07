@@ -1,6 +1,6 @@
 import UIKit
 
-final class AuthTextField: UITextField {
+final class AppTextField: UITextField {
     
     /// Textfield style that must choise when init this textfield
     enum TextFieldStyle: String {

@@ -6,6 +6,7 @@ enum AuthError {
     case passwordNotMatched
     case unknownError
     case serverError
+    case notLoggedIn
 }
 
 extension AuthError: LocalizedError {
@@ -21,6 +22,8 @@ extension AuthError: LocalizedError {
             return NSLocalizedString("Unknow error", comment: "")
         case .serverError:
             return NSLocalizedString("Server error. Try again later.", comment: "")
+        case .notLoggedIn:
+            return NSLocalizedString("User isn't logged In", comment: "")
         }
     }
 }
