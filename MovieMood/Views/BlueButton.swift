@@ -6,6 +6,7 @@ final class BlueButton: UIButton {
         case signUp = "Sign Up"
         case ation = "Action"
         case continueEmail = "Continue with Email"
+        case saveChanges = "Save Changes"
     }
     
     private let style: ButtonStyle
