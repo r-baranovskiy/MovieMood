@@ -3,13 +3,6 @@ import SDWebImage
 
 final class DetailViewController: UIViewController {
     
-    private let apiManager: ApiManagerProtocol = ApiManager(networkManager: NetworkManager(jsonService: JSONDecoderManager()))
-    
-    private var detailMovie: MovieDetailResponse?
-    private var model: CastAndCrewModel?
-    private var cast: [Cast] = []
-    private var crew: [Crew] = []
-
     private let mainView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -21,7 +14,6 @@ final class DetailViewController: UIViewController {
         imageView.contentMode = .scaleToFill
         imageView.layer.cornerRadius = 20
         imageView.clipsToBounds = true
-        //imageView.image = UIImage(named: "mock-film-two")
         return imageView
     }()
     
@@ -31,7 +23,6 @@ final class DetailViewController: UIViewController {
         label.font = .systemFont(ofSize: 24, weight: .bold)
         label.numberOfLines = 0
         label.textAlignment = .center
-        //label.text = "Luck"
         return label
     }()
     
@@ -48,8 +39,6 @@ final class DetailViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12)
         label.textColor = UIColor(red: 0.471, green: 0.51, blue: 0.541, alpha: 1)
-        
-        //label.text = "17 Sep 2021"
         return label
     }()
     
@@ -75,8 +64,6 @@ final class DetailViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12)
         label.textColor = UIColor(red: 0.471, green: 0.51, blue: 0.541, alpha: 1)
-        
-        //label.text = "148 minutes"
         return label
     }()
     
@@ -102,8 +89,6 @@ final class DetailViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12)
         label.textColor = UIColor(red: 0.471, green: 0.51, blue: 0.541, alpha: 1)
-        
-        //label.text = "Action"
         return label
     }()
     
@@ -137,7 +122,6 @@ final class DetailViewController: UIViewController {
         return stackView
     }()
     
-    //
     private let informationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -160,7 +144,6 @@ final class DetailViewController: UIViewController {
         let text = UILabel()
         text.font = .systemFont(ofSize: 14)
         text.textColor = UIColor(red: 0.471, green: 0.51, blue: 0.541, alpha: 1)
-        text.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book Show More. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book Show More. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book Show More. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book Show More"
         text.numberOfLines = 0
         return text
     }()
@@ -188,7 +171,14 @@ final class DetailViewController: UIViewController {
         return button
     }()
     
+    private let apiManager: ApiManagerProtocol = ApiManager(networkManager: NetworkManager(jsonService: JSONDecoderManager()))
+    
+    private var detailMovie: MovieDetailResponse?
+    private var model: CastAndCrewModel?
+    private var cast: [Cast] = []
+    private var crew: [Crew] = []
     private var rating: Double?
+    
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -196,13 +186,13 @@ final class DetailViewController: UIViewController {
         collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "\(DetailCollectionViewCell.self)")
         
         configure(idMovie: 980078)
-        configureCast(idMovie: 980078)
         setupUI()
     }
     
     func configure(idMovie: Int) {
         Task {
             detailMovie = try? await apiManager.fetchMovieDetail(with: idMovie)
+            model = try? await apiManager.fetchCastAndCrwe(with: idMovie)
             await MainActor.run(body: {
                 nameMovieLabel.text = detailMovie?.title
                 dateLabel.text = detailMovie?.release_date
@@ -216,15 +206,9 @@ final class DetailViewController: UIViewController {
                     movieImageView.sd_setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/\(poster)"))
                 }
                 getStarsImage(with: rating ?? 0)
-            })
-        }
-    }
-    
-    func configureCast(idMovie: Int) {
-        Task {
-            model = try? await apiManager.fetchCastAndCrwe(with: idMovie)
-            await MainActor.run(body: {
+                
                 cast = model?.cast ?? []
+                crew = model?.crew ?? []
                 collectionView.reloadData()
             })
         }
