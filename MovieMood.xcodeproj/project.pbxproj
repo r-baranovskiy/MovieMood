@@ -38,6 +38,7 @@
 		808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC029DAC9E8003DD106 /* HomeViewController.swift */; };
 		808E8CC429DACA44003DD106 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC329DACA44003DD106 /* SignUpViewController.swift */; };
 		808E8CC729DB07B9003DD106 /* BlueButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E8CC629DB07B9003DD106 /* BlueButton.swift */; };
+		809BD0C729E1FC6800002069 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809BD0C629E1FC6800002069 /* PhotoPickerView.swift */; };
 		809FE97429DD7E74007EAF7A /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809FE97329DD7E74007EAF7A /* AuthError.swift */; };
 		809FE97629DD7FAE007EAF7A /* MovieUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809FE97529DD7FAE007EAF7A /* MovieUser.swift */; };
 		809FE97829DD8B92007EAF7A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 809FE97729DD8B92007EAF7A /* GoogleService-Info.plist */; };
@@ -57,6 +58,7 @@
 		80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */; };
 		80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559C29D78C0500A8F1C3 /* RealmManager.swift */; };
 		80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */; };
+		80F22DC729E1FE6800F3C659 /* PhotoPickerMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +90,7 @@
 		808E8CC029DAC9E8003DD106 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		808E8CC329DACA44003DD106 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		808E8CC629DB07B9003DD106 /* BlueButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueButton.swift; sourceTree = "<group>"; };
+		809BD0C629E1FC6800002069 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		809FE97329DD7E74007EAF7A /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		809FE97529DD7FAE007EAF7A /* MovieUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieUser.swift; sourceTree = "<group>"; };
 		809FE97729DD8B92007EAF7A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -109,6 +112,7 @@
 		80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		80AD559C29D78C0500A8F1C3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
+		80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerMethodView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +151,8 @@
 			isa = PBXGroup;
 			children = (
 				80182A8329DF5A43002B99DD /* TransformView.swift */,
+				809BD0C629E1FC6800002069 /* PhotoPickerView.swift */,
+				80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -417,6 +423,7 @@
 				808119A329E03517001A0E4A /* GenderButton.swift in Sources */,
 				804CB41929DC73C000955FA9 /* CustomLabel.swift in Sources */,
 				57F9311829E0BC01009D9666 /* CollectionReusableViewHeader.swift in Sources */,
+				809BD0C729E1FC6800002069 /* PhotoPickerView.swift in Sources */,
 				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,
 				57CD4F2329DCAC12004B73F4 /* ReusableTableViewCell.swift in Sources */,
 				57D5C9E729DE05DF00C99198 /* ReusableCollectionViewCell.swift in Sources */,
@@ -441,6 +448,7 @@
 				80AD559129D78ACF00A8F1C3 /* AuthViewController.swift in Sources */,
 				80AD556F29D7884A00A8F1C3 /* AppDelegate.swift in Sources */,
 				809FE97629DD7FAE007EAF7A /* MovieUser.swift in Sources */,
+				80F22DC729E1FE6800F3C659 /* PhotoPickerMethodView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
