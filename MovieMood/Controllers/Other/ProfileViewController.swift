@@ -182,7 +182,7 @@ extension ProfileViewController {
         pickerView.delegate = self
         view.addSubviewWithoutTranslates(blurView)
         blurView.contentView.addSubviewWithoutTranslates(pickerView)
-                
+        
         NSLayoutConstraint.activate([
             blurView.topAnchor.constraint(equalTo: view.topAnchor),
             blurView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
