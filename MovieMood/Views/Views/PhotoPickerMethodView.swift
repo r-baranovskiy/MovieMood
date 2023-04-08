@@ -32,6 +32,10 @@ final class PhotoPickerMethodView: UIView {
     }
     
     private func setupView() {
+        backgroundColor = .systemGray4
+        layer.cornerRadius = 8
+        clipsToBounds = true
+        
         let label = UILabel(
             text: style.rawValue, font: .systemFont(ofSize: 14, weight: .bold),
             textAlignment: .left,
