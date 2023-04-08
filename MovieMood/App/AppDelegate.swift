@@ -13,14 +13,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //
         }
         let window = UIWindow(frame: UIScreen.main.bounds)
-        AuthManager.shared.fetchCurrentMovieUser { result in
-            switch result {
-            case .success(let movieUser):
-                window.rootViewController = MainTabBarController(user: movieUser)
-            case .failure:
-                window.rootViewController = SignInViewController()
-            }
-        }
+        window.rootViewController = DetailViewController()
+//        AuthManager.shared.fetchCurrentMovieUser { result in
+//            switch result {
+//            case .success(let movieUser):
+//                window.rootViewController = MainTabBarController(user: movieUser)
+//            case .failure:
+//                window.rootViewController = SignInViewController()
+//            }
+//        }
 
         window.makeKeyAndVisible()
         self.window = window
