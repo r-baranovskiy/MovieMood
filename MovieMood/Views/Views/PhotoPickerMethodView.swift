@@ -10,7 +10,7 @@ final class PhotoPickerMethodView: UIView {
         var imageName: String {
             switch self {
             case .camera:
-                return "calendar-icon"
+                return "cameraIcon"
             case .album:
                 return "albumIcon"
             case .trashcan:

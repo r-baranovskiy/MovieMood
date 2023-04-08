@@ -22,19 +22,66 @@ final class PhotoPickerView: UIView {
     private let galleryView = PhotoPickerMethodView(withStyle: .album)
     private let trashcanView = PhotoPickerMethodView(withStyle: .trashcan)
     
+    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        setRecognizers()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Behaviour
+    
+    private func setRecognizers() {
+        cameraView.isUserInteractionEnabled = true
+        galleryView.isUserInteractionEnabled = true
+        trashcanView.isUserInteractionEnabled = true
+        
+        let cameraRecognizer = UITapGestureRecognizer(
+            target: self, action: #selector(didTapCamera)
+        )
+        
+        let galleryRecognizer = UITapGestureRecognizer(
+            target: self, action: #selector(didTapAlbum)
+        )
+        
+        let trashcanRecognizer = UITapGestureRecognizer(
+            target: self, action: #selector(didTapTrashcan)
+        )
+        
+        cameraView.addGestureRecognizer(cameraRecognizer)
+        galleryView.addGestureRecognizer(galleryRecognizer)
+        trashcanView.addGestureRecognizer(trashcanRecognizer)
+    }
+    
+    // MARK: - Actions
+    
+    @objc
+    private func didTapCamera() {
+        delegate?.didChangeCamera()
+    }
+    
+    @objc
+    private func didTapAlbum() {
+        delegate?.didChangePhotoAlbum()
+    }
+    
+    @objc
+    private func didTapTrashcan() {
+        delegate?.didChangeDelete()
+    }
+    
+    // MARK: - Setup View
+    
     private func setupView() {
         backgroundColor = .systemBackground
         layer.cornerRadius = 12
+        
+        
         
         let separator = UIView()
         separator.backgroundColor = .systemGray4

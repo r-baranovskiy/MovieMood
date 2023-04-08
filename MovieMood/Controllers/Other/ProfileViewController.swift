@@ -25,6 +25,8 @@ final class ProfileViewController: UIViewController {
         textAlignment: .center, color: .label
     )
     
+    private let photoPickerView = PhotoPickerView()
+    
     /// Textfields
     private let firstNameField = AppTextField(forStyle: .firstName)
     private let lastNameField = AppTextField(forStyle: .lastName)
@@ -88,30 +90,6 @@ final class ProfileViewController: UIViewController {
         avatarImageView.addGestureRecognizer(recognizer)
     }
     
-    private func avatarAlert() {
-        let alert = UIAlertController(
-            title: "Profile Picture", message: nil, preferredStyle: .actionSheet
-        )
-        alert.addAction(UIAlertAction(
-            title: "Cancel", style: .cancel)
-        )
-        alert.addAction(UIAlertAction(
-            title: "Camera", style: .default, handler: { _ in
-                DispatchQueue.main.async {
-                    self.presentProfilePicturePicker(type: .camera)
-                }
-            })
-        )
-        alert.addAction(UIAlertAction(
-            title: "Photo Library", style: .default, handler: { _ in
-                DispatchQueue.main.async {
-                    self.presentProfilePicturePicker(type: .photoLibrary)
-                }
-            })
-        )
-        present(alert, animated: true)
-    }
-    
     func presentProfilePicturePicker(type: PicturePickerType) {
         let picker = UIImagePickerController()
         picker.sourceType = type == .camera ? .camera : .photoLibrary
@@ -130,7 +108,10 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapAvatar() {
-        avatarAlert()
+        photoPickerView.isHidden = false
+        UIView.animate(withDuration: 0.3) {
+            self.photoPickerView.alpha = 1
+        }
     }
     
     @objc
@@ -142,6 +123,22 @@ final class ProfileViewController: UIViewController {
             femaleButton.isSelected = true
             maleButton.isSelected = false
         }
+    }
+}
+
+// MARK: - PhotoPickerViewDelegate
+
+extension ProfileViewController: PhotoPickerViewDelegate {
+    func didChangePhotoAlbum() {
+        presentProfilePicturePicker(type: .photoLibrary)
+    }
+    
+    func didChangeCamera() {
+        presentProfilePicturePicker(type: .camera)
+    }
+    
+    func didChangeDelete() {
+        print("Delete")
     }
 }
 
@@ -171,6 +168,10 @@ extension ProfileViewController: UIImagePickerControllerDelegate,
 extension ProfileViewController {
     private func setupView() {
         view.backgroundColor = .custom.mainBackground
+        photoPickerView.isHidden = true
+        photoPickerView.alpha = 0
+        photoPickerView.delegate = self
+        
         let buttonStack = UIStackView(
             subviews: [maleButton, femaleButton], axis: .horizontal,
             spacing: 16, aligment: .fill, distribution: .fillEqually
@@ -185,7 +186,7 @@ extension ProfileViewController {
         )
         
         view.addSubviewWithoutTranslates(
-            titleLabel, avatarImageView, stack
+            titleLabel, avatarImageView, stack, photoPickerView
         )
         
         NSLayoutConstraint.activate([
@@ -212,6 +213,21 @@ extension ProfileViewController {
                 equalTo: view.leadingAnchor, constant: 24
             ),
             stack.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor, constant: -24
+            )
+        ])
+        
+        NSLayoutConstraint.activate([
+            photoPickerView.centerYAnchor.constraint(
+                equalTo: view.centerYAnchor
+            ),
+            photoPickerView.heightAnchor.constraint(
+                equalTo: view.heightAnchor, multiplier: 1.4/3
+            ),
+            photoPickerView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor, constant: 24
+            ),
+            photoPickerView.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor, constant: -24
             )
         ])
