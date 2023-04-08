@@ -30,13 +30,7 @@ class ReusableCollectionViewCell: UICollectionViewCell {
     }()
     
     private let movieNameLabel : UILabel = {
-        let name = UILabel()
-        name.text = "Jurasick Park"
-        name.textColor = .black
-        name.font = UIFont.boldSystemFont(ofSize: 26)
-        name.textAlignment = .left
-        name.numberOfLines = 0
-        name.translatesAutoresizingMaskIntoConstraints = false
+        let name = CustomLabel(withText: "", style: .title)
         return name
     }()
     
@@ -57,12 +51,7 @@ class ReusableCollectionViewCell: UICollectionViewCell {
     }()
     
     private let durationLabel : UILabel = {
-        let duration = UILabel()
-        duration.text = "148 minuts"
-        duration.textColor = .lightGray
-        duration.font = UIFont.systemFont(ofSize: 14)
-        duration.textAlignment = .left
-        duration.translatesAutoresizingMaskIntoConstraints = false
+        let duration = CustomLabel(withText: "", style: .subHead)
         return duration
     }()
     
@@ -74,12 +63,7 @@ class ReusableCollectionViewCell: UICollectionViewCell {
     }()
     
     private let creatingDateLabel : UILabel = {
-        let date = UILabel()
-        date.text = "15 sempt 2021"
-        date.textColor = .lightGray
-        date.font = UIFont.systemFont(ofSize: 15)
-        date.textAlignment = .left
-        date.translatesAutoresizingMaskIntoConstraints = false
+        let date = CustomLabel(withText: "", style: .subHead)
         return date
     }()
     
@@ -133,7 +117,7 @@ class ReusableCollectionViewCell: UICollectionViewCell {
             movieNameLabel.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 14),
             
             likeButton.topAnchor.constraint(equalTo: contentView.topAnchor),
-            likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25),
             likeButton.widthAnchor.constraint(equalToConstant: 24),
             likeButton.heightAnchor.constraint(equalToConstant: 24),
             
