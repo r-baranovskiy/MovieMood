@@ -26,7 +26,7 @@ final class ProfileViewController: UIViewController {
     )
     
     private lazy var blurView: UIVisualEffectView = {
-        let effect = UIBlurEffect(style: .light)
+        let effect = UIBlurEffect(style: .dark)
         let blur = UIVisualEffectView(effect: effect)
         return blur
     }()
@@ -105,6 +105,11 @@ final class ProfileViewController: UIViewController {
     // MARK: - Actions
     
     @objc
+    private func didTapBlurView() {
+        blurView.removeFromSuperview()
+    }
+    
+    @objc
     private func didTapTest() {
         let vc = ChangePasswordViewController()
         present(vc, animated: true)
@@ -165,6 +170,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate,
             return
         }
         avatarImageView.image = image
+        blurView.removeFromSuperview()
     }
 }
 
@@ -198,6 +204,10 @@ extension ProfileViewController {
         ])
         
         updateViewConstraints()
+        
+        let recognizer = UITapGestureRecognizer()
+        recognizer.addTarget(self, action: #selector(didTapBlurView))
+        blurView.addGestureRecognizer(recognizer)
     }
 }
 

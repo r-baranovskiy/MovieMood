@@ -81,8 +81,6 @@ final class PhotoPickerView: UIView {
         backgroundColor = .systemBackground
         layer.cornerRadius = 12
         
-        
-        
         let separator = UIView()
         separator.backgroundColor = .systemGray4
         
@@ -94,13 +92,7 @@ final class PhotoPickerView: UIView {
             distribution: .fillEqually
         )
         
-        addSubview(titleLabel)
-        addSubview(separator)
-        addSubview(stack)
-        
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        stack.translatesAutoresizingMaskIntoConstraints = false
+        addSubviewWithoutTranslates(titleLabel, separator, stack)
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(
