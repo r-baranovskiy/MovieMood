@@ -25,7 +25,11 @@ final class ProfileViewController: UIViewController {
         textAlignment: .center, color: .label
     )
     
-    private let photoPickerView = PhotoPickerView()
+    private lazy var blurView: UIVisualEffectView = {
+        let effect = UIBlurEffect(style: .light)
+        let blur = UIVisualEffectView(effect: effect)
+        return blur
+    }()
     
     /// Textfields
     private let firstNameField = AppTextField(forStyle: .firstName)
@@ -108,9 +112,10 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapAvatar() {
-        photoPickerView.isHidden = false
-        UIView.animate(withDuration: 0.3) {
-            self.photoPickerView.alpha = 1
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.3) {
+                self.showPhotoPickerView()
+            }
         }
     }
     
@@ -163,14 +168,44 @@ extension ProfileViewController: UIImagePickerControllerDelegate,
     }
 }
 
+// MARK: - Setup BlurView
+
+extension ProfileViewController {
+    private func showPhotoPickerView() {
+        let pickerView = PhotoPickerView()
+        pickerView.delegate = self
+        view.addSubviewWithoutTranslates(blurView)
+        blurView.contentView.addSubviewWithoutTranslates(pickerView)
+                
+        NSLayoutConstraint.activate([
+            blurView.topAnchor.constraint(equalTo: view.topAnchor),
+            blurView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            blurView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            blurView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            pickerView.centerYAnchor.constraint(
+                equalTo: blurView.centerYAnchor
+            ),
+            pickerView.heightAnchor.constraint(
+                equalTo: blurView.heightAnchor, multiplier: 1.4/3
+            ),
+            pickerView.leadingAnchor.constraint(
+                equalTo: blurView.leadingAnchor, constant: 24
+            ),
+            pickerView.trailingAnchor.constraint(
+                equalTo: blurView.trailingAnchor, constant: -24
+            ),
+        ])
+        
+        updateViewConstraints()
+    }
+}
+
 // MARK: - Setup View
 
 extension ProfileViewController {
     private func setupView() {
         view.backgroundColor = .custom.mainBackground
-        photoPickerView.isHidden = true
-        photoPickerView.alpha = 0
-        photoPickerView.delegate = self
         
         let buttonStack = UIStackView(
             subviews: [maleButton, femaleButton], axis: .horizontal,
@@ -186,7 +221,7 @@ extension ProfileViewController {
         )
         
         view.addSubviewWithoutTranslates(
-            titleLabel, avatarImageView, stack, photoPickerView
+            titleLabel, avatarImageView, stack
         )
         
         NSLayoutConstraint.activate([
@@ -213,21 +248,6 @@ extension ProfileViewController {
                 equalTo: view.leadingAnchor, constant: 24
             ),
             stack.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor, constant: -24
-            )
-        ])
-        
-        NSLayoutConstraint.activate([
-            photoPickerView.centerYAnchor.constraint(
-                equalTo: view.centerYAnchor
-            ),
-            photoPickerView.heightAnchor.constraint(
-                equalTo: view.heightAnchor, multiplier: 1.4/3
-            ),
-            photoPickerView.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor, constant: 24
-            ),
-            photoPickerView.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor, constant: -24
             )
         ])
