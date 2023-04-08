@@ -39,11 +39,22 @@ final class PhotoPickerView: UIView {
         let separator = UIView()
         separator.backgroundColor = .systemGray4
         
+        let stack = UIStackView(
+            subviews: [
+                cameraView, galleryView, trashcanView
+            ],
+            axis: .vertical, spacing: 20, aligment: .fill,
+            distribution: .fillEqually
+        )
+        
         addSubview(titleLabel)
         addSubview(separator)
+        addSubview(stack)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         separator.translatesAutoresizingMaskIntoConstraints = false
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(
                 equalTo: topAnchor, constant: 32
@@ -58,6 +69,24 @@ final class PhotoPickerView: UIView {
             ),
             separator.leadingAnchor.constraint(equalTo: leadingAnchor),
             separator.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            cameraView.heightAnchor.constraint(
+                equalTo: heightAnchor, multiplier: 1/6)
+        ])
+        
+        NSLayoutConstraint.activate([
+            stack.topAnchor.constraint(
+                equalTo: separator.bottomAnchor, constant: 20
+            ),
+            stack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+            stack.leadingAnchor.constraint(
+                equalTo: leadingAnchor, constant: 16
+            ),
+            stack.trailingAnchor.constraint(
+                equalTo: trailingAnchor, constant: -16
+            )
         ])
     }
 }

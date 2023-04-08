@@ -47,8 +47,9 @@ final class PhotoPickerMethodView: UIView {
         
         let stack = UIStackView(
             subviews: [imageView, label], axis: .horizontal, spacing: 20,
-            aligment: .fill, distribution: .equalSpacing)
-        
+            aligment: .fill, distribution: .fillProportionally)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+
         addSubview(stack)
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(equalTo: topAnchor, constant: 20),
