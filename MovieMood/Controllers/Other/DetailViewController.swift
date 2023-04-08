@@ -1,5 +1,6 @@
 import UIKit
 import SDWebImage
+import SafariServices
 
 final class DetailViewController: UIViewController {
     
@@ -163,11 +164,12 @@ final class DetailViewController: UIViewController {
     }()
     
     // Button
-    private let watchButton: BlueButton = {
+    private lazy var watchButton: BlueButton = {
         let button = BlueButton(withStyle: .ation)
         button.setTitle("Watch now", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         button.layer.cornerRadius = 24
+        button.addTarget(nil, action: #selector(loadYouTubeVideo), for: .touchUpInside)
         return button
     }()
     
@@ -175,9 +177,11 @@ final class DetailViewController: UIViewController {
     
     private var detailMovie: MovieDetailResponse?
     private var model: CastAndCrewModel?
+    private var movieVideo: MovieVideoModel?
     private var cast: [Cast] = []
     private var crew: [Crew] = []
     private var rating: Double?
+    private var videoID: String = ""
     
         
     override func viewDidLoad() {
@@ -185,14 +189,15 @@ final class DetailViewController: UIViewController {
         view.backgroundColor = .systemBackground
         collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "\(DetailCollectionViewCell.self)")
         
-        configure(idMovie: 980078)
+        configure(idMovie: 1023313)
         setupUI()
     }
     
     func configure(idMovie: Int) {
         Task {
             detailMovie = try? await apiManager.fetchMovieDetail(with: idMovie)
-            model = try? await apiManager.fetchCastAndCrwe(with: idMovie)
+            model = try? await apiManager.fetchCastAndCrew(with: idMovie)
+            movieVideo = try? await apiManager.fetchMovieVideo(with: idMovie)
             await MainActor.run(body: {
                 nameMovieLabel.text = detailMovie?.title
                 dateLabel.text = detailMovie?.release_date
@@ -207,11 +212,19 @@ final class DetailViewController: UIViewController {
                 }
                 getStarsImage(with: rating ?? 0)
                 
+                videoID = movieVideo?.results[0].key ?? "XqZsoesa55w"
+                
                 cast = model?.cast ?? []
                 crew = model?.crew ?? []
                 collectionView.reloadData()
             })
         }
+    }
+    
+    @objc private func loadYouTubeVideo() {
+        guard let youTubeURL = URL(string: "https://www.youtube.com/watch?v=\(videoID)") else { return }
+        let safari = SFSafariViewController(url: youTubeURL)
+        self.present(safari, animated: true)
     }
     
     private func setupFlowLayout() -> UICollectionViewFlowLayout {
