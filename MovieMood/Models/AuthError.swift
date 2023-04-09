@@ -17,7 +17,7 @@ extension AuthError: LocalizedError {
         case .invalidEmail:
             return NSLocalizedString("Invalid email format", comment: "")
         case .passwordNotMatched:
-            return NSLocalizedString("Passwords don't mathc", comment: "")
+            return NSLocalizedString("Passwords don't match", comment: "")
         case .unknownError:
             return NSLocalizedString("Unknow error", comment: "")
         case .serverError:

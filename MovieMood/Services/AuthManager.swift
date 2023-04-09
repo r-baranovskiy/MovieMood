@@ -25,6 +25,49 @@ final class AuthManager {
         }
     }
     
+    /// Attempt to change password
+    /// - Parameters:
+    ///   - password: Current user password
+    ///   - newPassword: New user password
+    ///   - confirmPassword: Confirm new user password
+    ///   - completion: Retturns succes or not
+    func changePassword(password: String?, newPassword: String?,
+                        confirmPassword: String?,
+                        completion: @escaping (Result<Bool, Error>) -> Void) {
+        guard let password = password, let newPassword = newPassword,
+              let confirmPassword = confirmPassword, password != "",
+              newPassword != "", confirmPassword != ""  else {
+            completion(.failure(AuthError.notFilled))
+            return
+        }
+        
+        guard newPassword == confirmPassword else {
+            completion(.failure(AuthError.passwordNotMatched))
+            return
+        }
+        
+        let user = Auth.auth().currentUser
+        
+        if let email = user?.email {
+            let credential = EmailAuthProvider.credential(withEmail: email,
+                                                          password: password)
+            user?.reauthenticate(with: credential) { result, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                } else {
+                    user?.updatePassword(to: newPassword) { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            completion(.success(true))
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     /// Attempt to fetch current MovieUser
     /// - Parameter completion: Returns Current MovieUser
     func fetchCurrentMovieUser(completion: @escaping (Result<MovieUser,

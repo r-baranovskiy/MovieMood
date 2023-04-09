@@ -7,6 +7,8 @@ final class BlueButton: UIButton {
         case ation = "Action"
         case continueEmail = "Continue with Email"
         case saveChanges = "Save Changes"
+        case logout = "Log Out"
+        case change = "Change"
     }
     
     private let style: ButtonStyle
@@ -27,8 +29,16 @@ final class BlueButton: UIButton {
         backgroundColor = UIColor.custom.mainBlue
         layer.cornerRadius = 24
         heightAnchor.constraint(equalToConstant: 56).isActive = true
+        
         if style == .ation {
             layer.cornerRadius = 6
+        }
+        
+        if style == .logout {
+            setTitleColor(.custom.mainBlue, for: .normal)
+            backgroundColor = .clear
+            layer.borderWidth = 1
+            layer.borderColor = UIColor.custom.mainBlue.cgColor
         }
     }
 }
