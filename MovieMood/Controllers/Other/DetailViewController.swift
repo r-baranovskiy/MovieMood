@@ -1,19 +1,9 @@
 import UIKit
-
-struct Model {
-    let photo: UIImage
-    let name: String
-    let prof: String
-}
+import SDWebImage
+import SafariServices
 
 final class DetailViewController: UIViewController {
     
-    let model = [Model(photo: UIImage(named: "mock-person") ?? UIImage(), name: "Bill", prof: "Director"),
-                 Model(photo: UIImage(named: "mock-person") ?? UIImage(), name: "Bill", prof: "Director"),
-                 Model(photo: UIImage(named: "mock-person") ?? UIImage(), name: "Bill", prof: "Director"),
-                 Model(photo: UIImage(named: "mock-person") ?? UIImage(), name: "Bill", prof: "Director"),
-                 Model(photo: UIImage(named: "mock-person") ?? UIImage(), name: "Bill", prof: "Director"),]
-
     private let mainView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -23,8 +13,8 @@ final class DetailViewController: UIViewController {
     private let movieImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
-        
-        imageView.image = UIImage(named: "mock-film-two")
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -33,8 +23,7 @@ final class DetailViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 24, weight: .bold)
         label.numberOfLines = 0
-        
-        label.text = "Luck"
+        label.textAlignment = .center
         return label
     }()
     
@@ -42,6 +31,7 @@ final class DetailViewController: UIViewController {
     private let dateImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "calendar-icon"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -50,8 +40,6 @@ final class DetailViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12)
         label.textColor = UIColor(red: 0.471, green: 0.51, blue: 0.541, alpha: 1)
-        
-        label.text = "17 Sep 2021"
         return label
     }()
     
@@ -68,6 +56,7 @@ final class DetailViewController: UIViewController {
     private let timeImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "clock-icon"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -76,8 +65,6 @@ final class DetailViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12)
         label.textColor = UIColor(red: 0.471, green: 0.51, blue: 0.541, alpha: 1)
-        
-        label.text = "148 minutes"
         return label
     }()
     
@@ -94,6 +81,7 @@ final class DetailViewController: UIViewController {
     private let genreImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "film-icon"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -102,8 +90,6 @@ final class DetailViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12)
         label.textColor = UIColor(red: 0.471, green: 0.51, blue: 0.541, alpha: 1)
-        
-        label.text = "Action"
         return label
     }()
     
@@ -137,7 +123,6 @@ final class DetailViewController: UIViewController {
         return stackView
     }()
     
-    //
     private let informationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -160,7 +145,6 @@ final class DetailViewController: UIViewController {
         let text = UILabel()
         text.font = .systemFont(ofSize: 14)
         text.textColor = UIColor(red: 0.471, green: 0.51, blue: 0.541, alpha: 1)
-        text.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book Show More. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book Show More. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book Show More. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book Show More"
         text.numberOfLines = 0
         return text
     }()
@@ -180,22 +164,67 @@ final class DetailViewController: UIViewController {
     }()
     
     // Button
-    private let watchButton: BlueButton = {
+    private lazy var watchButton: BlueButton = {
         let button = BlueButton(withStyle: .ation)
         button.setTitle("Watch now", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         button.layer.cornerRadius = 24
+        button.addTarget(nil, action: #selector(loadYouTubeVideo), for: .touchUpInside)
         return button
     }()
+    
+    private let apiManager: ApiManagerProtocol = ApiManager(networkManager: NetworkManager(jsonService: JSONDecoderManager()))
+    
+    private var detailMovie: MovieDetailResponse?
+    private var model: CastAndCrewModel?
+    private var movieVideo: MovieVideoModel?
+    private var cast: [Cast] = []
+    private var crew: [Crew] = []
+    private var rating: Double?
+    private var videoID: String = ""
+    
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .systemBackground
-
         collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "\(DetailCollectionViewCell.self)")
-        getStarsImage(with: 7.5)
+        
+        configure(idMovie: 1023313)
         setupUI()
+    }
+    
+    func configure(idMovie: Int) {
+        Task {
+            detailMovie = try? await apiManager.fetchMovieDetail(with: idMovie)
+            model = try? await apiManager.fetchCastAndCrew(with: idMovie)
+            movieVideo = try? await apiManager.fetchMovieVideo(with: idMovie)
+            await MainActor.run(body: {
+                nameMovieLabel.text = detailMovie?.title
+                dateLabel.text = detailMovie?.release_date
+                if let time = detailMovie?.runtime {
+                    timeLabel.text = "\(time) Minutes"
+                }
+                genreLabel.text = detailMovie?.genres[0].name
+                textView.text = detailMovie?.overview
+                rating = detailMovie?.vote_average
+                if let poster = detailMovie?.poster_path {
+                    movieImageView.sd_setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/\(poster)"))
+                }
+                getStarsImage(with: rating ?? 0)
+                
+                videoID = movieVideo?.results[0].key ?? "XqZsoesa55w"
+                
+                cast = model?.cast ?? []
+                crew = model?.crew ?? []
+                collectionView.reloadData()
+            })
+        }
+    }
+    
+    @objc private func loadYouTubeVideo() {
+        guard let youTubeURL = URL(string: "https://www.youtube.com/watch?v=\(videoID)") else { return }
+        let safari = SFSafariViewController(url: youTubeURL)
+        self.present(safari, animated: true)
     }
     
     private func setupFlowLayout() -> UICollectionViewFlowLayout {
@@ -255,6 +284,28 @@ final class DetailViewController: UIViewController {
             return
         }
     }
+}
+
+//MARK: - UICollectionViewDataSource
+extension DetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        cast.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DetailCollectionViewCell.self)", for: indexPath) as? DetailCollectionViewCell else { return UICollectionViewCell() }
+
+        if let poster = cast[indexPath.item].profile_path {
+            cell.photoImageView.sd_setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/\(poster)"))
+        }
+        cell.nameLabel.text = cast[indexPath.item].name
+        cell.professionLabel.text = cast[indexPath.item].character
+        return cell
+    }
+}
+
+//MARK: - Setup UI
+extension DetailViewController {
     
     private func setupUI() {
         dateStackView.addArrangedSubview(dateImageView)
@@ -316,7 +367,7 @@ final class DetailViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: castAndCrewLabel.bottomAnchor, constant: 16),
             collectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
             collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24),
-            collectionView.heightAnchor.constraint(equalToConstant: 40),
+            collectionView.heightAnchor.constraint(equalToConstant: 50),
             
             watchButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 28),
             watchButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -324,20 +375,5 @@ final class DetailViewController: UIViewController {
             watchButton.heightAnchor.constraint(equalToConstant: 56),
             watchButton.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -20)
         ])
-    }
-}
-
-extension DetailViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        model.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DetailCollectionViewCell.self)", for: indexPath) as? DetailCollectionViewCell else { return UICollectionViewCell() }
-        cell.photoImageView.image = model[indexPath.item].photo
-        cell.nameLabel.text = model[indexPath.item].name
-        cell.professionLabel.text = model[indexPath.item].prof
-        
-        return cell
     }
 }
