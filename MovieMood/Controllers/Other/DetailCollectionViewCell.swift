@@ -9,7 +9,13 @@ import UIKit
 
 class DetailCollectionViewCell: UICollectionViewCell {
     
-    let photoImageView = UIImageView()
+    let photoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
+        return imageView
+    }()
     
     let nameLabel: UILabel = {
         let label = UILabel()

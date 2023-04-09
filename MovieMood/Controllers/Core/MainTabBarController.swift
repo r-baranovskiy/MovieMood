@@ -1,9 +1,10 @@
 import UIKit
 
-// MARK: - viewDidLoad()
 final class MainTabBarController: UITabBarController {
     
     private let currentUser: MovieUser
+    
+    // MARK: - Init
     
     init(user: MovieUser) {
         self.currentUser = user
@@ -13,6 +14,8 @@ final class MainTabBarController: UITabBarController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,16 +31,16 @@ extension MainTabBarController {
         viewControllers = [
             generateVC(
                 viewController: SearchViewController(),
-                image: UIImage(named: "search-icon")),
+                image: UIImage(named: "search-icon"), title: "Search"),
             generateVC(
                 viewController: HistoryViewController(),
-                image: UIImage(named: "video-icon")),
+                image: UIImage(named: "video-icon"), title: "Recent Watch"),
             generateVC(
                 viewController: HomeViewController(),
-                image: UIImage()),
+                image: UIImage(), title: "Home"),
             generateVC(
                 viewController: FavoriteViewController(),
-                image: UIImage(named: "heart-icon")),
+                image: UIImage(named: "heart-icon"), title: "Favorites"),
             generateVC(
                 viewController: SettingsViewController(user: currentUser),
                 image: UIImage(named: "profile-icon"))
@@ -47,9 +50,12 @@ extension MainTabBarController {
 
 // MARK: - generateVC()
 extension MainTabBarController {
-    private func generateVC(viewController: UIViewController, image: UIImage?) -> UIViewController {
+    private func generateVC(viewController: UIViewController, image: UIImage?,
+                            title: String) -> UINavigationController {
         viewController.tabBarItem.image = image
-        return viewController
+        let navVC = UINavigationController(rootViewController: viewController)
+        viewController.navigationItem.title = title
+        return navVC
     }
 }
 
@@ -76,9 +82,8 @@ extension MainTabBarController {
         homeButton.frame.size = CGSize(width: 48, height: 48)
         tabBar.addSubview(homeButton)
 
-        if let items = self.tabBar.items, items.count > 0 {
-            let tabBarItem = items[2]
-            tabBarItem.isEnabled = false
+        if let homeItem = tabBar.items?[2] {
+            homeItem.isEnabled = false
         }
 
         homeButton.addTarget(self, action: #selector(homeButtonTapped), for: .touchUpInside)

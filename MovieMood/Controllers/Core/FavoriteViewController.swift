@@ -2,6 +2,8 @@ import UIKit
 
 final class FavoriteViewController: UIViewController {
     
+}
+  /*
     var films : [Movie] = [Movie]()
     
     fileprivate let collectionView : UICollectionView = {
@@ -13,9 +15,7 @@ final class FavoriteViewController: UIViewController {
         
         // registr collectionView cell
         cv.register(ReusableCollectionViewCell.self , forCellWithReuseIdentifier: "ReusableCollectionViewCell")
-        
-        //regist collectionView Header
-        cv.register(CollectionReusableViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionReusableViewHeader.identifier)
+
         return cv
     }()
     
@@ -80,14 +80,6 @@ extension FavoriteViewController: UICollectionViewDelegateFlowLayout, UICollecti
         return CGSize(width: widthPerItem, height: 160)
     }
     
-    // Setting up Collection View Header data
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionReusableViewHeader.identifier, for: indexPath) as! CollectionReusableViewHeader
-        header.configure()
-        header.setupLabel(text: "Favorites")
-        return header
-    }
-    
     // Setting up Collection View Header size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.size.width, height:  70)
@@ -107,3 +99,4 @@ extension FavoriteViewController: ReusableCollectionViewCellDelegate{
     }
     
 }
+*/

@@ -1,15 +1,17 @@
 import UIKit
+import SDWebImage
 
 final class HomeViewController: UIViewController {
     
+    private let apiManager = ApiManager(
+        networkManager: NetworkManager(jsonService: JSONDecoderManager())
+    )
+    
     //MARK: - Properties
     
-    private let filmCovers: [UIImage] = [
-        UIImage(named: "mock-film-one")!,
-        UIImage(named: "mock-film-two")!,
-        UIImage(named: "mock-film-three")!,
-        UIImage(named: "mock-film-four")!
-    ]
+    private var filmCovers = [UIImage]()
+    
+    private var movies = [MovieModel]()
     
     private var userImageView: UIImageView = {
         let userIV = UIImageView()
@@ -33,12 +35,7 @@ final class HomeViewController: UIViewController {
         textAlignment: .left, color: .custom.lightGray
     )
     
-    private lazy var carouselView: UIView = {
-        return TransformView(
-            images: filmCovers, imageSize: CGSize(width: 100, height: 150),
-            viewSize: CGSize(width: view.frame.width, height: 150)
-        )
-    }()
+    private var topStackView = UIStackView()
     
     private let categoryCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -70,22 +67,55 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupCategoryCollection()
+        fetchMovies()
     }
     
     private func setupCategoryCollection() {
         categoryCollection.delegate = self
         categoryCollection.dataSource = self
     }
+    
+    // MARK: - Behaviour
+    
+    
+    private func fetchMovies() {
+        Task {
+            do {
+                movies = try await apiManager.fetchMovies().results
+                fetchFilmCovers()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func fetchFilmCovers() {
+        ImageNetworkLoaderManager.shared.fetchImageArray(movieModels: movies) { [weak self] result in
+                switch result {
+                case .success(let images):
+                    self?.filmCovers = images
+                    DispatchQueue.main.async {
+                        self?.showHeaderFilms()
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+    }
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension HomeViewController: UICollectionViewDelegate,
+                              UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         categories.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: CategoryCollectionViewCell.identifier,
             for: indexPath) as? CategoryCollectionViewCell else {
@@ -95,8 +125,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
         categories.enumerated().forEach { index, value in
             if index == indexPath.row {
                 categories[index].isSelected = true
@@ -114,6 +144,26 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 // MARK: - Setup View
 
 extension HomeViewController {
+    private func showHeaderFilms() {
+        let carouselView = TransformView(
+            images: filmCovers, imageSize: CGSize(width: 100, height: 150),
+            viewSize: CGSize(width: view.frame.width, height: 150)
+        )
+        
+        view.addSubviewWithoutTranslates(carouselView)
+        
+        NSLayoutConstraint.activate([
+            carouselView.topAnchor.constraint(
+                equalTo: topStackView.bottomAnchor, constant: 100
+            ),
+            carouselView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            carouselView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            carouselView.heightAnchor.constraint(equalToConstant: 150)
+        ])
+        print(filmCovers.count)
+        updateViewConstraints()
+    }
+    
     private func setupView() {
         let labelsStackView = UIStackView(
             subviews: [usernameLabel, additionalInfoLabel],
@@ -121,14 +171,14 @@ extension HomeViewController {
             distribution: .fill
         )
         
-        let topStackView = UIStackView(
+        topStackView = UIStackView(
             subviews: [userImageView, labelsStackView], axis: .horizontal,
             spacing: 15, aligment: .leading, distribution: .fill
         )
         
         view.backgroundColor = .custom.mainBackground
         view.addSubviewWithoutTranslates(
-            topStackView, carouselView, categoryCollection
+            topStackView, categoryCollection
         )
         
         NSLayoutConstraint.activate([
@@ -142,22 +192,15 @@ extension HomeViewController {
                 equalTo: view.trailingAnchor, constant: 24
             ),
             topStackView.heightAnchor.constraint(equalToConstant: 40),
-            
-            carouselView.topAnchor.constraint(
-                equalTo: topStackView.bottomAnchor, constant: 100
-            ),
-            carouselView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            carouselView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            carouselView.heightAnchor.constraint(equalToConstant: 150)
         ])
         
         NSLayoutConstraint.activate([
-            categoryCollection.heightAnchor.constraint(equalToConstant: 50),
-            categoryCollection.topAnchor.constraint(
-                equalTo: carouselView.bottomAnchor, constant: 100
-            ),
-            categoryCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            categoryCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            //            categoryCollection.heightAnchor.constraint(equalToConstant: 50),
+            //            categoryCollection.topAnchor.constraint(
+            //                equalTo: carouselView.bottomAnchor, constant: 100
+            //            ),
+            //            categoryCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            //            categoryCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 }
