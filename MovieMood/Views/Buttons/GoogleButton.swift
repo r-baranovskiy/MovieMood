@@ -14,8 +14,16 @@ final class GoogleButton: UIButton {
     
     private func setupButton() {
         backgroundColor = .clear
-        setTitle("Continue with Google", for: .normal)
-        setTitleColor(.label, for: .normal)
+        
+        let attributedTitle = NSMutableAttributedString(
+            string: "Continue with Google", attributes: [
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16,
+                                                               weight: .bold),
+                NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel
+            ]
+        )
+        
+        setAttributedTitle(attributedTitle, for: .normal)
         heightAnchor.constraint(equalToConstant: 56).isActive = true
         
         layer.cornerRadius = 24

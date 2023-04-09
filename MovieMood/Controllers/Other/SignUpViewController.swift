@@ -5,31 +5,21 @@ final class SignUpViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = .label
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
-        label.text = "Sign Up"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let titleLabel = UILabel(
+        text: "Sign Up", font: .systemFont(ofSize: 18, weight: .semibold),
+        textAlignment: .center, color: .label
+    )
     
-    private let completeLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = .label
-        label.font = .systemFont(ofSize: 24, weight: .semibold)
-        label.text = "Complete your account"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let completeLabel = UILabel(
+        text: "Complete your account",
+        font: .systemFont(ofSize: 24, weight: .semibold),
+        textAlignment: .center, color: .label
+    )
     
     private let backButton: UIButton = {
         let button = UIButton(type: .system)
         button.setBackgroundImage(UIImage(named: "back-button-icon"),
                                   for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -45,8 +35,9 @@ final class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .custom.mainBackground
         setupView()
+        hideKeyboardWhenTappedAround()
+        keyboardSetting()
         addTargets()
     }
     
@@ -87,9 +78,29 @@ final class SignUpViewController: UIViewController {
     }
 }
 
+// MARK: - Keyboard Setting
+
+extension SignUpViewController {
+    private func keyboardSetting() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(
+            self, selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification, object: nil
+        )
+        notificationCenter.addObserver(
+            self, selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification, object: nil
+        )
+    }
+}
+
+// MARK: - Setup View
+
 extension SignUpViewController {
     private func setupView() {
-        view.addSubview(titleLabel)
+        view.backgroundColor = .custom.mainBackground
+        
+        view.addSubviewWithoutTranslates(titleLabel, backButton, completeLabel)
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.topAnchor.constraint(
@@ -97,7 +108,6 @@ extension SignUpViewController {
             )
         ])
         
-        view.addSubview(backButton)
         NSLayoutConstraint.activate([
             backButton.heightAnchor.constraint(equalToConstant: 48),
             backButton.widthAnchor.constraint(equalToConstant: 48),
@@ -109,7 +119,6 @@ extension SignUpViewController {
             )
         ])
         
-        view.addSubview(completeLabel)
         NSLayoutConstraint.activate([
             completeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             completeLabel.topAnchor.constraint(
@@ -124,9 +133,8 @@ extension SignUpViewController {
         stack.axis = .vertical
         stack.spacing = 25
         stack.distribution = .equalSpacing
-        stack.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(stack)
+        view.addSubviewWithoutTranslates(stack)
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(
                 lessThanOrEqualTo: completeLabel.bottomAnchor, constant: 120
