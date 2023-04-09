@@ -25,6 +25,12 @@ final class ProfileViewController: UIViewController {
         textAlignment: .center, color: .label
     )
     
+    private lazy var blurView: UIVisualEffectView = {
+        let effect = UIBlurEffect(style: .dark)
+        let blur = UIVisualEffectView(effect: effect)
+        return blur
+    }()
+    
     /// Textfields
     private let firstNameField = AppTextField(forStyle: .firstName)
     private let lastNameField = AppTextField(forStyle: .lastName)
@@ -88,30 +94,6 @@ final class ProfileViewController: UIViewController {
         avatarImageView.addGestureRecognizer(recognizer)
     }
     
-    private func avatarAlert() {
-        let alert = UIAlertController(
-            title: "Profile Picture", message: nil, preferredStyle: .actionSheet
-        )
-        alert.addAction(UIAlertAction(
-            title: "Cancel", style: .cancel)
-        )
-        alert.addAction(UIAlertAction(
-            title: "Camera", style: .default, handler: { _ in
-                DispatchQueue.main.async {
-                    self.presentProfilePicturePicker(type: .camera)
-                }
-            })
-        )
-        alert.addAction(UIAlertAction(
-            title: "Photo Library", style: .default, handler: { _ in
-                DispatchQueue.main.async {
-                    self.presentProfilePicturePicker(type: .photoLibrary)
-                }
-            })
-        )
-        present(alert, animated: true)
-    }
-    
     func presentProfilePicturePicker(type: PicturePickerType) {
         let picker = UIImagePickerController()
         picker.sourceType = type == .camera ? .camera : .photoLibrary
@@ -123,6 +105,11 @@ final class ProfileViewController: UIViewController {
     // MARK: - Actions
     
     @objc
+    private func didTapBlurView() {
+        blurView.removeFromSuperview()
+    }
+    
+    @objc
     private func didTapTest() {
         let vc = ChangePasswordViewController()
         present(vc, animated: true)
@@ -130,7 +117,11 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapAvatar() {
-        avatarAlert()
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.3) {
+                self.showPhotoPickerView()
+            }
+        }
     }
     
     @objc
@@ -142,6 +133,22 @@ final class ProfileViewController: UIViewController {
             femaleButton.isSelected = true
             maleButton.isSelected = false
         }
+    }
+}
+
+// MARK: - PhotoPickerViewDelegate
+
+extension ProfileViewController: PhotoPickerViewDelegate {
+    func didChangePhotoAlbum() {
+        presentProfilePicturePicker(type: .photoLibrary)
+    }
+    
+    func didChangeCamera() {
+        presentProfilePicturePicker(type: .camera)
+    }
+    
+    func didChangeDelete() {
+        print("Delete")
     }
 }
 
@@ -163,6 +170,44 @@ extension ProfileViewController: UIImagePickerControllerDelegate,
             return
         }
         avatarImageView.image = image
+        blurView.removeFromSuperview()
+    }
+}
+
+// MARK: - Setup BlurView
+
+extension ProfileViewController {
+    private func showPhotoPickerView() {
+        let pickerView = PhotoPickerView()
+        pickerView.delegate = self
+        view.addSubviewWithoutTranslates(blurView)
+        blurView.contentView.addSubviewWithoutTranslates(pickerView)
+        
+        NSLayoutConstraint.activate([
+            blurView.topAnchor.constraint(equalTo: view.topAnchor),
+            blurView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            blurView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            blurView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            pickerView.centerYAnchor.constraint(
+                equalTo: blurView.centerYAnchor
+            ),
+            pickerView.heightAnchor.constraint(
+                equalTo: blurView.heightAnchor, multiplier: 1.4/3
+            ),
+            pickerView.leadingAnchor.constraint(
+                equalTo: blurView.leadingAnchor, constant: 24
+            ),
+            pickerView.trailingAnchor.constraint(
+                equalTo: blurView.trailingAnchor, constant: -24
+            ),
+        ])
+        
+        updateViewConstraints()
+        
+        let recognizer = UITapGestureRecognizer()
+        recognizer.addTarget(self, action: #selector(didTapBlurView))
+        blurView.addGestureRecognizer(recognizer)
     }
 }
 
@@ -171,6 +216,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate,
 extension ProfileViewController {
     private func setupView() {
         view.backgroundColor = .custom.mainBackground
+        
         let buttonStack = UIStackView(
             subviews: [maleButton, femaleButton], axis: .horizontal,
             spacing: 16, aligment: .fill, distribution: .fillEqually
