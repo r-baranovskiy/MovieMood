@@ -63,6 +63,7 @@
 		80F22DC729E1FE6800F3C659 /* PhotoPickerMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */; };
 		80FBE9C129E2A4EC00849E13 /* GoogleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */; };
 		80FBE9C329E2AF1600849E13 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C229E2AF1600849E13 /* UIViewController + Extension.swift */; };
+		80FBE9C929E3234200849E13 /* ImageNetworkLoaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C829E3234200849E13 /* ImageNetworkLoaderManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -121,6 +122,7 @@
 		80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerMethodView.swift; sourceTree = "<group>"; };
 		80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleButton.swift; sourceTree = "<group>"; };
 		80FBE9C229E2AF1600849E13 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
+		80FBE9C829E3234200849E13 /* ImageNetworkLoaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNetworkLoaderManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,6 +311,7 @@
 				1E55F50429DC60E900CE4C5B /* NetworkManager.swift */,
 				1E55F50729DC61D500CE4C5B /* APIKey.swift */,
 				804CB41A29DC740700955FA9 /* HapticsManager.swift */,
+				80FBE9C829E3234200849E13 /* ImageNetworkLoaderManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -326,9 +329,9 @@
 			children = (
 				80AD557229D7884A00A8F1C3 /* MainTabBarController.swift */,
 				80AD559429D78B4500A8F1C3 /* SearchViewController.swift */,
-				80AD559629D78B6C00A8F1C3 /* FavoriteViewController.swift */,
 				80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */,
 				808E8CC029DAC9E8003DD106 /* HomeViewController.swift */,
+				80AD559629D78B6C00A8F1C3 /* FavoriteViewController.swift */,
 				8058C56B29E09A9C003C4757 /* SettingsViewController.swift */,
 			);
 			path = Core;
@@ -435,6 +438,7 @@
 				808119A329E03517001A0E4A /* GenderButton.swift in Sources */,
 				804CB41929DC73C000955FA9 /* CustomLabel.swift in Sources */,
 				57F9311829E0BC01009D9666 /* CollectionReusableViewHeader.swift in Sources */,
+				80FBE9C929E3234200849E13 /* ImageNetworkLoaderManager.swift in Sources */,
 				809BD0C729E1FC6800002069 /* PhotoPickerView.swift in Sources */,
 				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,
 				57CD4F2329DCAC12004B73F4 /* ReusableTableViewCell.swift in Sources */,

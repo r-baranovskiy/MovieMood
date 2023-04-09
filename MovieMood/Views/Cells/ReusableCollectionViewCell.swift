@@ -1,169 +1,257 @@
+import UIKit
+
 protocol ReusableCollectionViewCellDelegate: AnyObject {
-    func didTapAction()
     func didTapLike()
 }
 
-import UIKit
-
-class ReusableCollectionViewCell: UICollectionViewCell {
+final class MovieCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "ReusableCollectionViewCell"
+    static let identifier = "MovieCollectionViewCell"
     
     weak var delegate: ReusableCollectionViewCellDelegate?
     
-    var film : Movie? {
-        didSet{
-            movieImage.image = film?.movieImage
-            movieNameLabel.text = film?.movieName
-            durationLabel.text = film?.movieDuration
-            creatingDateLabel.text = film?.dateCreating
-        }
-    }
+    // MARK: - Properties
     
-    // MARK: - Creating UI elements
-    
-    private let movieImage : UIImageView = {
-        let img = UIImageView(image: UIImage(named: "mock-film-four"))
-        img.contentMode = .scaleToFill
-        img.translatesAutoresizingMaskIntoConstraints = false
-        return img
+    private let movieImageView : UIImageView = {
+        let view = UIImageView()
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 16
+        view.contentMode = .scaleAspectFill
+        return view
     }()
     
-    private let movieNameLabel : UILabel = {
-        let name = CustomLabel(withText: "", style: .title)
-        return name
-    }()
-    
-    private let likeButton : UIButton = {
+    private let likeButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "heart-icon"), for: .normal)
-        button.setTitle(nil, for: .normal)
-        button.tag = 0
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    private let timeIcon : UIImageView = {
-        let time = UIImageView(image: UIImage(named: "clock-icon"))
-        time.contentMode = .scaleToFill
-        time.translatesAutoresizingMaskIntoConstraints = false
-        return time
-    }()
+    private let movieNameLabel = UILabel(
+        font: .systemFont(ofSize: 18, weight: .bold),
+        textAlignment: .left, color: .label, numberOfLines: 2
+    )
     
-    private let durationLabel : UILabel = {
-        let duration = CustomLabel(withText: "", style: .subHead)
-        return duration
-    }()
+    private let durationLabel = UILabel(
+        font: .systemFont(ofSize: 12, weight: .medium),
+        textAlignment: .left, color: .custom.lightGray
+    )
     
-    private let dateIcon : UIImageView = {
-        let date = UIImageView(image: UIImage(named: "calendar-icon"))
-        date.contentMode = .scaleToFill
-        date.translatesAutoresizingMaskIntoConstraints = false
-        return date
-    }()
+    private let creatingDateLabel = UILabel(
+        font: .systemFont(ofSize: 12, weight: .medium),
+        textAlignment: .left, color: .custom.lightGray
+    )
     
-    private let creatingDateLabel : UILabel = {
-        let date = CustomLabel(withText: "", style: .subHead)
-        return date
-    }()
+    private let genreLabel = UILabel(
+        font: .systemFont(ofSize: 10, weight: .bold),
+        textAlignment: .center, color: .white
+    )
     
-    private let filmIcon : UIImageView = {
-        let film = UIImageView(image: UIImage(named: "film-icon"))
-        film.contentMode = .scaleToFill
-        film.translatesAutoresizingMaskIntoConstraints = false
-        return film
-    }()
-    
-    private let actionButton : UIButton = {
-        let btn =  BlueButton(withStyle: .ation)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
-    }()
-    
-        
-    // MARK: - Setting up UI
+    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame )
-        likeButton.addTarget(self, action: #selector(likeButtonPressed), for: .touchUpInside)
-        actionButton.addTarget(self, action: #selector(actionButtonPressed), for: .touchUpInside)
-
-        contentView.addSubview(movieImage)
-        contentView.addSubview(movieNameLabel)
-        contentView.addSubview(likeButton)
-        contentView.addSubview(timeIcon)
-        contentView.addSubview(durationLabel)
-        contentView.addSubview(dateIcon)
-        contentView.addSubview(creatingDateLabel)
-        contentView.addSubview(filmIcon)
-        contentView.addSubview(actionButton)
-        
-        setupContent()
+        setupCell()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupContent() {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        movieImageView.image = nil
+        movieNameLabel.text = nil
+        durationLabel.text = nil
+        genreLabel.text = nil
+    }
+    
+    func configure(url: URL?, movieName: String, duration: Int,
+                   creatingDate: String, genre: String) {
+        movieImageView.sd_setImage(with: url)
+        movieNameLabel.text = movieName
+        durationLabel.text = String(duration)
+        creatingDateLabel.text = creatingDate
+        genreLabel.text = genre
+    }
+    
+    // MARK: - Setup Cell
+    
+    private func setupCell() {
+        let descriptionView = createDesctiptionView()
+        
+        addSubviewWithoutTranslates(movieImageView, descriptionView)
+        
         NSLayoutConstraint.activate([
-            movieImage.topAnchor.constraint(equalTo: contentView.topAnchor),
-            movieImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 22),
-            movieImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            movieImage.widthAnchor.constraint(equalToConstant: 120),
-            movieImage.heightAnchor.constraint(equalToConstant: 160),
+            movieImageView.leadingAnchor.constraint(
+                equalTo: leadingAnchor, constant: 24
+            ),
+            movieImageView.widthAnchor.constraint(
+                equalTo: widthAnchor, multiplier: 1/3
+            ),
+            movieImageView.heightAnchor.constraint(
+                equalTo: movieImageView.widthAnchor, multiplier: 1.33
+            ),
             
-            movieNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            movieNameLabel.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 14),
-            
-            likeButton.topAnchor.constraint(equalTo: contentView.topAnchor),
-            likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25),
-            likeButton.widthAnchor.constraint(equalToConstant: 24),
-            likeButton.heightAnchor.constraint(equalToConstant: 24),
-            
-            timeIcon.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor, constant: 12),
-            timeIcon.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 14),
-            timeIcon.widthAnchor.constraint(equalToConstant: 16),
-            timeIcon.heightAnchor.constraint(equalToConstant: 16),
-            
-            durationLabel.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor, constant: 12),
-            durationLabel.leadingAnchor.constraint(equalTo: timeIcon.trailingAnchor, constant: 4),
-            
-            dateIcon.topAnchor.constraint(equalTo: timeIcon.bottomAnchor, constant: 12),
-            dateIcon.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 14),
-            dateIcon.widthAnchor.constraint(equalToConstant: 16),
-            dateIcon.heightAnchor.constraint(equalToConstant: 16),
-            
-            creatingDateLabel.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: 12),
-            creatingDateLabel.leadingAnchor.constraint(equalTo: dateIcon.trailingAnchor, constant: 4),
-            
-            filmIcon.topAnchor.constraint(equalTo: dateIcon.bottomAnchor, constant: 12),
-            filmIcon.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 14),
-            
-            actionButton.topAnchor.constraint(equalTo: dateIcon.bottomAnchor, constant: 12),
-            actionButton.leadingAnchor.constraint(equalTo: filmIcon.trailingAnchor, constant: 4),
-            actionButton.widthAnchor.constraint(equalToConstant: 65),
-            actionButton.heightAnchor.constraint(equalToConstant: 24),
-            
-
+            descriptionView.topAnchor.constraint(equalTo: topAnchor),
+            descriptionView.bottomAnchor.constraint(
+                equalTo: bottomAnchor, constant: -20
+            ),
+            descriptionView.leadingAnchor.constraint(
+                equalTo: movieImageView.trailingAnchor, constant: 15
+            ),
+            descriptionView.trailingAnchor.constraint(
+                equalTo: trailingAnchor, constant: -20
+            )
         ])
     }
-    
-    // MARK: - Buttons Methods
-    
-    @objc func actionButtonPressed() {
-        delegate?.didTapAction()
+}
+
+// MARK: - Genre View
+
+extension MovieCollectionViewCell {
+    private func createDesctiptionView() -> UIView {
+        let view = UIView()
+        
+        let firstView = UIView()
+        firstView.backgroundColor = .systemGreen
+        firstView.addSubviewWithoutTranslates(movieNameLabel, likeButton)
+        NSLayoutConstraint.activate([
+            likeButton.trailingAnchor.constraint(
+                equalTo: firstView.trailingAnchor
+            ),
+            likeButton.widthAnchor.constraint(equalToConstant: 22),
+            likeButton.heightAnchor.constraint(equalToConstant: 20),
+            likeButton.centerYAnchor.constraint(
+                equalTo: firstView.centerYAnchor)
+            ,
+            
+            movieNameLabel.leadingAnchor.constraint(
+                equalTo: firstView.leadingAnchor
+            ),
+            movieNameLabel.trailingAnchor.constraint(
+                equalTo: likeButton.leadingAnchor, constant: -20
+            )
+        ])
+        
+        let secondView = UIView()
+        let durationImageView = UIImageView(image: UIImage(named: "clock-icon"))
+        secondView.backgroundColor = .systemBlue
+        secondView.addSubviewWithoutTranslates(durationImageView, durationLabel)
+        NSLayoutConstraint.activate([
+            durationImageView.topAnchor.constraint(
+                equalTo: secondView.topAnchor
+            ),
+            durationImageView.bottomAnchor.constraint(
+                equalTo: secondView.bottomAnchor
+            ),
+            durationImageView.leadingAnchor.constraint(
+                equalTo: secondView.leadingAnchor
+            ),
+            
+            durationLabel.leadingAnchor.constraint(
+                equalTo: durationImageView.trailingAnchor, constant: 6
+            ),
+            durationLabel.trailingAnchor.constraint(
+                equalTo: secondView.trailingAnchor
+            )
+        ])
+        
+        let thirdView = UIView()
+        let dateImageView = UIImageView(image: UIImage(named: "calendar-icon"))
+        thirdView.backgroundColor = .orange
+        thirdView.addSubviewWithoutTranslates(dateImageView, creatingDateLabel)
+        NSLayoutConstraint.activate([
+            dateImageView.topAnchor.constraint(
+                equalTo: thirdView.topAnchor
+            ),
+            dateImageView.bottomAnchor.constraint(
+                equalTo: thirdView.bottomAnchor
+            ),
+            dateImageView.leadingAnchor.constraint(
+                equalTo: thirdView.leadingAnchor
+            ),
+            
+            creatingDateLabel.leadingAnchor.constraint(
+                equalTo: dateImageView.trailingAnchor, constant: 6
+            ),
+            creatingDateLabel.trailingAnchor.constraint(
+                equalTo: thirdView.trailingAnchor
+            )
+        ])
+        
+        let fourthView = UIView()
+        let genreView = createGenreView()
+        let movieImageView = UIImageView(image: UIImage(named: "film-icon"))
+        fourthView.backgroundColor = .systemYellow
+        fourthView.addSubviewWithoutTranslates(movieImageView, genreView)
+        NSLayoutConstraint.activate([
+            movieImageView.leadingAnchor.constraint(
+                equalTo: fourthView.leadingAnchor
+            ),
+            
+            movieImageView.centerYAnchor.constraint(
+                equalTo: fourthView.centerYAnchor
+            ),
+            
+            genreView.leadingAnchor.constraint(
+                equalTo: movieImageView.trailingAnchor, constant: 6
+            ),
+            genreView.widthAnchor.constraint(equalToConstant: 65),
+            genreView.heightAnchor.constraint(equalToConstant: 24),
+        ])
+        
+        view.addSubviewWithoutTranslates(
+            firstView, secondView, thirdView, fourthView
+        )
+        NSLayoutConstraint.activate([
+            firstView.topAnchor.constraint(equalTo: view.topAnchor),
+            firstView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            firstView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            firstView.heightAnchor.constraint(equalToConstant: 40),
+            
+            secondView.topAnchor.constraint(
+                equalTo: firstView.bottomAnchor, constant: 12
+            ),
+            secondView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            secondView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            thirdView.topAnchor.constraint(
+                equalTo: secondView.bottomAnchor, constant: 12
+            ),
+            thirdView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            thirdView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            fourthView.topAnchor.constraint(
+                equalTo: thirdView.bottomAnchor, constant: 12
+            ),
+            fourthView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            fourthView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            fourthView.heightAnchor.constraint(equalToConstant: 24)
+        ])
+        return view
     }
     
-    @objc func likeButtonPressed() {
-        delegate?.didTapLike()
+    private func createGenreView() -> UIView {
+        let genreView = UIView()
+        genreView.clipsToBounds = true
+        genreView.backgroundColor = .custom.mainBlue
+        genreView.layer.cornerRadius = 6
         
-        if likeButton.tag == 0 {
-            likeButton.setImage(UIImage(named: "heart-icon-fill"), for: .normal)
-            likeButton.tag = 1
-        } else {
-            likeButton.setImage(UIImage(named: "heart-icon"), for: .normal)
-            likeButton.tag = 0
-        }
+        genreView.addSubviewWithoutTranslates(genreLabel)
+        NSLayoutConstraint.activate([
+            genreLabel.topAnchor.constraint(
+                equalTo: genreView.topAnchor, constant: 3
+            ),
+            genreLabel.bottomAnchor.constraint(
+                equalTo: genreView.bottomAnchor, constant: -3
+            ),
+            genreLabel.leadingAnchor.constraint(
+                equalTo: genreView.leadingAnchor, constant: 10
+            ),
+            genreLabel.trailingAnchor.constraint(
+                equalTo: genreView.trailingAnchor, constant: -10
+            )
+        ])
+        return genreView
     }
 }

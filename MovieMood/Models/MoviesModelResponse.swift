@@ -14,4 +14,5 @@ struct MovieModel: Decodable {
     let title: String
     let release_date: String
     let genre_ids: [Int]
+    let poster_path: String
 }
