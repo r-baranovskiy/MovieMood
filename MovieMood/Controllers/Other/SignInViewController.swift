@@ -59,7 +59,7 @@ final class SignInViewController: UIViewController {
     
     /// Buttons
     private let continueButton = BlueButton(withStyle: .continueEmail)
-    private let googleButton = GIDSignInButton()
+    private let googleButton = GoogleButton(type: .system)
     private let dontHaveAccButton = DontHaveAccButton(type: .system)
     
     // MARK: - Lifecycle
@@ -68,6 +68,16 @@ final class SignInViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         addTargets()
+    }
+    
+    override func traitCollectionDidChange(
+        _ previousTraitCollection: UITraitCollection?
+    ) {
+        if (traitCollection.hasDifferentColorAppearance(
+            comparedTo: previousTraitCollection)
+        ) {
+            googleButton.layer.borderColor = UIColor.label.cgColor
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -103,7 +113,7 @@ final class SignInViewController: UIViewController {
                     )
                     self?.present(alert, animated: true)
                 }
-        }
+            }
     }
     
     @objc
@@ -170,11 +180,6 @@ extension SignInViewController {
             ),
             accountLabel.centerXAnchor.constraint(equalTo: topView.centerXAnchor)
         ])
-        
-        googleButton.colorScheme = .dark
-        googleButton.style = .wide
-        googleButton.layer.cornerRadius = 8
-        googleButton.clipsToBounds = true
         
         let stack = UIStackView(arrangedSubviews: [
             emailTextField, passwordTextField, continueButton,
