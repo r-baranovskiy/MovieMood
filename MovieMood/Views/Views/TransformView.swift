@@ -48,7 +48,7 @@ final class TransformView: UIView {
             currentOffset = 0
         }
         
-        let xDiff = xOffSet * 0.1 - currentOffset
+        let xDiff = xOffSet * 0.05 - currentOffset
         currentAngle += xDiff
         
         turnCarousel()
