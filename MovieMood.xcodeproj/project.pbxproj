@@ -57,6 +57,8 @@
 		80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */; };
 		80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559C29D78C0500A8F1C3 /* RealmManager.swift */; };
 		80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */; };
+		CE14E27629E2186D00DE269C /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE14E27529E2186D00DE269C /* SettingTableViewCell.swift */; };
+		CE14E27829E21B5C00DE269C /* HeaderSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE14E27729E21B5B00DE269C /* HeaderSectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +111,8 @@
 		80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		80AD559C29D78C0500A8F1C3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
+		CE14E27529E2186D00DE269C /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		CE14E27729E21B5B00DE269C /* HeaderSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderSectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				80182A8329DF5A43002B99DD /* TransformView.swift */,
+				CE14E27729E21B5B00DE269C /* HeaderSectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -167,6 +172,7 @@
 				57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */,
 				57D5C9E629DE05DF00C99198 /* ReusableCollectionViewCell.swift */,
 				8081199629E008C9001A0E4A /* CategoryCollectionViewCell.swift */,
+				CE14E27529E2186D00DE269C /* SettingTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -420,6 +426,7 @@
 				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,
 				57CD4F2329DCAC12004B73F4 /* ReusableTableViewCell.swift in Sources */,
 				57D5C9E729DE05DF00C99198 /* ReusableCollectionViewCell.swift in Sources */,
+				CE14E27629E2186D00DE269C /* SettingTableViewCell.swift in Sources */,
 				1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */,
 				80AD559729D78B6C00A8F1C3 /* FavoriteViewController.swift in Sources */,
 				803898C829DC7BCA00103156 /* SignInViewController.swift in Sources */,
@@ -436,6 +443,7 @@
 				8081199D29E00ADD001A0E4A /* UIView + Extension.swift in Sources */,
 				809FE97429DD7E74007EAF7A /* AuthError.swift in Sources */,
 				80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */,
+				CE14E27829E21B5C00DE269C /* HeaderSectionView.swift in Sources */,
 				80AD559329D78B2500A8F1C3 /* ProfileViewController.swift in Sources */,
 				80AD559929D78BAD00A8F1C3 /* DetailViewController.swift in Sources */,
 				80AD559129D78ACF00A8F1C3 /* AuthViewController.swift in Sources */,

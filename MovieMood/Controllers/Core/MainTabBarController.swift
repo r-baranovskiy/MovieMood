@@ -39,7 +39,7 @@ extension MainTabBarController {
                 viewController: FavoriteViewController(),
                 image: UIImage(named: "heart-icon")),
             generateVC(
-                viewController: ProfileViewController(user: currentUser),
+                viewController: SettingsViewController(user: currentUser),
                 image: UIImage(named: "profile-icon"))
         ]
     }
