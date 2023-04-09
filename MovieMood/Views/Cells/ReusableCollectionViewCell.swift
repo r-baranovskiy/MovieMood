@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ReusableCollectionViewCellDelegate: AnyObject {
+protocol MovieCollectionViewCellDelegate: AnyObject {
     func didTapLike()
 }
 
@@ -8,9 +8,16 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "MovieCollectionViewCell"
     
-    weak var delegate: ReusableCollectionViewCellDelegate?
+    weak var delegate: MovieCollectionViewCellDelegate?
     
     // MARK: - Properties
+    
+    private var isFavorite: Bool = false {
+        didSet {
+            let image = UIImage(named: isFavorite ? "heart-icon-fill" : "heart-icon")
+            likeButton.setBackgroundImage(image, for: .normal)
+        }
+    }
     
     private let movieImageView : UIImageView = {
         let view = UIImageView()
@@ -51,6 +58,8 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame )
         setupCell()
+        likeButton.addTarget(self, action: #selector(didTapLike),
+                             for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -67,11 +76,20 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     
     func configure(url: URL?, movieName: String, duration: Int,
                    creatingDate: String, genre: String) {
+        isFavorite = true
         movieImageView.sd_setImage(with: url)
         movieNameLabel.text = movieName
         durationLabel.text = String(duration)
         creatingDateLabel.text = creatingDate
         genreLabel.text = genre
+    }
+    
+    // MARK: - Behaviour
+    
+    @objc
+    private func didTapLike() {
+        delegate?.didTapLike()
+        isFavorite.toggle()
     }
     
     // MARK: - Setup Cell
@@ -113,7 +131,6 @@ extension MovieCollectionViewCell {
         let view = UIView()
         
         let firstView = UIView()
-        firstView.backgroundColor = .systemGreen
         firstView.addSubviewWithoutTranslates(movieNameLabel, likeButton)
         NSLayoutConstraint.activate([
             likeButton.trailingAnchor.constraint(
@@ -135,7 +152,6 @@ extension MovieCollectionViewCell {
         
         let secondView = UIView()
         let durationImageView = UIImageView(image: UIImage(named: "clock-icon"))
-        secondView.backgroundColor = .systemBlue
         secondView.addSubviewWithoutTranslates(durationImageView, durationLabel)
         NSLayoutConstraint.activate([
             durationImageView.topAnchor.constraint(
@@ -158,7 +174,6 @@ extension MovieCollectionViewCell {
         
         let thirdView = UIView()
         let dateImageView = UIImageView(image: UIImage(named: "calendar-icon"))
-        thirdView.backgroundColor = .orange
         thirdView.addSubviewWithoutTranslates(dateImageView, creatingDateLabel)
         NSLayoutConstraint.activate([
             dateImageView.topAnchor.constraint(
@@ -182,7 +197,6 @@ extension MovieCollectionViewCell {
         let fourthView = UIView()
         let genreView = createGenreView()
         let movieImageView = UIImageView(image: UIImage(named: "film-icon"))
-        fourthView.backgroundColor = .systemYellow
         fourthView.addSubviewWithoutTranslates(movieImageView, genreView)
         NSLayoutConstraint.activate([
             movieImageView.leadingAnchor.constraint(

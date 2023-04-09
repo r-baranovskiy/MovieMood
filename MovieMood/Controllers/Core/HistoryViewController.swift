@@ -48,22 +48,34 @@ final class HistoryViewController: UIViewController {
     }
 }
 
+extension HistoryViewController: MovieCollectionViewCellDelegate {
+    func didTapLike() {
+        print("Like")
+    }
+}
+
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
-extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension HistoryViewController: UICollectionViewDelegate,
+                                 UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         movies.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: MovieCollectionViewCell.identifier,
             for: indexPath) as? MovieCollectionViewCell else {
             return UICollectionViewCell()
         }
+        cell.delegate = self
         let movie = movies[indexPath.row]
-        let imageUrl = URL(string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path)")
-        
+        let imageUrl = URL(
+            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path)"
+        )
         cell.configure(url: imageUrl, movieName: movie.title,
                        duration: 0, creatingDate: movie.release_date,
                        genre: "Action")
@@ -79,10 +91,18 @@ extension HistoryViewController {
         
         view.addSubviewWithoutTranslates(movieColletionView)
         NSLayoutConstraint.activate([
-            movieColletionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            movieColletionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            movieColletionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            movieColletionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            movieColletionView.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor
+            ),
+            movieColletionView.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor
+            ),
+            movieColletionView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            movieColletionView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            )
         ])
     }
 }
