@@ -36,8 +36,9 @@ final class ChangePasswordViewController: UIViewController {
                 case .success:
                     let alert = UIAlertController.createAlert(
                         title: "Success",
-                        message: "The password has been changed"
-                    )
+                        message: "The password has been changed") { _ in
+                            self?.navigationController?.popViewController(animated: true)
+                        }
                     self?.present(alert, animated: true)
                 case .failure(let error):
                     let alert = UIAlertController.createAlert(
