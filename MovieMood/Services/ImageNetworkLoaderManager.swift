@@ -6,8 +6,8 @@ final class ImageNetworkLoaderManager {
     
     func fetchImageArray(movieModels: [MovieModel],
                          completion: @escaping (Result<[UIImage], Error>) -> Void) {
-        guard movieModels.count >= 10 else { return }
-        let movieModels = movieModels.shuffled()[0...9]
+        guard movieModels.count >= 15 else { return }
+        let movieModels = movieModels.shuffled()[0...14]
         var images = [UIImage]()
         let urls = movieModels.compactMap({
             URL(string: "https://image.tmdb.org/t/p/w500/\($0.poster_path)") })

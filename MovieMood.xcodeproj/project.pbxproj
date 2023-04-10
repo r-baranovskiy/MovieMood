@@ -15,8 +15,8 @@
 		286DD87129DDCECB00F201F2 /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286DD87029DDCECB00F201F2 /* DetailCollectionViewCell.swift */; };
 		286DD87329E1752800F201F2 /* CastAndCrewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286DD87229E1752800F201F2 /* CastAndCrewModel.swift */; };
 		286DD87529E1A8E400F201F2 /* MovieVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286DD87429E1A8E400F201F2 /* MovieVideoModel.swift */; };
-		57CD4F2329DCAC12004B73F4 /* ReusableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */; };
-		57D5C9E729DE05DF00C99198 /* ReusableCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D5C9E629DE05DF00C99198 /* ReusableCollectionViewCell.swift */; };
+		57CD4F2329DCAC12004B73F4 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CD4F2229DCAC12004B73F4 /* MovieTableViewCell.swift */; };
+		57D5C9E729DE05DF00C99198 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D5C9E629DE05DF00C99198 /* MovieCollectionViewCell.swift */; };
 		57F9311829E0BC01009D9666 /* CollectionReusableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F9311729E0BC01009D9666 /* CollectionReusableViewHeader.swift */; };
 		80182A8429DF5A43002B99DD /* TransformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80182A8329DF5A43002B99DD /* TransformView.swift */; };
 		80182A8629DF5A59002B99DD /* CGFloat + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80182A8529DF5A59002B99DD /* CGFloat + Extension.swift */; };
@@ -78,8 +78,8 @@
 		286DD87029DDCECB00F201F2 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		286DD87229E1752800F201F2 /* CastAndCrewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastAndCrewModel.swift; sourceTree = "<group>"; };
 		286DD87429E1A8E400F201F2 /* MovieVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieVideoModel.swift; sourceTree = "<group>"; };
-		57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableTableViewCell.swift; sourceTree = "<group>"; };
-		57D5C9E629DE05DF00C99198 /* ReusableCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCollectionViewCell.swift; sourceTree = "<group>"; };
+		57CD4F2229DCAC12004B73F4 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
+		57D5C9E629DE05DF00C99198 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		57F9311729E0BC01009D9666 /* CollectionReusableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableViewHeader.swift; sourceTree = "<group>"; };
 		80182A8329DF5A43002B99DD /* TransformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformView.swift; sourceTree = "<group>"; };
 		80182A8529DF5A59002B99DD /* CGFloat + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat + Extension.swift"; sourceTree = "<group>"; };
@@ -189,8 +189,8 @@
 			isa = PBXGroup;
 			children = (
 				80D0DDB629E43EA300C68B93 /* SettingTableViewCell.swift */,
-				57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */,
-				57D5C9E629DE05DF00C99198 /* ReusableCollectionViewCell.swift */,
+				57CD4F2229DCAC12004B73F4 /* MovieTableViewCell.swift */,
+				57D5C9E629DE05DF00C99198 /* MovieCollectionViewCell.swift */,
 				8081199629E008C9001A0E4A /* CategoryCollectionViewCell.swift */,
 			);
 			path = Cells;
@@ -452,9 +452,9 @@
 				80FBE9C929E3234200849E13 /* ImageNetworkLoaderManager.swift in Sources */,
 				809BD0C729E1FC6800002069 /* PhotoPickerView.swift in Sources */,
 				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,
-				57CD4F2329DCAC12004B73F4 /* ReusableTableViewCell.swift in Sources */,
+				57CD4F2329DCAC12004B73F4 /* MovieTableViewCell.swift in Sources */,
 				286DD87329E1752800F201F2 /* CastAndCrewModel.swift in Sources */,
-				57D5C9E729DE05DF00C99198 /* ReusableCollectionViewCell.swift in Sources */,
+				57D5C9E729DE05DF00C99198 /* MovieCollectionViewCell.swift in Sources */,
 				1E55F50C29DC6DC200CE4C5B /* MovieDetailResponse.swift in Sources */,
 				80AD559729D78B6C00A8F1C3 /* FavoriteViewController.swift in Sources */,
 				803898C829DC7BCA00103156 /* SignInViewController.swift in Sources */,

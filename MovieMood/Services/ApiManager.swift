@@ -26,7 +26,6 @@ extension ApiManager: ApiManagerProtocol {
     
     func fetchMovieDetail(with movieId: Int) async throws -> MovieDetailResponse {
         let urlString = "https://api.themoviedb.org/3/movie/\(movieId)?api_key=\(APIKey.apiKey)"
-        print(urlString)
         return try await networkManager.request(urlString: urlString)
     }
     

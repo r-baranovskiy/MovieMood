@@ -9,8 +9,9 @@ final class HomeViewController: UIViewController {
     
     //MARK: - Properties
     
-    private var filmCovers = [UIImage]()
+    private let currentUser: MovieUser
     
+    private var filmCovers = [UIImage]()
     private var movies = [MovieModel]()
     
     private var userImageView: UIImageView = {
@@ -35,7 +36,21 @@ final class HomeViewController: UIViewController {
         textAlignment: .left, color: .custom.lightGray
     )
     
-    private var topStackView = UIStackView()
+    private let animateContainerHeigh: CGFloat = 100
+    private let animateContainerView = UIView()
+    
+    private let moviesTableView: UITableView = {
+        let table = UITableView()
+        table.separatorStyle = .none
+        table.showsVerticalScrollIndicator = false
+        table.register(
+            MovieTableViewCell.self,
+            forCellReuseIdentifier: MovieTableViewCell.identifier
+        )
+        return table
+    }()
+    
+    // MARK: - Collection
     
     private let categoryCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -61,28 +76,43 @@ final class HomeViewController: UIViewController {
     
     private var categories = CategoryCellViewModel.fetchCategories()
     
+    // MARK: - Init
+    
+    init(currentUser: MovieUser) {
+        self.currentUser = currentUser
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setupCategoryCollection()
+        setDelegates()
         fetchMovies()
     }
     
-    private func setupCategoryCollection() {
+    private func setDelegates() {
         categoryCollection.delegate = self
         categoryCollection.dataSource = self
+        moviesTableView.delegate = self
+        moviesTableView.dataSource = self
     }
     
     // MARK: - Behaviour
-    
     
     private func fetchMovies() {
         Task {
             do {
                 movies = try await apiManager.fetchMovies().results
                 fetchFilmCovers()
+                await MainActor.run {
+                    moviesTableView.reloadData()
+                }
             } catch {
                 print(error.localizedDescription)
             }
@@ -91,16 +121,52 @@ final class HomeViewController: UIViewController {
     
     private func fetchFilmCovers() {
         ImageNetworkLoaderManager.shared.fetchImageArray(movieModels: movies) { [weak self] result in
-                switch result {
-                case .success(let images):
-                    self?.filmCovers = images
-                    DispatchQueue.main.async {
-                        self?.showHeaderFilms()
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
+            switch result {
+            case .success(let images):
+                self?.filmCovers = images
+                DispatchQueue.main.async {
+                    self?.showHeaderFilms()
                 }
+            case .failure(let error):
+                print(error.localizedDescription)
             }
+        }
+    }
+}
+
+// MARK: - UITableViewDelegate, UITableViewDataSource
+
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movie = movies[indexPath.row]
+        
+        let detailVC = DetailViewController(movieId: movie.id)
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        movies.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: MovieTableViewCell.identifier, for: indexPath
+        ) as? MovieTableViewCell else { return UITableViewCell() }
+        
+        let movie = movies[indexPath.row]
+        let imageUrl = URL(
+            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path)"
+        )
+        cell.configure(url: imageUrl, movieName: movie.title,
+                       duration: 120, genre: "Erotic",
+                       votesAmoutCount: 288, rate: 5.5)
+        return cell
     }
 }
 
@@ -145,23 +211,21 @@ extension HomeViewController: UICollectionViewDelegate,
 
 extension HomeViewController {
     private func showHeaderFilms() {
+        let height = animateContainerHeigh
+        
         let carouselView = TransformView(
-            images: filmCovers, imageSize: CGSize(width: 100, height: 150),
-            viewSize: CGSize(width: view.frame.width, height: 150)
-        )
-        
-        view.addSubviewWithoutTranslates(carouselView)
-        
-        NSLayoutConstraint.activate([
-            carouselView.topAnchor.constraint(
-                equalTo: topStackView.bottomAnchor, constant: 100
+            images: filmCovers,
+            imageSize: CGSize(
+                width: height * 0.66,
+                height: animateContainerHeigh
             ),
-            carouselView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            carouselView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            carouselView.heightAnchor.constraint(equalToConstant: 150)
-        ])
-        print(filmCovers.count)
-        updateViewConstraints()
+            viewSize: CGSize(
+                width: view.frame.width, height: animateContainerHeigh
+            )
+        )
+        animateContainerView.addSubview(carouselView)
+        carouselView.frame = animateContainerView.bounds
+        
     }
     
     private func setupView() {
@@ -171,14 +235,15 @@ extension HomeViewController {
             distribution: .fill
         )
         
-        topStackView = UIStackView(
+        let topStackView = UIStackView(
             subviews: [userImageView, labelsStackView], axis: .horizontal,
             spacing: 15, aligment: .leading, distribution: .fill
         )
         
         view.backgroundColor = .custom.mainBackground
         view.addSubviewWithoutTranslates(
-            topStackView, categoryCollection
+            topStackView, animateContainerView,
+            categoryCollection, moviesTableView
         )
         
         NSLayoutConstraint.activate([
@@ -192,15 +257,43 @@ extension HomeViewController {
                 equalTo: view.trailingAnchor, constant: 24
             ),
             topStackView.heightAnchor.constraint(equalToConstant: 40),
+            
+            animateContainerView.topAnchor.constraint(
+                equalTo: topStackView.bottomAnchor, constant: 50
+            ),
+            animateContainerView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            animateContainerView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            ),
+            animateContainerView.heightAnchor.constraint(
+                equalToConstant: animateContainerHeigh
+            )
         ])
         
         NSLayoutConstraint.activate([
-            //            categoryCollection.heightAnchor.constraint(equalToConstant: 50),
-            //            categoryCollection.topAnchor.constraint(
-            //                equalTo: carouselView.bottomAnchor, constant: 100
-            //            ),
-            //            categoryCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            //            categoryCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            categoryCollection.heightAnchor.constraint(equalToConstant: 50),
+            categoryCollection.topAnchor.constraint(
+                equalTo: animateContainerView.bottomAnchor, constant: 50
+            ),
+            categoryCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            categoryCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            moviesTableView.topAnchor.constraint(
+                equalTo: categoryCollection.bottomAnchor, constant: 10
+            ),
+            moviesTableView.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10
+            ),
+            moviesTableView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor, constant: 12
+            ),
+            moviesTableView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor, constant: -12
+            )
         ])
     }
 }
