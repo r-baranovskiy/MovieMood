@@ -8,25 +8,12 @@ struct SettingsSection {
 struct SettingsOption {
     let title: String
     let imageName: String
+    var type: OptionType = .simple
     let handler: (() -> Void)
 }
 
-enum SectionAttributes: String {
-    case profile = "Profile"
-    case changePassword = "Change Password"
-    case forgotPassword = "Forgot Password"
-    case darkMode = "Dark Mode"
-    
-    var imageName: String {
-        switch self {
-        case .profile:
-            return "person-icon"
-        case .changePassword:
-            return "lock-icon"
-        case .forgotPassword:
-            return "unlock-icon"
-        case .darkMode:
-            return "activity-icon"
-        }
-    }
+enum OptionType: String {
+    case darkMode = "isOnDarkMode"
+    case next
+    case simple
 }

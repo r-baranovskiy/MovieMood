@@ -47,7 +47,8 @@ final class SettingsViewController: UIViewController {
             SettingsSection(
                 title: "Personal Info", options: [
                     SettingsOption(
-                        title: "Profile", imageName: "person-icon", handler: {
+                        title: "Profile", imageName: "person-icon",
+                        type: .next, handler: {
                             self.showProfileVC()
                         }
                     )
@@ -56,7 +57,7 @@ final class SettingsViewController: UIViewController {
             SettingsSection(
                 title: "Security", options: [
                     SettingsOption(
-                        title: "ChangePassword", imageName: "lock-icon", handler: {
+                        title: "Change Password", imageName: "lock-icon", handler: {
                             print("Change")
                         }
                     ),
@@ -66,7 +67,8 @@ final class SettingsViewController: UIViewController {
                         }
                     ),
                     SettingsOption(
-                        title: "Dark Mode", imageName: "activity-icon", handler: {
+                        title: "Dark Mode", imageName: "activity-icon",
+                        type: .darkMode, handler: {
                             print("Dark")
                         }
                     )
@@ -110,6 +112,12 @@ final class SettingsViewController: UIViewController {
     }
 }
 
+extension SettingsViewController: SettingTableViewCellDelegate {
+    func didChangeDarkMode(_ isOn: Bool) {
+        UserDefaults.standard.set(isOn, forKey: OptionType.darkMode.rawValue)
+    }
+}
+
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -139,8 +147,10 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         ) as? SettingTableViewCell else { return UITableViewCell() }
         
         let option = sections[indexPath.section].options[indexPath.row]
-        
-        cell.configure(imageName: option.imageName, title: option.title)
+        cell.delegate = self
+        cell.configure(imageName: option.imageName,
+                       title: option.title,
+                       optionType: option.type)
         
         return cell
     }
@@ -200,7 +210,7 @@ extension SettingsViewController {
                 equalTo: view.leadingAnchor, constant: 24
             ),
             tableView.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor, constant: 24
+                equalTo: view.trailingAnchor, constant: -24
             ),
             tableView.bottomAnchor.constraint(
                 equalTo: view.bottomAnchor, constant: 20
