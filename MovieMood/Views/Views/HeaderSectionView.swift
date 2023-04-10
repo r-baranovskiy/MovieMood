@@ -2,29 +2,29 @@ import UIKit
 
 final class HeaderSectionView: UIView {
     
-    var sectionTitle: String? {
-        didSet {
-            titleLabel.text = sectionTitle
-        }
-    }
+    private let titleLabel = UILabel(
+        font: .systemFont(ofSize: 12, weight: .regular),
+        textAlignment: .left, color: .label
+    )
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        label.textColor = .black
-        return label
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(sectionTitle: String) {
+        self.titleLabel.text = sectionTitle
+        super.init(frame: .zero)
         
-        addSubview(titleLabel)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        addSubviewWithoutTranslates(titleLabel)
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(sectionTitle: String) {
+        titleLabel.text = sectionTitle
     }
 }

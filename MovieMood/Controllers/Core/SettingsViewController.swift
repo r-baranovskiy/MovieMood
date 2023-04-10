@@ -36,7 +36,7 @@ final class SettingsViewController: UIViewController {
             SettingTableViewCell.self,
             forCellReuseIdentifier: SettingTableViewCell.identifier
         )
-
+        
         return tableView
     }()
     
@@ -122,35 +122,14 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        /// Present ProfileViewController
-        if indexPath.section == 0 && indexPath.row == 0 {
-            let profileVC = ProfileViewController(user: currentUser)
-            profileVC.modalPresentationStyle = .fullScreen
-            present(profileVC, animated: true)
-        }
-        
-        /// Change Password
-        if indexPath.section == 1 && indexPath.row == 0 {
-            print("Change Password")
-        }
-        /// Forgot Password
-        if indexPath.section == 1 && indexPath.row == 1 {
-            print("Forgot Password")
-        }
+        let option = sections[indexPath.section].options[indexPath.row]
+        option.handler()
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerSectionView = HeaderSectionView()
-        if section == 0 {
-            headerSectionView.sectionTitle = "Personal Info"
-        } else {
-            headerSectionView.sectionTitle = "Security"
-        }
+        let section = sections[section]
+        let headerSectionView = HeaderSectionView(sectionTitle: section.title)
         return headerSectionView
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 20
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -165,6 +144,10 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
 }
 
 // MARK: - Setup View
@@ -178,7 +161,9 @@ extension SettingsViewController {
             spacing: 2, aligment: .fill, distribution: .fillEqually
         )
         
-        view.addSubviewWithoutTranslates(titleLabel, avatarImageView, profileStack, tableView)
+        view.addSubviewWithoutTranslates(
+            titleLabel, avatarImageView, profileStack, tableView
+        )
         
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -190,20 +175,36 @@ extension SettingsViewController {
         NSLayoutConstraint.activate([
             avatarImageView.heightAnchor.constraint(equalToConstant: 56),
             avatarImageView.widthAnchor.constraint(equalToConstant: 56),
-            avatarImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 30),
-            avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24)
+            avatarImageView.topAnchor.constraint(
+                equalTo: titleLabel.bottomAnchor, constant: 30
+            ),
+            avatarImageView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor, constant: 24
+            )
         ])
         
         NSLayoutConstraint.activate([
-            profileStack.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
-            profileStack.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 12)
+            profileStack.centerYAnchor.constraint(
+                equalTo: avatarImageView.centerYAnchor
+            ),
+            profileStack.leadingAnchor.constraint(
+                equalTo: avatarImageView.trailingAnchor, constant: 12)
+            
         ])
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 10),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: 24),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 20)
+            tableView.topAnchor.constraint(
+                equalTo: avatarImageView.bottomAnchor, constant: 10
+            ),
+            tableView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor, constant: 24
+            ),
+            tableView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor, constant: 24
+            ),
+            tableView.bottomAnchor.constraint(
+                equalTo: view.bottomAnchor, constant: 20
+            )
         ])
     }
 }
