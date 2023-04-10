@@ -36,7 +36,7 @@ extension MainTabBarController {
                 viewController: HistoryViewController(),
                 image: UIImage(named: "video-icon"), title: "Recent Watch"),
             generateVC(
-                viewController: HomeViewController(),
+                viewController: HomeViewController(currentUser: currentUser),
                 image: UIImage(), title: "Home"),
             generateVC(
                 viewController: FavoriteViewController(),
