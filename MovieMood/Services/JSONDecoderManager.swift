@@ -28,7 +28,6 @@ extension JSONDecoderManager: JSONDecoderManagerProtocol {
             let result = try decoder.decode(T.self, from: data)
             return result
         } catch {
-            print(error, error.localizedDescription)
             return nil
         }
     }

@@ -4,6 +4,8 @@ import SafariServices
 
 final class DetailViewController: UIViewController {
     
+    // MARK: - Properties
+    
     private let mainView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -181,15 +183,24 @@ final class DetailViewController: UIViewController {
     private var cast: [Cast] = []
     private var crew: [Crew] = []
     private var rating: Double?
-    private var videoID: String = ""
+    private var videoID: String? = nil
     
-        
+    private let movieId: Int
+    
+    init(movieId: Int) {
+        self.movieId = movieId
+        super.init(nibName: nil, bundle: nil)
+        configure(idMovie: movieId)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "\(DetailCollectionViewCell.self)")
-        
-        configure(idMovie: 1023313)
         setupUI()
     }
     
@@ -212,7 +223,10 @@ final class DetailViewController: UIViewController {
                 }
                 getStarsImage(with: rating ?? 0)
                 
-                videoID = movieVideo?.results[0].key ?? "XqZsoesa55w"
+                
+                if let movieId = movieVideo?.results[0].key {
+                    videoID = movieId
+                }
                 
                 cast = model?.cast ?? []
                 crew = model?.crew ?? []
@@ -222,8 +236,11 @@ final class DetailViewController: UIViewController {
     }
     
     @objc private func loadYouTubeVideo() {
-        guard let youTubeURL = URL(string: "https://www.youtube.com/watch?v=\(videoID)") else { return }
-        let safari = SFSafariViewController(url: youTubeURL)
+        guard let videoID = videoID,
+              let url = URL(
+                string: "https://www.youtube.com/watch?v=\(videoID)"
+              ) else { return }
+        let safari = SFSafariViewController(url: url)
         self.present(safari, animated: true)
     }
     
