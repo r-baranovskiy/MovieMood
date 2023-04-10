@@ -47,14 +47,6 @@ final class MovieTableViewCell: UITableViewCell {
         font: .systemFont(ofSize: 12, weight: .medium),
         textAlignment: .left, color: .custom.lightGray
     )
-//
-//    private let starIcon : UIImageView = {
-//        let star = UIImageView(image: UIImage(systemName: "star.fill"))
-//        star.tintColor = UIColor.CustomColor().goldColor
-//        star.contentMode = .scaleToFill
-//        star.translatesAutoresizingMaskIntoConstraints = false
-//        return star
-//    }()
     
     private let ratingLabel = UILabel(
         font: .systemFont(ofSize: 12, weight: .semibold),
@@ -87,13 +79,14 @@ final class MovieTableViewCell: UITableViewCell {
     }
     
     func configure(url: URL?, movieName: String, duration: Int,
-                   genre: String, votesAmoutCount: Int) {
+                   genre: String, votesAmoutCount: Int, rate: Double) {
         isFavorite = true
         movieImageView.sd_setImage(with: url)
         movieNameLabel.text = movieName
         durationLabel.text = String(duration)
         genreLabel.text = genre
-        votesAmountLabel.text = String(votesAmoutCount)
+        ratingLabel.text = String(rate)
+        votesAmountLabel.text = "(\(votesAmoutCount))"
     }
     
     // MARK: - Setup Content View
@@ -139,118 +132,103 @@ extension MovieTableViewCell {
         
         let view = UIView()
         
-//        let firstView = UIView()
-//        firstView.addSubviewWithoutTranslates(movieNameLabel, likeButton)
-//        NSLayoutConstraint.activate([
-//            likeButton.trailingAnchor.constraint(
-//                equalTo: firstView.trailingAnchor
-//            ),
-//            likeButton.widthAnchor.constraint(equalToConstant: 22),
-//            likeButton.heightAnchor.constraint(equalToConstant: 20),
-//            likeButton.centerYAnchor.constraint(
-//                equalTo: firstView.centerYAnchor)
-//            ,
-//
-//            movieNameLabel.leadingAnchor.constraint(
-//                equalTo: firstView.leadingAnchor
-//            ),
-//            movieNameLabel.trailingAnchor.constraint(
-//                equalTo: likeButton.leadingAnchor, constant: -20
-//            )
-//        ])
-//
-//        let secondView = UIView()
-//        let durationImageView = UIImageView(image: UIImage(named: "clock-icon"))
-//        secondView.addSubviewWithoutTranslates(durationImageView, durationLabel)
-//        NSLayoutConstraint.activate([
-//            durationImageView.topAnchor.constraint(
-//                equalTo: secondView.topAnchor
-//            ),
-//            durationImageView.bottomAnchor.constraint(
-//                equalTo: secondView.bottomAnchor
-//            ),
-//            durationImageView.leadingAnchor.constraint(
-//                equalTo: secondView.leadingAnchor
-//            ),
-//
-//            durationLabel.leadingAnchor.constraint(
-//                equalTo: durationImageView.trailingAnchor, constant: 6
-//            ),
-//            durationLabel.trailingAnchor.constraint(
-//                equalTo: secondView.trailingAnchor
-//            )
-//        ])
-//
-//        let thirdView = UIView()
-//        let dateImageView = UIImageView(image: UIImage(named: "calendar-icon"))
-//        thirdView.addSubviewWithoutTranslates(dateImageView, creatingDateLabel)
-//        NSLayoutConstraint.activate([
-//            dateImageView.topAnchor.constraint(
-//                equalTo: thirdView.topAnchor
-//            ),
-//            dateImageView.bottomAnchor.constraint(
-//                equalTo: thirdView.bottomAnchor
-//            ),
-//            dateImageView.leadingAnchor.constraint(
-//                equalTo: thirdView.leadingAnchor
-//            ),
-//
-//            creatingDateLabel.leadingAnchor.constraint(
-//                equalTo: dateImageView.trailingAnchor, constant: 6
-//            ),
-//            creatingDateLabel.trailingAnchor.constraint(
-//                equalTo: thirdView.trailingAnchor
-//            )
-//        ])
-//
-//        let fourthView = UIView()
-//        let genreView = createGenreView()
-//        let movieImageView = UIImageView(image: UIImage(named: "film-icon"))
-//        fourthView.addSubviewWithoutTranslates(movieImageView, genreView)
-//        NSLayoutConstraint.activate([
-//            movieImageView.leadingAnchor.constraint(
-//                equalTo: fourthView.leadingAnchor
-//            ),
-//
-//            movieImageView.centerYAnchor.constraint(
-//                equalTo: fourthView.centerYAnchor
-//            ),
-//
-//            genreView.leadingAnchor.constraint(
-//                equalTo: movieImageView.trailingAnchor, constant: 6
-//            ),
-//            genreView.widthAnchor.constraint(equalToConstant: 65),
-//            genreView.heightAnchor.constraint(equalToConstant: 24),
-//        ])
-//
-//        view.addSubviewWithoutTranslates(
-//            firstView, secondView, thirdView, fourthView
-//        )
-//        NSLayoutConstraint.activate([
-//            firstView.topAnchor.constraint(equalTo: view.topAnchor),
-//            firstView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            firstView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            firstView.heightAnchor.constraint(equalToConstant: 40),
-//
-//            secondView.topAnchor.constraint(
-//                equalTo: firstView.bottomAnchor, constant: 12
-//            ),
-//            secondView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            secondView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//
-//            thirdView.topAnchor.constraint(
-//                equalTo: secondView.bottomAnchor, constant: 12
-//            ),
-//            thirdView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            thirdView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//
-//            fourthView.topAnchor.constraint(
-//                equalTo: thirdView.bottomAnchor, constant: 12
-//            ),
-//            fourthView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            fourthView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            fourthView.heightAnchor.constraint(equalToConstant: 24)
-//        ])
+        let firstView = UIView()
+        firstView.addSubviewWithoutTranslates(genreLabel, likeButton)
+        NSLayoutConstraint.activate([
+            likeButton.trailingAnchor.constraint(
+                equalTo: firstView.trailingAnchor
+            ),
+            likeButton.widthAnchor.constraint(equalToConstant: 22),
+            likeButton.heightAnchor.constraint(equalToConstant: 20),
+            likeButton.centerYAnchor.constraint(
+                equalTo: firstView.centerYAnchor)
+            ,
+            
+            genreLabel.leadingAnchor.constraint(
+                equalTo: firstView.leadingAnchor
+            ),
+            genreLabel.trailingAnchor.constraint(
+                equalTo: likeButton.leadingAnchor, constant: -20
+            )
+        ])
+        
+        let secondView = UIView()
+        let durationImageView = UIImageView(image: UIImage(named: "clock-icon"))
+        secondView.addSubviewWithoutTranslates(durationImageView, durationLabel)
+        NSLayoutConstraint.activate([
+            durationImageView.topAnchor.constraint(
+                equalTo: secondView.topAnchor
+            ),
+            durationImageView.bottomAnchor.constraint(
+                equalTo: secondView.bottomAnchor
+            ),
+            durationImageView.leadingAnchor.constraint(
+                equalTo: secondView.leadingAnchor
+            ),
+            
+            durationLabel.leadingAnchor.constraint(
+                equalTo: durationImageView.trailingAnchor, constant: 6
+            ),
+            durationLabel.trailingAnchor.constraint(
+                equalTo: secondView.trailingAnchor
+            )
+        ])
+        
+        let thirdView = UIView()
+        let starImageView = UIImageView(image: UIImage(named: "star.fill")?
+            .withTintColor(.custom.goldColor))
+        
+        thirdView.addSubviewWithoutTranslates(
+            starImageView, ratingLabel, votesAmountLabel
+        )
+        NSLayoutConstraint.activate([
+            votesAmountLabel.trailingAnchor.constraint(
+                equalTo: thirdView.trailingAnchor
+            ),
+            ratingLabel.trailingAnchor.constraint(
+                equalTo: votesAmountLabel.leadingAnchor
+            ),
+            starImageView.trailingAnchor.constraint(
+                equalTo: ratingLabel.leadingAnchor, constant: -5
+            ),
+            starImageView.heightAnchor.constraint(equalToConstant: 12),
+            starImageView.widthAnchor.constraint(equalToConstant: 12)
+        ])
+        
+        view.addSubviewWithoutTranslates(
+            firstView, movieNameLabel, secondView, thirdView
+        )
+        NSLayoutConstraint.activate([
+            firstView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            firstView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            firstView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            firstView.heightAnchor.constraint(equalToConstant: 15),
+            
+            movieNameLabel.topAnchor.constraint(
+                equalTo: firstView.bottomAnchor, constant: 6
+            ),
+            movieNameLabel.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            movieNameLabel.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor, constant: -30
+            ),
+            movieNameLabel.heightAnchor.constraint(equalToConstant: 20),
+            
+            secondView.topAnchor.constraint(
+                equalTo: movieNameLabel.bottomAnchor, constant: 10
+            ),
+            secondView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            secondView.widthAnchor.constraint(
+                equalTo: view.widthAnchor, multiplier: 2/3
+            ),
+            
+            thirdView.centerYAnchor.constraint(equalTo: secondView.centerYAnchor),
+            thirdView.leadingAnchor.constraint(
+                equalTo: secondView.trailingAnchor
+            ),
+            thirdView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
         return view
     }
 }

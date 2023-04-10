@@ -155,7 +155,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path)"
         )
         cell.configure(url: imageUrl, movieName: movie.title,
-                       duration: 120, genre: "Erotic", votesAmoutCount: 288)
+                       duration: 120, genre: "Erotic",
+                       votesAmoutCount: 288, rate: 5.5)
         return cell
     }
 }
@@ -279,10 +280,10 @@ extension HomeViewController {
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10
             ),
             moviesTableView.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor, constant: 24
+                equalTo: view.leadingAnchor, constant: 12
             ),
             moviesTableView.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor, constant: -24
+                equalTo: view.trailingAnchor, constant: -12
             )
         ])
     }
