@@ -2,6 +2,8 @@ import UIKit
 
 final class SettingTableViewCell: UITableViewCell {
     
+    static let identifier = "SettingTableViewCell"
+    
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -52,8 +54,8 @@ final class SettingTableViewCell: UITableViewCell {
         
     }
     
-    func configure(image: UIImage, title: String) {
-        iconImageView.image = image
+    func configure(imageName: String, title: String) {
+        iconImageView.image = UIImage(named: imageName)
         titleLabel.text = title
         
         if title == "Profile" {

@@ -60,12 +60,14 @@
 		80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */; };
 		80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559C29D78C0500A8F1C3 /* RealmManager.swift */; };
 		80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */; };
+		80D0DDB129E40D3E00C68B93 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D0DDB029E40D3E00C68B93 /* SettingTableViewCell.swift */; };
 		80F22DC729E1FE6800F3C659 /* PhotoPickerMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */; };
 		80FBE9C129E2A4EC00849E13 /* GoogleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */; };
 		80FBE9C329E2AF1600849E13 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C229E2AF1600849E13 /* UIViewController + Extension.swift */; };
 		80FBE9C929E3234200849E13 /* ImageNetworkLoaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C829E3234200849E13 /* ImageNetworkLoaderManager.swift */; };
 		80FBE9CB29E360F200849E13 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9CA29E360F200849E13 /* SettingTableViewCell.swift */; };
 		80FBE9CD29E3613100849E13 /* HeaderSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9CC29E3613100849E13 /* HeaderSectionView.swift */; };
+		80FBE9D229E3692600849E13 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9D129E3692600849E13 /* SettingsSection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -121,12 +123,14 @@
 		80AD559A29D78BDF00A8F1C3 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		80AD559C29D78C0500A8F1C3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
+		80D0DDB029E40D3E00C68B93 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerMethodView.swift; sourceTree = "<group>"; };
 		80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleButton.swift; sourceTree = "<group>"; };
 		80FBE9C229E2AF1600849E13 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
 		80FBE9C829E3234200849E13 /* ImageNetworkLoaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNetworkLoaderManager.swift; sourceTree = "<group>"; };
 		80FBE9CA29E360F200849E13 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		80FBE9CC29E3613100849E13 /* HeaderSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeaderSectionView.swift; path = MovieMood/Views/Views/HeaderSectionView.swift; sourceTree = SOURCE_ROOT; };
+		80FBE9D129E3692600849E13 /* SettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +193,7 @@
 				80FBE9CA29E360F200849E13 /* SettingTableViewCell.swift */,
 				57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */,
 				57D5C9E629DE05DF00C99198 /* ReusableCollectionViewCell.swift */,
+				80D0DDB029E40D3E00C68B93 /* SettingTableViewCell.swift */,
 				8081199629E008C9001A0E4A /* CategoryCollectionViewCell.swift */,
 			);
 			path = Cells;
@@ -303,6 +308,7 @@
 				286DD87429E1A8E400F201F2 /* MovieVideoModel.swift */,
 				809FE97329DD7E74007EAF7A /* AuthError.swift */,
 				809FE97529DD7FAE007EAF7A /* MovieUser.swift */,
+				80FBE9D129E3692600849E13 /* SettingsSection.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -429,6 +435,7 @@
 				1E55F50829DC61D500CE4C5B /* APIKey.swift in Sources */,
 				80AD557329D7884A00A8F1C3 /* MainTabBarController.swift in Sources */,
 				1E55F50529DC60E900CE4C5B /* JSONDecoderManager.swift in Sources */,
+				80FBE9D229E3692600849E13 /* SettingsSection.swift in Sources */,
 				80AD558B29D7894A00A8F1C3 /* AuthManager.swift in Sources */,
 				80182A8429DF5A43002B99DD /* TransformView.swift in Sources */,
 				1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */,
@@ -436,6 +443,7 @@
 				804CB41829DC73C000955FA9 /* AppTextField.swift in Sources */,
 				804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */,
 				8081199729E008C9001A0E4A /* CategoryCollectionViewCell.swift in Sources */,
+				80D0DDB129E40D3E00C68B93 /* SettingTableViewCell.swift in Sources */,
 				80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */,
 				809FE97B29DD8F3E007EAF7A /* UIAlertController+ Extension.swift in Sources */,
 				286DD87129DDCECB00F201F2 /* DetailCollectionViewCell.swift in Sources */,
