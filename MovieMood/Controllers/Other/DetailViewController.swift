@@ -6,11 +6,7 @@ final class DetailViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let mainView: UIScrollView = {
-        let view = UIScrollView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let mainScrollView = UIScrollView()
     
     private let movieImageView: UIImageView = {
         let imageView = UIImageView()
@@ -19,35 +15,26 @@ final class DetailViewController: UIViewController {
         imageView.clipsToBounds = true
         return imageView
     }()
-    
-    private let nameMovieLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 24, weight: .bold)
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        return label
-    }()
+
+    private let movieNameLabel = UILabel(
+        font: .systemFont(ofSize: 24, weight: .bold),
+        textAlignment: .center, color: .label
+    )
     
     // Date
     private let dateImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "calendar-icon"))
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private let dateLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 12)
-        label.textColor = UIColor(red: 0.471, green: 0.51, blue: 0.541, alpha: 1)
-        return label
-    }()
+    private let dateLabel = UILabel(
+        font: .systemFont(ofSize: 12, weight: .medium),
+        textAlignment: .left, color: .custom.lightGray
+    )
     
     private let dateStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 6
         stackView.distribution = .fill
@@ -57,22 +44,17 @@ final class DetailViewController: UIViewController {
     // Time
     private let timeImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "clock-icon"))
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private let timeLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 12)
-        label.textColor = UIColor(red: 0.471, green: 0.51, blue: 0.541, alpha: 1)
-        return label
-    }()
-    
+    private let durationLabel = UILabel(
+        font: .systemFont(ofSize: 12, weight: .medium),
+        textAlignment: .left, color: .custom.lightGray
+    )
+
     private let timeStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 6
         stackView.distribution = .fill
@@ -82,22 +64,17 @@ final class DetailViewController: UIViewController {
     // Genre
     private let genreImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "film-icon"))
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private let genreLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 12)
-        label.textColor = UIColor(red: 0.471, green: 0.51, blue: 0.541, alpha: 1)
-        return label
-    }()
+    private let genreLabel = UILabel(
+        font: .systemFont(ofSize: 12, weight: .medium),
+        textAlignment: .left, color: .custom.lightGray
+    )
     
     private let genreStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 6
         stackView.distribution = .fill
@@ -106,7 +83,6 @@ final class DetailViewController: UIViewController {
     
     private let horizontalInformationStack: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 25
         stackView.distribution = .fillEqually
@@ -135,29 +111,24 @@ final class DetailViewController: UIViewController {
         return stackView
     }()
     
-    // Story Line
-    private let storyLineLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.text = "Story Line"
-        return label
-    }()
+    private let storyLineLabel = UILabel(
+        text: "Story Line", font: .systemFont(ofSize: 16, weight: .semibold),
+        textAlignment: .left, color: .label, numberOfLines: 0
+    )
     
     private let textView: UILabel = {
         let text = UILabel()
         text.font = .systemFont(ofSize: 14)
-        text.textColor = UIColor(red: 0.471, green: 0.51, blue: 0.541, alpha: 1)
+        text.textColor = .custom.lightGray
         text.numberOfLines = 0
         return text
     }()
     
     // Cast and Crew
-    private let castAndCrewLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.text = "Cast and Crew"
-        return label
-    }()
+    private let castAndCrewLabel = UILabel(
+        font: .systemFont(ofSize: 16, weight: .semibold),
+        textAlignment: .left, color: .label
+    )
     
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: setupFlowLayout())
@@ -210,10 +181,10 @@ final class DetailViewController: UIViewController {
             model = try? await apiManager.fetchCastAndCrew(with: idMovie)
             movieVideo = try? await apiManager.fetchMovieVideo(with: idMovie)
             await MainActor.run(body: {
-                nameMovieLabel.text = detailMovie?.title
+                movieNameLabel.text = detailMovie?.title
                 dateLabel.text = detailMovie?.release_date
                 if let time = detailMovie?.runtime {
-                    timeLabel.text = "\(time) Minutes"
+                    durationLabel.text = "\(time) Minutes"
                 }
                 genreLabel.text = detailMovie?.genres[0].name
                 textView.text = detailMovie?.overview
@@ -329,7 +300,7 @@ extension DetailViewController {
         dateStackView.addArrangedSubview(dateLabel)
         
         timeStackView.addArrangedSubview(timeImageView)
-        timeStackView.addArrangedSubview(timeLabel)
+        timeStackView.addArrangedSubview(durationLabel)
         
         genreStackView.addArrangedSubview(genreImageView)
         genreStackView.addArrangedSubview(genreLabel)
@@ -338,31 +309,25 @@ extension DetailViewController {
         horizontalInformationStack.addArrangedSubview(timeStackView)
         horizontalInformationStack.addArrangedSubview(genreStackView)
         
-        informationStackView.addArrangedSubview(nameMovieLabel)
+        informationStackView.addArrangedSubview(movieNameLabel)
         informationStackView.addArrangedSubview(horizontalInformationStack)
         informationStackView.addArrangedSubview(starsStackView)
         
-        view.addSubview(mainView)
+        view.addSubviewWithoutTranslates(mainScrollView)
+    
+        mainScrollView.addSubviewWithoutTranslates(
+            movieImageView, informationStackView, storyLineLabel, textView,
+            castAndCrewLabel, collectionView, watchButton
+        )
         
-        let subviews = [movieImageView,
-                        informationStackView,
-                        storyLineLabel,
-                        textView,
-                        castAndCrewLabel,
-                        collectionView,
-                        watchButton]
-        subviews.forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            mainView.addSubview($0)
-        }
         
         NSLayoutConstraint.activate([
-            mainView.topAnchor.constraint(equalTo: view.topAnchor),
-            mainView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            mainView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            mainView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            mainScrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            mainScrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            mainScrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            mainScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            movieImageView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 40),
+            movieImageView.topAnchor.constraint(equalTo: mainScrollView.topAnchor, constant: 40),
             movieImageView.heightAnchor.constraint(equalToConstant: 300),
             movieImageView.widthAnchor.constraint(equalToConstant: 225),
             movieImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -390,7 +355,7 @@ extension DetailViewController {
             watchButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             watchButton.widthAnchor.constraint(equalToConstant: 181),
             watchButton.heightAnchor.constraint(equalToConstant: 56),
-            watchButton.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -20)
+            watchButton.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -20)
         ])
     }
 }
