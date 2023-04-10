@@ -41,12 +41,12 @@ final class HomeViewController: UIViewController {
     
     private let moviesTableView: UITableView = {
         let table = UITableView()
+        table.separatorStyle = .none
+        table.showsVerticalScrollIndicator = false
         table.register(
             MovieTableViewCell.self,
             forCellReuseIdentifier: MovieTableViewCell.identifier
         )
-        
-        table.backgroundColor = .systemRed
         return table
     }()
     
@@ -137,6 +137,10 @@ final class HomeViewController: UIViewController {
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         movies.count
     }
@@ -146,6 +150,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             withIdentifier: MovieTableViewCell.identifier, for: indexPath
         ) as? MovieTableViewCell else { return UITableViewCell() }
         
+        let movie = movies[indexPath.row]
+        let imageUrl = URL(
+            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path)"
+        )
+        cell.configure(url: imageUrl, movieName: movie.title,
+                       duration: 120, genre: "Erotic", votesAmoutCount: 288)
         return cell
     }
 }
@@ -263,10 +273,10 @@ extension HomeViewController {
         
         NSLayoutConstraint.activate([
             moviesTableView.topAnchor.constraint(
-                equalTo: categoryCollection.bottomAnchor, constant: 24
+                equalTo: categoryCollection.bottomAnchor, constant: 10
             ),
             moviesTableView.bottomAnchor.constraint(
-                equalTo: view.bottomAnchor, constant: -10
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10
             ),
             moviesTableView.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor, constant: 24

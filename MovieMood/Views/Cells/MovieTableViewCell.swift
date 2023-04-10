@@ -23,7 +23,7 @@ final class MovieTableViewCell: UITableViewCell {
         let view = UIImageView()
         view.clipsToBounds = true
         view.layer.cornerRadius = 8
-        view.contentMode = .scaleAspectFill
+        view.contentMode = .scaleToFill
         return view
     }()
     
@@ -70,6 +70,7 @@ final class MovieTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViewContent()
     }
     
     required init?(coder: NSCoder) {
@@ -112,6 +113,9 @@ final class MovieTableViewCell: UITableViewCell {
             movieImageView.heightAnchor.constraint(
                 equalTo: movieImageView.widthAnchor
             ),
+            movieImageView.centerYAnchor.constraint(
+                equalTo: centerYAnchor
+            ),
             
             descriptionView.topAnchor.constraint(
                 equalTo: topAnchor, constant: 10
@@ -131,6 +135,8 @@ final class MovieTableViewCell: UITableViewCell {
 
 extension MovieTableViewCell {
     private func createDesctiptionView() -> UIView {
+        selectionStyle = .none
+        
         let view = UIView()
         
 //        let firstView = UIView()
