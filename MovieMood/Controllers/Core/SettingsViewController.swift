@@ -28,6 +28,8 @@ final class SettingsViewController: UIViewController {
         textAlignment: .center, color: .label
     )
     
+    private let logOutButton = BlueButton(withStyle: .logout)
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
@@ -59,7 +61,7 @@ final class SettingsViewController: UIViewController {
                 title: "Security", options: [
                     SettingsOption(
                         title: "Change Password", imageName: "lock-icon", handler: {
-                            print("Change")
+                            self.showChangePasswordVC()
                         }
                     ),
                     SettingsOption(
@@ -99,17 +101,48 @@ final class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setTargets()
         tableView.delegate = self
         tableView.dataSource = self
     }
     
+    private func setTargets() {
+        logOutButton.addTarget(self, action: #selector(didTapLogOut),
+                               for: .touchUpInside)
+    }
+    
     // MARK: - Actions
+    
+    @objc
+    private func didTapLogOut() {
+        AuthManager.shared.logOut { [weak self] result in
+            switch result {
+            case .success(let success):
+                if success {
+                    let signInVC = SignInViewController()
+                    signInVC.modalTransitionStyle = .crossDissolve
+                    signInVC.modalPresentationStyle = .fullScreen
+                    self?.present(signInVC, animated: true)
+                }
+            case .failure(let error):
+                let alert = UIAlertController.createAlert(
+                    title: "Error", message: error.localizedDescription
+                )
+                self?.present(alert, animated: true)
+            }
+        }
+    }
     
     private func showProfileVC() {
         let profileVC = ProfileViewController(user: currentUser)
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(profileVC, animated: true)
         }
+    }
+    
+    private func showChangePasswordVC() {
+        let changePasswordVC = ChangePasswordViewController()
+        navigationController?.pushViewController(changePasswordVC, animated: true)
     }
 }
 
@@ -174,7 +207,7 @@ extension SettingsViewController {
         )
         
         view.addSubviewWithoutTranslates(
-            titleLabel, avatarImageView, profileStack, tableView
+            titleLabel, avatarImageView, profileStack, tableView, logOutButton
         )
         
         NSLayoutConstraint.activate([
@@ -205,6 +238,18 @@ extension SettingsViewController {
         ])
         
         NSLayoutConstraint.activate([
+            logOutButton.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -17
+            ),
+            logOutButton.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor, constant: 24
+            ),
+            logOutButton.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor, constant: -24
+            )
+        ])
+        
+        NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(
                 equalTo: avatarImageView.bottomAnchor, constant: 10
             ),
@@ -215,7 +260,7 @@ extension SettingsViewController {
                 equalTo: view.trailingAnchor, constant: -24
             ),
             tableView.bottomAnchor.constraint(
-                equalTo: view.bottomAnchor, constant: 20
+                equalTo: logOutButton.topAnchor, constant: -20
             )
         ])
     }

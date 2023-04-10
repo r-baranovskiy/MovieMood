@@ -9,7 +9,6 @@ final class ChangePasswordViewController: UIViewController {
     private let newPasswordTextField = AppTextField(forStyle: .newPassword)
     private let confirmTextField = AppTextField(forStyle: .confirmPassword)
     
-    private let logOutButton = BlueButton(withStyle: .logout)
     private let changeButton = BlueButton(withStyle: .change)
     
     override func viewDidLoad() {
@@ -21,34 +20,12 @@ final class ChangePasswordViewController: UIViewController {
     // MARK: - Behaviour
     
     private func addTargets() {
-        logOutButton.addTarget(self, action: #selector(didTapLogOut),
-                               for: .touchUpInside)
         changeButton.addTarget(self, action: #selector(didTapChange),
                                for: .touchUpInside)
     }
     
     // MARK: - Actions
-    
-    @objc
-    private func didTapLogOut() {
-        AuthManager.shared.logOut { [weak self] result in
-            switch result {
-            case .success(let success):
-                if success {
-                    let signInVC = SignInViewController()
-                    signInVC.modalTransitionStyle = .crossDissolve
-                    signInVC.modalPresentationStyle = .fullScreen
-                    self?.present(signInVC, animated: true)
-                }
-            case .failure(let error):
-                let alert = UIAlertController.createAlert(
-                    title: "Error", message: error.localizedDescription
-                )
-                self?.present(alert, animated: true)
-            }
-        }
-    }
-    
+        
     @objc
     private func didTapChange() {
         AuthManager.shared.changePassword(
@@ -84,7 +61,7 @@ extension ChangePasswordViewController {
         let stack = UIStackView(
             subviews: [
                 passwordTextField, newPasswordTextField, confirmTextField,
-                changeButton, logOutButton
+                changeButton
             ],
             axis: .vertical, spacing: 16, aligment: .fill,
             distribution: .equalSpacing
