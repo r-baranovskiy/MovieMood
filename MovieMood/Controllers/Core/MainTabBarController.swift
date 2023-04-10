@@ -54,6 +54,7 @@ extension MainTabBarController {
                             title: String) -> UINavigationController {
         viewController.tabBarItem.image = image
         let navVC = UINavigationController(rootViewController: viewController)
+        navVC.navigationBar.tintColor = .label
         viewController.navigationItem.title = title
         return navVC
     }

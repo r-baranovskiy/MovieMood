@@ -45,7 +45,7 @@ final class SettingTableViewCell: UITableViewCell {
     
     private func setupView() {
         contentView.addSubviewWithoutTranslates(iconImageView, titleLabel)
-        
+        backgroundColor = .clear
         NSLayoutConstraint.activate([
             iconImageView.centerYAnchor.constraint(
                 equalTo: contentView.centerYAnchor

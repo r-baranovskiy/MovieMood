@@ -18,7 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     window.rootViewController = SignInViewController()
                 }
             }
-
+        let darkMode = UserDefaults.standard.bool(forKey: OptionType.darkMode.rawValue)
+        window.overrideUserInterfaceStyle = darkMode ? .dark : .light
         window.makeKeyAndVisible()
         self.window = window
         return true

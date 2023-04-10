@@ -30,6 +30,7 @@ final class SettingsViewController: UIViewController {
     
     private let tableView: UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         tableView.register(
@@ -115,6 +116,7 @@ final class SettingsViewController: UIViewController {
 extension SettingsViewController: SettingTableViewCellDelegate {
     func didChangeDarkMode(_ isOn: Bool) {
         UserDefaults.standard.set(isOn, forKey: OptionType.darkMode.rawValue)
+        view.window?.overrideUserInterfaceStyle = isOn ? .dark : .light
     }
 }
 
