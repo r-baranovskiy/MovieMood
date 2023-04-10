@@ -40,7 +40,6 @@ final class ProfileViewController: UIViewController {
     private let saveButton = BlueButton(withStyle: .saveChanges)
     private let maleButton = GenderButton(sex: .male)
     private let femaleButton = GenderButton(sex: .female)
-    private let testButton = BlueButton(withStyle: .ation)
     
     // MARK: - Init
     
@@ -79,7 +78,6 @@ final class ProfileViewController: UIViewController {
     // MARK: - Behaviour
     
     private func addTargets() {
-        testButton.addTarget(self, action: #selector(didTapTest), for: .touchUpInside)
         maleButton.addTarget(self, action: #selector(didChangeGender(_:)),
                              for: .touchUpInside)
         femaleButton.addTarget(self, action: #selector(didChangeGender(_:)),
@@ -108,13 +106,7 @@ final class ProfileViewController: UIViewController {
     private func didTapBlurView() {
         blurView.removeFromSuperview()
     }
-    
-    @objc
-    private func didTapTest() {
-        let vc = ChangePasswordViewController()
-        present(vc, animated: true)
-    }
-    
+
     @objc
     private func didTapAvatar() {
         DispatchQueue.main.async {
@@ -225,7 +217,7 @@ extension ProfileViewController {
         let stack = UIStackView(
             subviews: [
                 firstNameField, lastNameField, emailField,
-                buttonStack, saveButton, testButton],
+                buttonStack, saveButton],
             axis: .vertical, spacing: 16, aligment: .fill,
             distribution: .equalSpacing
         )

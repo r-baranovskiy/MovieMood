@@ -58,6 +58,7 @@ final class ChangePasswordViewController: UIViewController {
 extension ChangePasswordViewController {
     private func setupView() {
         view.backgroundColor = .custom.mainBackground
+        title = "Change Password"
         
         let stack = UIStackView(
             subviews: [

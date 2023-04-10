@@ -85,9 +85,12 @@ final class SettingsViewController: UIViewController {
     init(user: MovieUser) {
         currentUser = user
         super.init(nibName: nil, bundle: nil)
-        guard let firstName = currentUser.firstName else { return }
-        guard let lastName = currentUser.lastName else { return }
-        nameLabel.text = "\(firstName) \(lastName)"
+        if let firstName = currentUser.firstName {
+            nameLabel.text = firstName
+        }
+        if let lastName = currentUser.lastName {
+            nameLabel.text?.append(" \(lastName)")
+        }
         emailLabel.text = currentUser.email
         avatarImageView.sd_setImage(with: currentUser.avatarImageUrl)
     }
@@ -104,6 +107,11 @@ final class SettingsViewController: UIViewController {
         setTargets()
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        avatarImageView.layer.cornerRadius = avatarImageView.frame.height / 2
     }
     
     private func setTargets() {
@@ -201,6 +209,7 @@ extension SettingsViewController {
     
     private func setupView() {
         view.backgroundColor = .custom.mainBackground
+        
         let profileStack = UIStackView(
             subviews: [nameLabel, emailLabel], axis: .vertical,
             spacing: 2, aligment: .fill, distribution: .fillEqually

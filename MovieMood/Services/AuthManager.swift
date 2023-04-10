@@ -148,6 +148,7 @@ final class AuthManager {
                     completion(.failure(AuthError.unknownError))
                     return
                 }
+                
                 let movieUser = MovieUser(id: user.uid,
                                           firstName: user.displayName ?? "Guest",
                                           email: user.email ?? "",
