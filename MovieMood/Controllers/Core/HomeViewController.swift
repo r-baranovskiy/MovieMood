@@ -36,7 +36,7 @@ final class HomeViewController: UIViewController {
         textAlignment: .left, color: .custom.lightGray
     )
     
-    private let animateContainerHeigh: CGFloat = 150
+    private let animateContainerHeigh: CGFloat = 100
     private let animateContainerView = UIView()
     
     private let moviesTableView: UITableView = {
@@ -249,7 +249,7 @@ extension HomeViewController {
             topStackView.heightAnchor.constraint(equalToConstant: 40),
             
             animateContainerView.topAnchor.constraint(
-                equalTo: topStackView.bottomAnchor, constant: 100
+                equalTo: topStackView.bottomAnchor, constant: 50
             ),
             animateContainerView.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor
@@ -265,7 +265,7 @@ extension HomeViewController {
         NSLayoutConstraint.activate([
             categoryCollection.heightAnchor.constraint(equalToConstant: 50),
             categoryCollection.topAnchor.constraint(
-                equalTo: animateContainerView.bottomAnchor, constant: 80
+                equalTo: animateContainerView.bottomAnchor, constant: 50
             ),
             categoryCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             categoryCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor)
