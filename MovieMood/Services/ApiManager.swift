@@ -5,6 +5,7 @@ protocol ApiManagerProtocol {
     func fetchMovieDetail(with movieId: Int) async throws -> MovieDetail
     func fetchCastAndCrew(with movieId: Int) async throws -> CastAndCrew
     func fetchMovieVideo(with movieId: Int) async throws -> MovieVideoModel
+    func fetchSearchMovies(with movieName: String) async throws -> Movie
 }
 
 final class ApiManager {
@@ -36,6 +37,11 @@ extension ApiManager: ApiManagerProtocol {
     
     func fetchMovieVideo(with movieId: Int) async throws -> MovieVideoModel {
         let urlString = "https://api.themoviedb.org/3/movie/\(movieId)/videos?api_key=\(APIKey.apiKey)"
+        return try await networkManager.request(urlString: urlString)
+    }
+    
+    func fetchSearchMovies(with movieName: String) async throws -> Movie {
+        let urlString = "https://api.themoviedb.org/3/search/movie?query=\(movieName)&api_key=\(APIKey.apiKey)"
         return try await networkManager.request(urlString: urlString)
     }
 }

@@ -172,6 +172,9 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "\(DetailCollectionViewCell.self)")
+        title = "Movie Detail"
+        //navigationItem.backBarButtonItem?.image = UIImage(named: "back-button-icon")
+        navigationController?.navigationBar.backItem?.backBarButtonItem?.image = UIImage(named: "back-button-icon")
         setupUI()
     }
     
@@ -186,7 +189,9 @@ final class DetailViewController: UIViewController {
                 if let time = detailMovie?.runtime {
                     durationLabel.text = "\(time) Minutes"
                 }
-                genreLabel.text = detailMovie?.genres[0].name
+                if let name = detailMovie?.genres, !name.isEmpty {
+                    genreLabel.text = name[0].name
+                }
                 textView.text = detailMovie?.overview
                 rating = detailMovie?.vote_average
                 if let poster = detailMovie?.poster_path {
@@ -194,9 +199,8 @@ final class DetailViewController: UIViewController {
                 }
                 getStarsImage(with: rating ?? 0)
                 
-                
-                if let movieId = movieVideo?.results[0].key {
-                    videoID = movieId
+                if let movieId = movieVideo?.results, !movieId.isEmpty {
+                    videoID = movieId[0].key
                 }
                 
                 cast = model?.cast ?? []

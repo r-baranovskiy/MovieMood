@@ -2,16 +2,73 @@ import UIKit
 
 final class SearchViewController: UIViewController {
     
+    // MARK: - Collection View
+    
+    private lazy var movieColletionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(
+            width: view.frame.width,
+            height: view.frame.width / 2)
+        layout.scrollDirection = .vertical
+        let collection = UICollectionView(
+            frame: .zero,collectionViewLayout: layout
+        )
+        collection.register(
+            MovieCollectionViewCell.self,
+            forCellWithReuseIdentifier: MovieCollectionViewCell.identifier
+        )
+        collection.delegate = self
+        collection.dataSource = self
+        return collection
+    }()
+    
     //MARK: - Private Properties
     private let searchMovie = MovieSearchTextField()
     private let crossButton = CrossButton()
     private let filterButton = FilterButton()
     private let searchImageView = SearchView(frame: CGRect())
     
+    private var movies = [MovieModel]()
+    private let apiManager = ApiManager(
+        networkManager: NetworkManager(jsonService: JSONDecoderManager())
+    )
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchMovie.delegate = self
         setupSearchUI()
         addAction()
+        setupCollectionView()
+        fetchMovies()
+
+        endEditing()
+    }
+    
+    private func fetchSearchMovies(with movie: String) {
+        Task {
+            do {
+                movies = try await apiManager.fetchSearchMovies(with: movie).results
+                await MainActor.run(body: {
+                    movieColletionView.reloadData()
+                })
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    private func fetchMovies() {
+        Task {
+            do {
+                movies = try await apiManager.fetchMovies().results
+                await MainActor.run(body: {
+                    movieColletionView.reloadData()
+                })
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
     
     private func addAction() {
@@ -20,7 +77,8 @@ final class SearchViewController: UIViewController {
     }
     
     @objc private func crossButtonTapped() {
-        
+        searchMovie.text = ""
+        searchMovie.endEditing(true)
     }
     
     @objc private func filterButtonTapped() {
@@ -29,19 +87,84 @@ final class SearchViewController: UIViewController {
     
 }
 
+extension SearchViewController: MovieCollectionViewCellDelegate {
+    func didTapLike() {
+        print("Like")
+    }
+}
+
+//MARK: - UITextFieldDelegate
+extension SearchViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let movie = textField.text, movie.count != 0 else { return true }
+        fetchSearchMovies(with: movie)
+        textField.text = ""
+        textField.endEditing(true)
+        return true
+    }
+    
+    func endEditing() {
+        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
+        view.addGestureRecognizer(tapGesture)
+    }
+}
+
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
+extension SearchViewController: UICollectionViewDelegate,
+                                 UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        movies.count
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: MovieCollectionViewCell.identifier,
+            for: indexPath) as? MovieCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        cell.delegate = self
+        let movie = movies[indexPath.row]
+        let imageUrl = URL(
+            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
+        )
+        cell.configure(url: imageUrl, movieName: movie.title,
+                       duration: 0, creatingDate: movie.release_date,
+                       genre: "Action")
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Click")
+        let movie = movies[indexPath.item]
+        let detailVC = DetailViewController(movieId: movie.id)
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
+    }
+}
+
 //MARK: - SetupUI
 extension SearchViewController {
     
-    private func setupSearchUI() {
-        view.addSubview(searchMovie)
-        view.addSubview(crossButton)
-        view.addSubview(filterButton)
-        view.addSubview(searchImageView)
+    private func setupCollectionView() {
+        view.backgroundColor = .custom.mainBackground
+        view.addSubviewWithoutTranslates(movieColletionView)
         
-        searchMovie.translatesAutoresizingMaskIntoConstraints = false
-        crossButton.translatesAutoresizingMaskIntoConstraints = false
-        filterButton.translatesAutoresizingMaskIntoConstraints = false
-        searchImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            
+            movieColletionView.topAnchor.constraint(equalTo: searchMovie.bottomAnchor, constant: 30),
+            movieColletionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            movieColletionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            movieColletionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+    
+    private func setupSearchUI() {
+        view.addSubviewWithoutTranslates(searchMovie, crossButton, filterButton, searchImageView)
         
         NSLayoutConstraint.activate([
             searchMovie.topAnchor.constraint(equalTo: navigationItem.titleView?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor, constant: 35),

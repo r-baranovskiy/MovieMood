@@ -74,7 +74,7 @@ extension HistoryViewController: UICollectionViewDelegate,
         cell.delegate = self
         let movie = movies[indexPath.row]
         let imageUrl = URL(
-            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path)"
+            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
         )
         cell.configure(url: imageUrl, movieName: movie.title,
                        duration: 0, creatingDate: movie.release_date,
