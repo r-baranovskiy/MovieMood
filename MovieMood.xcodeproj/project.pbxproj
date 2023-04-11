@@ -51,6 +51,7 @@
 		809FE97B29DD8F3E007EAF7A /* UIAlertController+ Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809FE97A29DD8F3E007EAF7A /* UIAlertController+ Extension.swift */; };
 		80A2E61129E560C3001AF7C6 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8066744429E53F2100881DD9 /* RealmSwift */; };
 		80A2E61329E56122001AF7C6 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A2E61229E56122001AF7C6 /* UserModel.swift */; };
+		80A2E61629E56A64001AF7C6 /* MovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A2E61529E56A64001AF7C6 /* MovieModel.swift */; };
 		80AD556F29D7884A00A8F1C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD556E29D7884A00A8F1C3 /* AppDelegate.swift */; };
 		80AD557329D7884A00A8F1C3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD557229D7884A00A8F1C3 /* MainTabBarController.swift */; };
 		80AD557829D7884C00A8F1C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80AD557729D7884C00A8F1C3 /* Assets.xcassets */; };
@@ -115,6 +116,7 @@
 		809FE97729DD8B92007EAF7A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		809FE97A29DD8F3E007EAF7A /* UIAlertController+ Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+ Extension.swift"; sourceTree = "<group>"; };
 		80A2E61229E56122001AF7C6 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		80A2E61529E56A64001AF7C6 /* MovieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieModel.swift; sourceTree = "<group>"; };
 		80AD556B29D7884A00A8F1C3 /* MovieMood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieMood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80AD556E29D7884A00A8F1C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80AD557229D7884A00A8F1C3 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -213,7 +215,6 @@
 		8066744229E5386800881DD9 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				80A2E61229E56122001AF7C6 /* UserModel.swift */,
 				809FE97329DD7E74007EAF7A /* AuthError.swift */,
 				809FE97529DD7FAE007EAF7A /* MovieUser.swift */,
 			);
@@ -278,6 +279,15 @@
 				8058C56D29E09D90003C4757 /* ChangePasswordViewController.swift */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		80A2E61429E56A51001AF7C6 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				80A2E61229E56122001AF7C6 /* UserModel.swift */,
+				80A2E61529E56A64001AF7C6 /* MovieModel.swift */,
+			);
+			path = Realm;
 			sourceTree = "<group>";
 		};
 		80AD556229D7884A00A8F1C3 = {
@@ -345,6 +355,7 @@
 		80AD558529D788A100A8F1C3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				80A2E61429E56A51001AF7C6 /* Realm */,
 				8066744229E5386800881DD9 /* User */,
 				8066744129E5385600881DD9 /* Movie */,
 				80FBE9D129E3692600849E13 /* SettingsSection.swift */,
@@ -490,6 +501,7 @@
 				808119A329E03517001A0E4A /* GenderButton.swift in Sources */,
 				804CB41929DC73C000955FA9 /* CustomLabel.swift in Sources */,
 				57F9311829E0BC01009D9666 /* CollectionReusableViewHeader.swift in Sources */,
+				80A2E61629E56A64001AF7C6 /* MovieModel.swift in Sources */,
 				80FBE9C929E3234200849E13 /* ImageNetworkLoaderManager.swift in Sources */,
 				809BD0C729E1FC6800002069 /* PhotoPickerView.swift in Sources */,
 				80AD558F29D78AAF00A8F1C3 /* OnboardingViewController.swift in Sources */,

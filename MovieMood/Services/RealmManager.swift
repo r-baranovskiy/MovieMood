@@ -2,8 +2,10 @@ import Foundation
 import RealmSwift
 
 protocol RealmManagerProtocol: AnyObject {
-    func saveUser(user: UserModel, completion: @escaping (Bool) -> Void)
-    func fetchUsers(completion: @escaping ([UserModel]) -> Void)
+    func saveUser(user: UserRealm, completion: @escaping (Bool) -> Void)
+    func fetchUsers(completion: @escaping ([UserRealm]) -> Void)
+    func removeObject(object: Object, completion: @escaping (Bool) -> Void)
+    func removeAll(completion: @escaping (Bool) -> Void)
 }
 
 final class RealmManager: RealmManagerProtocol {
@@ -20,7 +22,7 @@ final class RealmManager: RealmManagerProtocol {
     }()
     
      
-    func saveUser(user: UserModel, completion: @escaping (Bool) -> Void) {
+    func saveUser(user: UserRealm, completion: @escaping (Bool) -> Void) {
         do {
             try realm?.write {
                 realm?.add(user)
@@ -31,8 +33,32 @@ final class RealmManager: RealmManagerProtocol {
         }
     }
     
-    func fetchUsers(completion: @escaping ([UserModel]) -> Void) {
-        guard let users = realm?.objects(UserModel.self) else { return }
+    func fetchUsers(completion: @escaping ([UserRealm]) -> Void) {
+        guard let users = realm?.objects(UserRealm.self) else { return }
         completion(Array(users))
     }
+    
+    func removeObject(object: RealmSwift.Object, completion: @escaping (Bool) -> Void) {
+        do {
+            try realm?.write({
+                realm?.delete(object)
+                completion(true)
+            })
+        } catch {
+            print(error.localizedDescription)
+            completion(false)
+        }
+    }
+    
+    func removeAll(completion: @escaping (Bool) -> Void) {
+        do {
+            try realm?.write({
+                realm?.deleteAll()
+                completion(true)
+            })
+        } catch {
+            completion(false)
+        }
+    }
+    
 }
