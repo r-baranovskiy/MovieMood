@@ -6,15 +6,22 @@ protocol RealmManagerProtocol: AnyObject {
     func fetchAllUsers(completion: @escaping ([UserRealm]) -> Void)
     func removeObject(object: Object, completion: @escaping (Bool) -> Void)
     func removeAll(completion: @escaping (Bool) -> Void)
-    func fetchFilms(userId: String, completion: @escaping ([MovieRealm]) -> Void)
+    func fetchFilms(userId: String,
+                    completion: @escaping ([MovieRealm]) -> Void)
     func isExistRealmUser(userId: String) -> Bool
-    func fetchRealmUser(userId: String, completion: @escaping (UserRealm?) -> Void)
+    func fetchRealmUser(userId: String,
+                        completion: @escaping (UserRealm?) -> Void)
     func updateUserData(user: UserRealm, firstName: String, lastName: String,
-                        avatarImageData: Data?, isMale: Bool, completion: (Bool) -> Void)
+                        avatarImageData: Data?, isMale: Bool,
+                        completion: (Bool) -> Void)
+    func isLikedMovie(for user: UserRealm, with movieId: String) -> Bool
+    func saveMovie(for user: UserRealm, with filmId: String,
+                   completion: @escaping (Bool) -> Void)
 }
 
 /// Ream manager instance that uses when need to save user and his favorites movies
 final class RealmManager: RealmManagerProtocol {
+    
     static let shared = RealmManager()
     
     private let realm: Realm? = {
@@ -32,6 +39,30 @@ final class RealmManager: RealmManagerProtocol {
             return nil
         }
     }()
+    
+    func isLikedMovie(for user: UserRealm, with movieId: String) -> Bool {
+        let movies = user.movies
+        for movie in movies {
+            if movie.movieId == movieId {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func saveMovie(for user: UserRealm, with filmId: String,
+                   completion: @escaping (Bool) -> Void) {
+        let movie = MovieRealm()
+        movie.movieId = filmId
+        do {
+            try realm?.write({
+                user.movies.append(movie)
+            })
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     
     /// Attempt to update user data in Realm
     /// - Parameters:

@@ -2,6 +2,8 @@ import UIKit
 
 final class HistoryViewController: UIViewController {
     
+    private let currentUser: UserRealm
+    
     // MARK: - Collection View
     
     private lazy var movieColletionView: UICollectionView = {
@@ -29,6 +31,15 @@ final class HistoryViewController: UIViewController {
     private let apiManager = ApiManager(
         networkManager: NetworkManager(jsonService: JSONDecoderManager())
     )
+    
+    init(currentUser: UserRealm) {
+        self.currentUser = currentUser
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifecycle
     
@@ -66,21 +77,23 @@ extension HistoryViewController: UICollectionViewDelegate,
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: MovieCollectionViewCell.identifier,
-            for: indexPath) as? MovieCollectionViewCell else {
-            return UICollectionViewCell()
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: MovieCollectionViewCell.identifier,
+                for: indexPath) as? MovieCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.delegate = self
+            let movie = movies[indexPath.row]
+            let imageUrl = URL(
+                string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path)"
+            )
+            
+            let isFavorite = RealmManager.shared.isLikedMovie(for: currentUser, with: String(movie.id))
+            cell.configure(url: imageUrl, movieName: movie.title,
+                           duration: 0, creatingDate: movie.release_date,
+                           genre: "Action", isFavorite: isFavorite)
+            return cell
         }
-        cell.delegate = self
-        let movie = movies[indexPath.row]
-        let imageUrl = URL(
-            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path)"
-        )
-        cell.configure(url: imageUrl, movieName: movie.title,
-                       duration: 0, creatingDate: movie.release_date,
-                       genre: "Action")
-        return cell
-    }
 }
 
 // MARK: - Setup View

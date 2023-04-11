@@ -75,13 +75,13 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(url: URL?, movieName: String, duration: Int,
-                   creatingDate: String, genre: String) {
-        isFavorite = true
+                   creatingDate: String, genre: String, isFavorite: Bool) {
         movieImageView.sd_setImage(with: url)
         movieNameLabel.text = movieName
         durationLabel.text = String(duration)
         creatingDateLabel.text = creatingDate
         genreLabel.text = genre
+        self.isFavorite = isFavorite
     }
     
     // MARK: - Behaviour
