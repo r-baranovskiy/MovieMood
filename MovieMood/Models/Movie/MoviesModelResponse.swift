@@ -1,11 +1,4 @@
-//
-//  MoviesModelResponse.swift
-//  MovieMood
-//
-//  Created by Сергей Золотухин on 04.04.2023.
-//
-
-struct MoviesResponseModel: Decodable {
+struct Movie: Decodable {
     let results: [MovieModel]
 }
 

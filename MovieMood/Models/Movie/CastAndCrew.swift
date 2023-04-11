@@ -1,11 +1,4 @@
-//
-//  CastAndCrewModel.swift
-//  MovieMood
-//
-//  Created by Дмитрий on 08.04.2023.
-//
-
-struct CastAndCrewModel: Decodable {
+struct CastAndCrew: Decodable {
     let id: Int
     let cast: [Cast]
     let crew: [Crew]

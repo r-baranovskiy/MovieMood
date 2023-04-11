@@ -148,8 +148,8 @@ final class DetailViewController: UIViewController {
     
     private let apiManager: ApiManagerProtocol = ApiManager(networkManager: NetworkManager(jsonService: JSONDecoderManager()))
     
-    private var detailMovie: MovieDetailResponse?
-    private var model: CastAndCrewModel?
+    private var detailMovie: MovieDetail?
+    private var model: CastAndCrew?
     private var movieVideo: MovieVideoModel?
     private var cast: [Cast] = []
     private var crew: [Crew] = []

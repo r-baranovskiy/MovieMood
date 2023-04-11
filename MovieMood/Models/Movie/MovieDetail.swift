@@ -1,11 +1,4 @@
-//
-//  MovieDetailResponse.swift
-//  MovieMood
-//
-//  Created by Сергей Золотухин on 04.04.2023.
-//
-
-struct MovieDetailResponse: Decodable {
+struct MovieDetail: Decodable {
     let backdrop_path: String?
     let genres: [Genre]
     let title: String
