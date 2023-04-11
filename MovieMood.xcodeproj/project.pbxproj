@@ -70,6 +70,9 @@
 		80FBE9C929E3234200849E13 /* ImageNetworkLoaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C829E3234200849E13 /* ImageNetworkLoaderManager.swift */; };
 		80FBE9CD29E3613100849E13 /* HeaderSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9CC29E3613100849E13 /* HeaderSectionView.swift */; };
 		80FBE9D229E3692600849E13 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9D129E3692600849E13 /* SettingsSection.swift */; };
+		E5C1401929E56F32009E5C05 /* FilterPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C1401829E56F32009E5C05 /* FilterPopupView.swift */; };
+		E5C1401B29E597CE009E5C05 /* StarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C1401A29E597CE009E5C05 /* StarButton.swift */; };
+		E5C1401D29E5A6B3009E5C05 /* CategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C1401C29E5A6B3009E5C05 /* CategoryButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -135,6 +138,9 @@
 		80FBE9C829E3234200849E13 /* ImageNetworkLoaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNetworkLoaderManager.swift; sourceTree = "<group>"; };
 		80FBE9CC29E3613100849E13 /* HeaderSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeaderSectionView.swift; path = MovieMood/Views/Views/HeaderSectionView.swift; sourceTree = SOURCE_ROOT; };
 		80FBE9D129E3692600849E13 /* SettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
+		E5C1401829E56F32009E5C05 /* FilterPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPopupView.swift; sourceTree = "<group>"; };
+		E5C1401A29E597CE009E5C05 /* StarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarButton.swift; sourceTree = "<group>"; };
+		E5C1401C29E5A6B3009E5C05 /* CategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +166,8 @@
 				804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */,
 				808119A229E03517001A0E4A /* GenderButton.swift */,
 				80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */,
+				E5C1401A29E597CE009E5C05 /* StarButton.swift */,
+				E5C1401C29E5A6B3009E5C05 /* CategoryButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -180,6 +188,7 @@
 				80182A8329DF5A43002B99DD /* TransformView.swift */,
 				809BD0C629E1FC6800002069 /* PhotoPickerView.swift */,
 				80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */,
+				E5C1401829E56F32009E5C05 /* FilterPopupView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -466,6 +475,7 @@
 				806231B029E556FA003B8CE4 /* CrossButton.swift in Sources */,
 				804CB41829DC73C000955FA9 /* AppTextField.swift in Sources */,
 				804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */,
+				E5C1401B29E597CE009E5C05 /* StarButton.swift in Sources */,
 				80D0DDB729E43EA300C68B93 /* SettingTableViewCell.swift in Sources */,
 				8081199729E008C9001A0E4A /* CategoryCollectionViewCell.swift in Sources */,
 				80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */,
@@ -492,6 +502,7 @@
 				8058C56E29E09D90003C4757 /* ChangePasswordViewController.swift in Sources */,
 				80AD559B29D78BDF00A8F1C3 /* HistoryViewController.swift in Sources */,
 				808E8CC729DB07B9003DD106 /* BlueButton.swift in Sources */,
+				E5C1401929E56F32009E5C05 /* FilterPopupView.swift in Sources */,
 				80182A8629DF5A59002B99DD /* CGFloat + Extension.swift in Sources */,
 				808E8CBD29DAC186003DD106 /* UIColor + Extension.swift in Sources */,
 				808E8CC429DACA44003DD106 /* SignUpViewController.swift in Sources */,
@@ -499,6 +510,7 @@
 				8081199D29E00ADD001A0E4A /* UIView + Extension.swift in Sources */,
 				809FE97429DD7E74007EAF7A /* AuthError.swift in Sources */,
 				80FBE9C329E2AF1600849E13 /* UIViewController + Extension.swift in Sources */,
+				E5C1401D29E5A6B3009E5C05 /* CategoryButton.swift in Sources */,
 				80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */,
 				80AD559329D78B2500A8F1C3 /* ProfileViewController.swift in Sources */,
 				80AD559929D78BAD00A8F1C3 /* DetailViewController.swift in Sources */,

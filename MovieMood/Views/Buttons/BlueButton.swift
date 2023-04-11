@@ -9,6 +9,7 @@ final class BlueButton: UIButton {
         case saveChanges = "Save Changes"
         case logout = "Log Out"
         case change = "Change"
+        case applyFilters = "Apply Filters"
     }
     
     private let style: ButtonStyle
