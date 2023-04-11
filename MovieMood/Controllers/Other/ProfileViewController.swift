@@ -77,6 +77,8 @@ final class ProfileViewController: UIViewController {
     // MARK: - Behaviour
     
     private func addTargets() {
+        saveButton.addTarget(self, action: #selector(didTapSaveButton),
+                             for: .touchUpInside)
         maleButton.addTarget(self, action: #selector(didChangeGender(_:)),
                              for: .touchUpInside)
         femaleButton.addTarget(self, action: #selector(didChangeGender(_:)),
@@ -100,6 +102,21 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
+    @objc
+    private func didTapSaveButton() {
+        guard let firstName = firstNameField.text,
+              let lastName = lastNameField.text,
+              let avatarImageData = avatarImageView.image?.pngData() else {
+            return
+        }
+        
+        RealmManager.shared.updateUserData(
+            user: currentUser, firstName: firstName,
+            lastName: lastName, avatarImageData: avatarImageData) { success in
+            print(success)
+        }
+    }
     
     @objc
     private func didTapBlurView() {

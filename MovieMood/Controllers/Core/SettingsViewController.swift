@@ -84,7 +84,6 @@ final class SettingsViewController: UIViewController {
     init(user: UserRealm) {
         currentUser = user
         super.init(nibName: nil, bundle: nil)
-        updateUser()
     }
     
     required init?(coder: NSCoder) {
@@ -99,6 +98,11 @@ final class SettingsViewController: UIViewController {
         setTargets()
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUser()
     }
     
     override func viewDidLayoutSubviews() {

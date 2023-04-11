@@ -9,16 +9,12 @@ protocol RealmManagerProtocol: AnyObject {
     func fetchFilms(userId: String, completion: @escaping ([MovieRealm]) -> Void)
     func isExistRealmUser(userId: String) -> Bool
     func fetchRealmUser(userId: String, completion: @escaping (UserRealm?) -> Void)
+    func updateUserData(user: UserRealm, firstName: String, lastName: String,
+                        avatarImageData: Data?, completion: (Bool) -> Void)
 }
 
 /// Ream manager instance that uses when need to save user and his favorites movies
 final class RealmManager: RealmManagerProtocol {
-    enum UpdateType {
-        case firstName
-        case lastName
-        case avatarImage
-    }
-    
     static let shared = RealmManager()
     
     private let realm: Realm? = {
@@ -37,6 +33,23 @@ final class RealmManager: RealmManagerProtocol {
         }
     }()
     
+    func updateUserData(user: UserRealm, firstName: String, lastName: String,
+                        avatarImageData: Data?, completion: (Bool) -> Void) {
+        do {
+            try realm?.write({
+                user.firstName = firstName
+                user.lastName = lastName
+                user.userImageData = avatarImageData
+            })
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    
+    /// Check on existing user in database
+    /// - Parameter userId: User ID
+    /// - Returns: Returns true if exists
     func isExistRealmUser(userId: String) -> Bool {
         guard let users = realm?.objects(UserRealm.self) else { return false }
         return users.filter({ $0.userId == userId }).count > 0
@@ -69,6 +82,10 @@ final class RealmManager: RealmManagerProtocol {
         }
     }
     
+    /// Attempt to return Realm user from db if exists
+    /// - Parameters:
+    ///   - userId: User ID
+    ///   - completion: Returns optional user if exists
     func fetchRealmUser(userId: String, completion: @escaping (UserRealm?) -> Void) {
         guard let realmUsers = realm?.objects(UserRealm.self) else { return }
         let users = Array(realmUsers)
@@ -101,8 +118,7 @@ final class RealmManager: RealmManagerProtocol {
         }
     }
     
-    /// Attempt to crear all the data in Realm
-    /// - Parameter completion: Returns true if okey
+    
     func removeAll(completion: @escaping (Bool) -> Void) {
         do {
             try realm?.write({
