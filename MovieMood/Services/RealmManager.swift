@@ -42,6 +42,11 @@ final class RealmManager: RealmManagerProtocol {
         }
     }()
     
+    /// Check on is favorite movie or not
+    /// - Parameters:
+    ///   - user: Current realm user
+    ///   - movieId: Movie id that need to check
+    /// - Returns: Returns true if favorite
     func isLikedMovie(for user: UserRealm, with movieId: String) -> Bool {
         let movies = user.movies
         for movie in movies {
@@ -52,6 +57,11 @@ final class RealmManager: RealmManagerProtocol {
         return false
     }
     
+    /// Attempt to save movie ID to realm database
+    /// - Parameters:
+    ///   - user: Current realm user
+    ///   - filmId: Movie id that need to save
+    ///   - completion:Returns true if success
     func saveMovie(for user: UserRealm, with filmId: String,
                    completion: @escaping (Bool) -> Void) {
         let movie = MovieRealm()
@@ -65,6 +75,11 @@ final class RealmManager: RealmManagerProtocol {
         }
     }
     
+    /// Attempt to remove movie ID from realm database
+    /// - Parameters:
+    ///   - user: Current realm user
+    ///   - filmId: Movie id that need to remove
+    ///   - completion: Returns true if success
     func removeMovie(for user: UserRealm, with filmId: String,
                      completion: @escaping (Bool) -> Void) {
         let movies = user.movies
@@ -83,7 +98,6 @@ final class RealmManager: RealmManagerProtocol {
             }
         }
     }
-    
     
     /// Attempt to update user data in Realm
     /// - Parameters:
