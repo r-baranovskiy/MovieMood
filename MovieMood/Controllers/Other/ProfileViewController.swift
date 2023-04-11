@@ -10,7 +10,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let currentUser: MovieUser
+    private let currentUser: UserRealm
     
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -19,11 +19,6 @@ final class ProfileViewController: UIViewController {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    
-    private let titleLabel = UILabel(
-        text: "Profile", font: .systemFont(ofSize: 18, weight: .bold),
-        textAlignment: .center, color: .label
-    )
     
     private lazy var blurView: UIVisualEffectView = {
         let effect = UIBlurEffect(style: .dark)
@@ -43,17 +38,9 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Init
     
-    init(user: MovieUser) {
+    init(user: UserRealm) {
         currentUser = user
         super.init(nibName: nil, bundle: nil)
-        firstNameField.text = currentUser.firstName
-        lastNameField.text = currentUser.lastName
-        emailField.text = currentUser.email
-        if let imageUrl = currentUser.avatarImageUrl {
-            avatarImageView.sd_setImage(with: imageUrl)
-        } else {
-            avatarImageView.image = UIImage(named: "mock-person")
-        }
     }
     
     required init?(coder: NSCoder) {
@@ -66,6 +53,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         maleButton.isSelected = true
         setupView()
+        updateUser()
         addTargets()
         addRecognizer()
     }
@@ -75,9 +63,22 @@ final class ProfileViewController: UIViewController {
         avatarImageView.layer.cornerRadius = avatarImageView.frame.height / 2
     }
     
+    private func updateUser() {
+        firstNameField.text = currentUser.firstName != "" ? currentUser.firstName : "Guest"
+        lastNameField.text = currentUser.lastName
+        emailField.text = currentUser.email
+        if let userImageData = currentUser.userImageData {
+            avatarImageView.image = UIImage(data: userImageData)
+        } else {
+            avatarImageView.image = UIImage(named: "mock-person")
+        }
+    }
+    
     // MARK: - Behaviour
     
     private func addTargets() {
+        saveButton.addTarget(self, action: #selector(didTapSaveButton),
+                             for: .touchUpInside)
         maleButton.addTarget(self, action: #selector(didChangeGender(_:)),
                              for: .touchUpInside)
         femaleButton.addTarget(self, action: #selector(didChangeGender(_:)),
@@ -101,6 +102,21 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
+    @objc
+    private func didTapSaveButton() {
+        guard let firstName = firstNameField.text,
+              let lastName = lastNameField.text,
+              let avatarImageData = avatarImageView.image?.pngData() else {
+            return
+        }
+        
+        RealmManager.shared.updateUserData(
+            user: currentUser, firstName: firstName,
+            lastName: lastName, avatarImageData: avatarImageData) { success in
+            print(success)
+        }
+    }
     
     @objc
     private func didTapBlurView() {
@@ -208,6 +224,8 @@ extension ProfileViewController {
 extension ProfileViewController {
     private func setupView() {
         view.backgroundColor = .custom.mainBackground
+        emailField.isUserInteractionEnabled = false
+        emailField.backgroundColor = .systemGray6
         
         let buttonStack = UIStackView(
             subviews: [maleButton, femaleButton], axis: .horizontal,
@@ -221,22 +239,12 @@ extension ProfileViewController {
             axis: .vertical, spacing: 16, aligment: .fill,
             distribution: .equalSpacing
         )
-        
-        view.addSubviewWithoutTranslates(
-            titleLabel, avatarImageView, stack
-        )
-        
-        NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10
-            )
-        ])
-        
+        view.addSubviewWithoutTranslates(avatarImageView, stack)
+
         NSLayoutConstraint.activate([
             avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             avatarImageView.topAnchor.constraint(
-                equalTo: titleLabel.topAnchor, constant: 48
+                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 48
             ),
             avatarImageView.heightAnchor.constraint(equalToConstant: 100),
             avatarImageView.widthAnchor.constraint(equalToConstant: 100)

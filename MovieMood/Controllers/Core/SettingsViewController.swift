@@ -4,11 +4,10 @@ final class SettingsViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let currentUser: MovieUser
+    private let currentUser: UserRealm
     
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "mock-person")
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -82,17 +81,9 @@ final class SettingsViewController: UIViewController {
     
     // MARK: - Init
     
-    init(user: MovieUser) {
+    init(user: UserRealm) {
         currentUser = user
         super.init(nibName: nil, bundle: nil)
-        if let firstName = currentUser.firstName {
-            nameLabel.text = firstName
-        }
-        if let lastName = currentUser.lastName {
-            nameLabel.text?.append(" \(lastName)")
-        }
-        emailLabel.text = currentUser.email
-        avatarImageView.sd_setImage(with: currentUser.avatarImageUrl)
     }
     
     required init?(coder: NSCoder) {
@@ -109,6 +100,11 @@ final class SettingsViewController: UIViewController {
         tableView.dataSource = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUser()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         avatarImageView.layer.cornerRadius = avatarImageView.frame.height / 2
@@ -117,6 +113,19 @@ final class SettingsViewController: UIViewController {
     private func setTargets() {
         logOutButton.addTarget(self, action: #selector(didTapLogOut),
                                for: .touchUpInside)
+    }
+    
+    private func updateUser() {
+        nameLabel.text = currentUser.firstName != "" ? currentUser.firstName : "Guest"
+        if currentUser.lastName != "" {
+            nameLabel.text?.append(" \(currentUser.lastName)")
+        }
+        emailLabel.text = currentUser.email
+        if let userImageData = currentUser.userImageData {
+            avatarImageView.image = UIImage(data: userImageData)
+        } else {
+            avatarImageView.image = UIImage(named: "mock-person")
+        }
     }
     
     // MARK: - Actions

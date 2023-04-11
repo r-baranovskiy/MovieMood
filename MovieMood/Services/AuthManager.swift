@@ -149,11 +149,22 @@ final class AuthManager {
                     return
                 }
                 
-                let movieUser = MovieUser(id: user.uid,
-                                          firstName: user.displayName ?? "Guest",
-                                          email: user.email ?? "",
-                                          avatarImageUrl: user.photoURL)
-                completion(.success(movieUser))
+                if let userImageUrl = user.photoURL {
+                    DispatchQueue.global().async {
+                        do {
+                            let data = try Data(contentsOf: userImageUrl)
+                            
+                            let movieUser = MovieUser(
+                                id: user.uid, firstName: user.displayName ?? "Guest",
+                                email: user.email ?? "",
+                                avatarImageData: data
+                            )
+                            completion(.success(movieUser))
+                        } catch {
+                            
+                        }
+                    }
+                }
             }
         }
     }
