@@ -10,7 +10,7 @@ protocol RealmManagerProtocol: AnyObject {
     func isExistRealmUser(userId: String) -> Bool
     func fetchRealmUser(userId: String, completion: @escaping (UserRealm?) -> Void)
     func updateUserData(user: UserRealm, firstName: String, lastName: String,
-                        avatarImageData: Data?, completion: (Bool) -> Void)
+                        avatarImageData: Data?, isMale: Bool, completion: (Bool) -> Void)
 }
 
 /// Ream manager instance that uses when need to save user and his favorites movies
@@ -39,16 +39,20 @@ final class RealmManager: RealmManagerProtocol {
     ///   - firstName: User name
     ///   - lastName: User last name
     ///   - avatarImageData: User avatar image data
+    ///   - isMale: User sex. Default == male
     ///   - completion: Returns true if okey
     func updateUserData(user: UserRealm, firstName: String, lastName: String,
-                        avatarImageData: Data?, completion: (Bool) -> Void) {
+                        avatarImageData: Data?, isMale: Bool, completion: (Bool) -> Void) {
         do {
             try realm?.write({
                 user.firstName = firstName
                 user.lastName = lastName
                 user.userImageData = avatarImageData
+                user.isMale = isMale
+                completion(true)
             })
         } catch {
+            completion(false)
             print(error.localizedDescription)
         }
     }
