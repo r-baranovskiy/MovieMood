@@ -33,6 +33,13 @@ final class RealmManager: RealmManagerProtocol {
         }
     }()
     
+    /// Attempt to update user data in Realm
+    /// - Parameters:
+    ///   - user: Current Realm User
+    ///   - firstName: User name
+    ///   - lastName: User last name
+    ///   - avatarImageData: User avatar image data
+    ///   - completion: Returns true if okey
     func updateUserData(user: UserRealm, firstName: String, lastName: String,
                         avatarImageData: Data?, completion: (Bool) -> Void) {
         do {
@@ -119,6 +126,8 @@ final class RealmManager: RealmManagerProtocol {
     }
     
     
+    /// Attempt to remove all the data in the realm
+    /// - Parameter completion: Returns true if okey
     func removeAll(completion: @escaping (Bool) -> Void) {
         do {
             try realm?.write({
@@ -130,5 +139,4 @@ final class RealmManager: RealmManagerProtocol {
             completion(false)
         }
     }
-    
 }
