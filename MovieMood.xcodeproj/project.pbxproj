@@ -15,6 +15,10 @@
 		286DD87129DDCECB00F201F2 /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286DD87029DDCECB00F201F2 /* DetailCollectionViewCell.swift */; };
 		286DD87329E1752800F201F2 /* CastAndCrewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286DD87229E1752800F201F2 /* CastAndCrewModel.swift */; };
 		286DD87529E1A8E400F201F2 /* MovieVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286DD87429E1A8E400F201F2 /* MovieVideoModel.swift */; };
+		28F718BB29E45976005D44B6 /* MovieSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F718BA29E45976005D44B6 /* MovieSearchTextField.swift */; };
+		28F718BD29E525F3005D44B6 /* CrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F718BC29E525F3005D44B6 /* CrossButton.swift */; };
+		28F718BF29E52B22005D44B6 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F718BE29E52B22005D44B6 /* SearchView.swift */; };
+		28F718C129E53218005D44B6 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F718C029E53218005D44B6 /* FilterButton.swift */; };
 		57CD4F2329DCAC12004B73F4 /* ReusableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */; };
 		57D5C9E729DE05DF00C99198 /* ReusableCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D5C9E629DE05DF00C99198 /* ReusableCollectionViewCell.swift */; };
 		57F9311829E0BC01009D9666 /* CollectionReusableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F9311729E0BC01009D9666 /* CollectionReusableViewHeader.swift */; };
@@ -77,6 +81,10 @@
 		286DD87029DDCECB00F201F2 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		286DD87229E1752800F201F2 /* CastAndCrewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastAndCrewModel.swift; sourceTree = "<group>"; };
 		286DD87429E1A8E400F201F2 /* MovieVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieVideoModel.swift; sourceTree = "<group>"; };
+		28F718BA29E45976005D44B6 /* MovieSearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTextField.swift; sourceTree = "<group>"; };
+		28F718BC29E525F3005D44B6 /* CrossButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossButton.swift; sourceTree = "<group>"; };
+		28F718BE29E52B22005D44B6 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		28F718C029E53218005D44B6 /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableTableViewCell.swift; sourceTree = "<group>"; };
 		57D5C9E629DE05DF00C99198 /* ReusableCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCollectionViewCell.swift; sourceTree = "<group>"; };
 		57F9311729E0BC01009D9666 /* CollectionReusableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableViewHeader.swift; sourceTree = "<group>"; };
@@ -150,6 +158,8 @@
 				804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */,
 				808119A229E03517001A0E4A /* GenderButton.swift */,
 				80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */,
+				28F718BC29E525F3005D44B6 /* CrossButton.swift */,
+				28F718C029E53218005D44B6 /* FilterButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -158,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				804CB41529DC73C000955FA9 /* AppTextField.swift */,
+				28F718BA29E45976005D44B6 /* MovieSearchTextField.swift */,
 			);
 			path = TextFields;
 			sourceTree = "<group>";
@@ -168,6 +179,7 @@
 				80182A8329DF5A43002B99DD /* TransformView.swift */,
 				809BD0C629E1FC6800002069 /* PhotoPickerView.swift */,
 				80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */,
+				28F718BE29E52B22005D44B6 /* SearchView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -190,6 +202,7 @@
 				57CD4F2229DCAC12004B73F4 /* ReusableTableViewCell.swift */,
 				57D5C9E629DE05DF00C99198 /* ReusableCollectionViewCell.swift */,
 				8081199629E008C9001A0E4A /* CategoryCollectionViewCell.swift */,
+				286DD87029DDCECB00F201F2 /* DetailCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -223,7 +236,6 @@
 				80AD558E29D78AAF00A8F1C3 /* OnboardingViewController.swift */,
 				80AD559029D78ACF00A8F1C3 /* AuthViewController.swift */,
 				80AD559829D78BAD00A8F1C3 /* DetailViewController.swift */,
-				286DD87029DDCECB00F201F2 /* DetailCollectionViewCell.swift */,
 				803898C729DC7BC900103156 /* SignInViewController.swift */,
 				808E8CC329DACA44003DD106 /* SignUpViewController.swift */,
 				8058C56D29E09D90003C4757 /* ChangePasswordViewController.swift */,
@@ -428,12 +440,15 @@
 				1E55F50629DC60E900CE4C5B /* NetworkManager.swift in Sources */,
 				1E55F50829DC61D500CE4C5B /* APIKey.swift in Sources */,
 				80AD557329D7884A00A8F1C3 /* MainTabBarController.swift in Sources */,
+				28F718BB29E45976005D44B6 /* MovieSearchTextField.swift in Sources */,
 				1E55F50529DC60E900CE4C5B /* JSONDecoderManager.swift in Sources */,
 				80AD558B29D7894A00A8F1C3 /* AuthManager.swift in Sources */,
 				80182A8429DF5A43002B99DD /* TransformView.swift in Sources */,
 				1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */,
 				8058C56C29E09A9C003C4757 /* SettingsViewController.swift in Sources */,
 				804CB41829DC73C000955FA9 /* AppTextField.swift in Sources */,
+				28F718BF29E52B22005D44B6 /* SearchView.swift in Sources */,
+				28F718BD29E525F3005D44B6 /* CrossButton.swift in Sources */,
 				804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */,
 				8081199729E008C9001A0E4A /* CategoryCollectionViewCell.swift in Sources */,
 				80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */,
@@ -477,6 +492,7 @@
 				809FE97629DD7FAE007EAF7A /* MovieUser.swift in Sources */,
 				80F22DC729E1FE6800F3C659 /* PhotoPickerMethodView.swift in Sources */,
 				80FBE9CD29E3613100849E13 /* HeaderSectionView.swift in Sources */,
+				28F718C129E53218005D44B6 /* FilterButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
