@@ -60,8 +60,26 @@ final class HistoryViewController: UIViewController {
 }
 
 extension HistoryViewController: MovieCollectionViewCellDelegate {
-    func didTapLike() {
-        print("Like")
+    func didTapLike(withIndexPath indexPath: IndexPath?) {
+        guard let indexPath = indexPath else { return }
+        let movieId = String(movies[indexPath.row].id)
+        
+        if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
+            RealmManager.shared.saveMovie(
+                for: currentUser, with: String(movies[indexPath.row].id)
+            ) { [weak self] success in
+                    DispatchQueue.main.async {
+                        self?.movieColletionView.reloadData()
+                    }
+                }
+        } else {
+            RealmManager.shared.removeMovie(for: currentUser,
+                                            with: movieId) { success in
+                if success {
+                    print("УДАЛЕННОООО")
+                }
+            }
+        }
     }
 }
 
@@ -82,13 +100,18 @@ extension HistoryViewController: UICollectionViewDelegate,
                 for: indexPath) as? MovieCollectionViewCell else {
                 return UICollectionViewCell()
             }
+            
             cell.delegate = self
+            cell.indexPath = indexPath
             let movie = movies[indexPath.row]
             let imageUrl = URL(
                 string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path)"
             )
             
-            let isFavorite = RealmManager.shared.isLikedMovie(for: currentUser, with: String(movie.id))
+            let isFavorite = RealmManager.shared.isLikedMovie(
+                for: currentUser, with: String(movie.id)
+            )
+            
             cell.configure(url: imageUrl, movieName: movie.title,
                            duration: 0, creatingDate: movie.release_date,
                            genre: "Action", isFavorite: isFavorite)

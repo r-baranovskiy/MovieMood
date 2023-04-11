@@ -1,7 +1,7 @@
 import UIKit
 
 protocol MovieCollectionViewCellDelegate: AnyObject {
-    func didTapLike()
+    func didTapLike(withIndexPath indexPath: IndexPath?)
 }
 
 final class MovieCollectionViewCell: UICollectionViewCell {
@@ -9,6 +9,8 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     static let identifier = "MovieCollectionViewCell"
     
     weak var delegate: MovieCollectionViewCellDelegate?
+    
+    var indexPath: IndexPath?
     
     // MARK: - Properties
     
@@ -61,7 +63,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         likeButton.addTarget(self, action: #selector(didTapLike),
                              for: .touchUpInside)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -88,7 +90,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     
     @objc
     private func didTapLike() {
-        delegate?.didTapLike()
+        delegate?.didTapLike(withIndexPath: indexPath)
         isFavorite.toggle()
     }
     

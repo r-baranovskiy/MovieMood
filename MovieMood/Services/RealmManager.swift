@@ -17,6 +17,8 @@ protocol RealmManagerProtocol: AnyObject {
     func isLikedMovie(for user: UserRealm, with movieId: String) -> Bool
     func saveMovie(for user: UserRealm, with filmId: String,
                    completion: @escaping (Bool) -> Void)
+    func removeMovie(for user: UserRealm, with filmId: String,
+                     completion: @escaping (Bool) -> Void)
 }
 
 /// Ream manager instance that uses when need to save user and his favorites movies
@@ -60,6 +62,25 @@ final class RealmManager: RealmManagerProtocol {
             })
         } catch {
             print(error.localizedDescription)
+        }
+    }
+    
+    func removeMovie(for user: UserRealm, with filmId: String,
+                     completion: @escaping (Bool) -> Void) {
+        let movies = user.movies
+        
+        for (index, movie) in movies.enumerated() {
+            if movie.movieId == filmId {
+                do {
+                    try realm?.write({
+                        movies.remove(at: index)
+                        completion(true)
+                    })
+                } catch {
+                    completion(false)
+                    print(error.localizedDescription)
+                }
+            }
         }
     }
     
