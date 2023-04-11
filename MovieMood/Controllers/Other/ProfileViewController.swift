@@ -20,11 +20,6 @@ final class ProfileViewController: UIViewController {
         return imageView
     }()
     
-    private let titleLabel = UILabel(
-        text: "Profile", font: .systemFont(ofSize: 18, weight: .bold),
-        textAlignment: .center, color: .label
-    )
-    
     private lazy var blurView: UIVisualEffectView = {
         let effect = UIBlurEffect(style: .dark)
         let blur = UIVisualEffectView(effect: effect)
@@ -46,7 +41,6 @@ final class ProfileViewController: UIViewController {
     init(user: UserRealm) {
         currentUser = user
         super.init(nibName: nil, bundle: nil)
-        updateUser()
     }
     
     required init?(coder: NSCoder) {
@@ -59,6 +53,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         maleButton.isSelected = true
         setupView()
+        updateUser()
         addTargets()
         addRecognizer()
     }
@@ -212,6 +207,8 @@ extension ProfileViewController {
 extension ProfileViewController {
     private func setupView() {
         view.backgroundColor = .custom.mainBackground
+        emailField.isUserInteractionEnabled = false
+        emailField.backgroundColor = .systemGray6
         
         let buttonStack = UIStackView(
             subviews: [maleButton, femaleButton], axis: .horizontal,
@@ -225,22 +222,12 @@ extension ProfileViewController {
             axis: .vertical, spacing: 16, aligment: .fill,
             distribution: .equalSpacing
         )
-        
-        view.addSubviewWithoutTranslates(
-            titleLabel, avatarImageView, stack
-        )
-        
-        NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10
-            )
-        ])
-        
+        view.addSubviewWithoutTranslates(avatarImageView, stack)
+
         NSLayoutConstraint.activate([
             avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             avatarImageView.topAnchor.constraint(
-                equalTo: titleLabel.topAnchor, constant: 48
+                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 48
             ),
             avatarImageView.heightAnchor.constraint(equalToConstant: 100),
             avatarImageView.widthAnchor.constraint(equalToConstant: 100)

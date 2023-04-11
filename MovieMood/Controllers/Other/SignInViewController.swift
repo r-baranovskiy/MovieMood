@@ -111,10 +111,12 @@ final class SignInViewController: UIViewController {
         { [weak self] result in
             switch result {
             case .success(let user):
-                let tabBar = MainTabBarController(user: user)
-                tabBar.modalTransitionStyle = .crossDissolve
-                tabBar.modalPresentationStyle = .fullScreen
-                self?.present(tabBar, animated: true)
+                DispatchQueue.main.async {
+                    let tabBar = MainTabBarController(user: user)
+                    tabBar.modalTransitionStyle = .crossDissolve
+                    tabBar.modalPresentationStyle = .fullScreen
+                    self?.present(tabBar, animated: true)
+                }
             case .failure(let error):
                 let alert = UIAlertController.createAlert(
                     title: "Error", message: error.localizedDescription

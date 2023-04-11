@@ -7,10 +7,17 @@ protocol RealmManagerProtocol: AnyObject {
     func removeObject(object: Object, completion: @escaping (Bool) -> Void)
     func removeAll(completion: @escaping (Bool) -> Void)
     func fetchFilms(userId: String, completion: @escaping ([MovieRealm]) -> Void)
+    func isExistRealmUser(userId: String) -> Bool
+    func fetchRealmUser(userId: String, completion: @escaping (UserRealm?) -> Void)
 }
 
 /// Ream manager instance that uses when need to save user and his favorites movies
 final class RealmManager: RealmManagerProtocol {
+    enum UpdateType {
+        case firstName
+        case lastName
+        case avatarImage
+    }
     
     static let shared = RealmManager()
     
@@ -30,6 +37,10 @@ final class RealmManager: RealmManagerProtocol {
         }
     }()
     
+    func isExistRealmUser(userId: String) -> Bool {
+        guard let users = realm?.objects(UserRealm.self) else { return false }
+        return users.filter({ $0.userId == userId }).count > 0
+    }
     
     /// Attempt to save user when user passed registration
     /// - Parameters:
@@ -58,12 +69,21 @@ final class RealmManager: RealmManagerProtocol {
         }
     }
     
+    func fetchRealmUser(userId: String, completion: @escaping (UserRealm?) -> Void) {
+        guard let realmUsers = realm?.objects(UserRealm.self) else { return }
+        let users = Array(realmUsers)
+        let user = users.filter({ $0.userId == userId }).first
+        completion(user)
+    }
+    
     /// Attempt to fetch all the users that were saved
     /// - Parameter completion: Returns array of users
     func fetchAllUsers(completion: @escaping ([UserRealm]) -> Void) {
         guard let users = realm?.objects(UserRealm.self) else { return }
         completion(Array(users))
     }
+    
+    
     
     /// Attempt to remove any Realm object
     /// - Parameters:

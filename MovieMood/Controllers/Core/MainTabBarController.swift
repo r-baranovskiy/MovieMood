@@ -26,11 +26,15 @@ final class MainTabBarController: UITabBarController {
             userId: currentUser.id, email: currentUser.email,
             userImageData: currentUser.avatarImageData
         )
-        RealmManager.shared.saveUser(user: realmUser) { success in
-            if success {
-                self.realmUser = realmUser
-            } else {
-                self.realmUser = nil
+        if RealmManager.shared.isExistRealmUser(userId: realmUser.userId) {
+            RealmManager.shared.fetchRealmUser(userId: realmUser.userId) { user in
+                self.realmUser = user
+            }
+        } else {
+            RealmManager.shared.saveUser(user: realmUser) { success in
+                if success {
+                    self.realmUser = realmUser
+                }
             }
         }
         generateTabBar()
