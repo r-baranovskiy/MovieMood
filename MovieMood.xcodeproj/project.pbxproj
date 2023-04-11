@@ -30,6 +30,8 @@
 		804CB41B29DC740700955FA9 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB41A29DC740700955FA9 /* HapticsManager.swift */; };
 		8058C56C29E09A9C003C4757 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058C56B29E09A9C003C4757 /* SettingsViewController.swift */; };
 		8058C56E29E09D90003C4757 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058C56D29E09D90003C4757 /* ChangePasswordViewController.swift */; };
+		8066744529E53F2100881DD9 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8066744429E53F2100881DD9 /* RealmSwift */; };
+		8066744829E53F8700881DD9 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8066744729E53F8700881DD9 /* UserModel.swift */; };
 		8081199729E008C9001A0E4A /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081199629E008C9001A0E4A /* CategoryCollectionViewCell.swift */; };
 		8081199929E00A5A001A0E4A /* UIStackView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081199829E00A5A001A0E4A /* UIStackView + Extension.swift */; };
 		8081199B29E00A82001A0E4A /* UILabel + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081199A29E00A82001A0E4A /* UILabel + Extension.swift */; };
@@ -89,6 +91,7 @@
 		804CB41A29DC740700955FA9 /* HapticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		8058C56B29E09A9C003C4757 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8058C56D29E09D90003C4757 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		8066744729E53F8700881DD9 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		8081199629E008C9001A0E4A /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		8081199829E00A5A001A0E4A /* UIStackView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView + Extension.swift"; sourceTree = "<group>"; };
 		8081199A29E00A82001A0E4A /* UILabel + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + Extension.swift"; sourceTree = "<group>"; };
@@ -134,6 +137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8066744529E53F2100881DD9 /* RealmSwift in Frameworks */,
 				804CB41229DC730000955FA9 /* SDWebImage in Frameworks */,
 				8021866929DD7D660078D701 /* FirebaseAuth in Frameworks */,
 				804CB41129DC730000955FA9 /* GoogleSignInSwift in Frameworks */,
@@ -199,8 +203,21 @@
 			children = (
 				809FE97329DD7E74007EAF7A /* AuthError.swift */,
 				809FE97529DD7FAE007EAF7A /* MovieUser.swift */,
+				8066744729E53F8700881DD9 /* UserModel.swift */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		8066744629E53F3300881DD9 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				1E55F50729DC61D500CE4C5B /* APIKey.swift */,
+				80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */,
+				1E55F50329DC60E900CE4C5B /* JSONDecoderManager.swift */,
+				1E55F50429DC60E900CE4C5B /* NetworkManager.swift */,
+				80FBE9C829E3234200849E13 /* ImageNetworkLoaderManager.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		8081199529E008A2001A0E4A /* Cells */ = {
@@ -326,14 +343,10 @@
 		80AD558629D788A400A8F1C3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8066744629E53F3300881DD9 /* Network */,
 				80AD558A29D7894A00A8F1C3 /* AuthManager.swift */,
 				80AD559C29D78C0500A8F1C3 /* RealmManager.swift */,
-				80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */,
-				1E55F50329DC60E900CE4C5B /* JSONDecoderManager.swift */,
-				1E55F50429DC60E900CE4C5B /* NetworkManager.swift */,
-				1E55F50729DC61D500CE4C5B /* APIKey.swift */,
 				804CB41A29DC740700955FA9 /* HapticsManager.swift */,
-				80FBE9C829E3234200849E13 /* ImageNetworkLoaderManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -379,6 +392,7 @@
 				804CB40929DC6F1700955FA9 /* GoogleSignInSwift */,
 				804CB40C29DC6F3D00955FA9 /* SDWebImage */,
 				8021866829DD7D660078D701 /* FirebaseAuth */,
+				8066744429E53F2100881DD9 /* RealmSwift */,
 			);
 			productName = MovieMood;
 			productReference = 80AD556B29D7884A00A8F1C3 /* MovieMood.app */;
@@ -412,6 +426,7 @@
 				804CB40829DC6F1700955FA9 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				804CB40B29DC6F3D00955FA9 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				8021866729DD7D660078D701 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8066744329E53F2100881DD9 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 80AD556C29D7884A00A8F1C3 /* Products */;
 			projectDirPath = "";
@@ -493,6 +508,7 @@
 				809FE97629DD7FAE007EAF7A /* MovieUser.swift in Sources */,
 				80F22DC729E1FE6800F3C659 /* PhotoPickerMethodView.swift in Sources */,
 				80FBE9CD29E3613100849E13 /* HeaderSectionView.swift in Sources */,
+				8066744829E53F8700881DD9 /* UserModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -734,6 +750,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		8066744329E53F2100881DD9 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -751,6 +775,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 804CB40B29DC6F3D00955FA9 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		8066744429E53F2100881DD9 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8066744329E53F2100881DD9 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
