@@ -9,7 +9,7 @@ final class HomeViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let currentUser: MovieUser
+    private let currentUser: UserRealm
     
     private var filmCovers = [UIImage]()
     private var movies = [MovieModel]()
@@ -21,12 +21,11 @@ final class HomeViewController: UIViewController {
         userIV.heightAnchor.constraint(equalToConstant: 40).isActive = true
         userIV.widthAnchor.constraint(equalToConstant: 40).isActive = true
         userIV.layer.cornerRadius = userIV.frame.height / 2
-        userIV.image = UIImage(named: "mock-person")
         return userIV
     }()
     
     private var usernameLabel = UILabel(
-        text: "HI, Nikolai", font: .systemFont(ofSize: 18, weight: .bold),
+        font: .systemFont(ofSize: 18, weight: .bold),
         textAlignment: .left, color: .label
     )
     
@@ -78,9 +77,10 @@ final class HomeViewController: UIViewController {
     
     // MARK: - Init
     
-    init(currentUser: MovieUser) {
+    init(currentUser: UserRealm) {
         self.currentUser = currentUser
         super.init(nibName: nil, bundle: nil)
+        updateUser()
     }
     
     required init?(coder: NSCoder) {
@@ -101,6 +101,15 @@ final class HomeViewController: UIViewController {
         categoryCollection.dataSource = self
         moviesTableView.delegate = self
         moviesTableView.dataSource = self
+    }
+    
+    private func updateUser() {
+        usernameLabel.text = currentUser.firstName != "" ? "HI, \(currentUser.firstName)" : "Hi, Guest"
+        if let userImageData = currentUser.userImageData {
+            userImageView.image = UIImage(data: userImageData)
+        } else {
+            userImageView.image = UIImage(named: "mock-person")
+        }
     }
     
     // MARK: - Behaviour

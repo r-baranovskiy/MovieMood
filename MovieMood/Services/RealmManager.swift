@@ -2,7 +2,7 @@ import Foundation
 import RealmSwift
 
 protocol RealmManagerProtocol: AnyObject {
-    func saveUser(userID: String, user: UserRealm, completion: @escaping (Bool) -> Void)
+    func saveUser(user: UserRealm, completion: @escaping (Bool) -> Void)
     func fetchAllUsers(completion: @escaping ([UserRealm]) -> Void)
     func removeObject(object: Object, completion: @escaping (Bool) -> Void)
     func removeAll(completion: @escaping (Bool) -> Void)
@@ -35,7 +35,7 @@ final class RealmManager: RealmManagerProtocol {
     /// - Parameters:
     ///   - user: UserModel
     ///   - completion: Returns true if okey
-    func saveUser(userID: String, user: UserRealm, completion: @escaping (Bool) -> Void) {
+    func saveUser(user: UserRealm, completion: @escaping (Bool) -> Void) {
         do {
             try realm?.write {
                 realm?.add(user)

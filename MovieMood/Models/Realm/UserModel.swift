@@ -4,13 +4,20 @@ import RealmSwift
 @objcMembers
 final class UserRealm: Object {
     
-    dynamic var name: String = ""
+    dynamic var firstName: String = ""
+    dynamic var lastName: String = ""
     dynamic var userId: String = ""
+    dynamic var email: String = ""
+    dynamic var userImageData: Data?
     var movies = List<MovieRealm>()
     
-    convenience init(userName: String, userId: String) {
+    convenience init(firstName: String, lastName: String, userId: String,
+                     email: String, userImageData: Data?) {
         self.init()
+        self.firstName = firstName
+        self.lastName = lastName
         self.userId = userId
-        self.name = userName
+        self.email = email
+        self.userImageData = userImageData
     }
 }

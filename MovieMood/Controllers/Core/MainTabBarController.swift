@@ -3,6 +3,7 @@ import UIKit
 final class MainTabBarController: UITabBarController {
     
     private let currentUser: MovieUser
+    private var realmUser: UserRealm?
     
     // MARK: - Init
     
@@ -19,6 +20,19 @@ final class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let realmUser = UserRealm(
+            firstName: currentUser.firstName ?? "",
+            lastName: currentUser.lastName ?? "",
+            userId: currentUser.id, email: currentUser.email,
+            userImageData: currentUser.avatarImageData
+        )
+        RealmManager.shared.saveUser(user: realmUser) { success in
+            if success {
+                self.realmUser = realmUser
+            } else {
+                self.realmUser = nil
+            }
+        }
         generateTabBar()
         setTabBarAppearance()
         setupHomeButton()
@@ -36,13 +50,17 @@ extension MainTabBarController {
                 viewController: HistoryViewController(),
                 image: UIImage(named: "video-icon"), title: "Recent Watch"),
             generateVC(
-                viewController: HomeViewController(currentUser: currentUser),
+                viewController: realmUser != nil ? HomeViewController(
+                    currentUser: realmUser!
+                ) : UIViewController(),
                 image: UIImage(), title: "Home"),
             generateVC(
                 viewController: FavoriteViewController(),
                 image: UIImage(named: "heart-icon"), title: "Favorites"),
             generateVC(
-                viewController: SettingsViewController(user: currentUser),
+                viewController: realmUser != nil ? SettingsViewController(
+                    user: realmUser!
+                ) : UIViewController(),
                 image: UIImage(named: "profile-icon"), title: "Profile")
         ]
     }

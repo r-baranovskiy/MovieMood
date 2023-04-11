@@ -5,5 +5,5 @@ struct MovieUser {
     var firstName: String?
     var lastName: String?
     let email: String
-    var avatarImageUrl: URL?
+    var avatarImageData: Data?
 }

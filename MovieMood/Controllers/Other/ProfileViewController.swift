@@ -10,7 +10,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let currentUser: MovieUser
+    private let currentUser: UserRealm
     
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -43,17 +43,10 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Init
     
-    init(user: MovieUser) {
+    init(user: UserRealm) {
         currentUser = user
         super.init(nibName: nil, bundle: nil)
-        firstNameField.text = currentUser.firstName
-        lastNameField.text = currentUser.lastName
-        emailField.text = currentUser.email
-        if let imageUrl = currentUser.avatarImageUrl {
-            avatarImageView.sd_setImage(with: imageUrl)
-        } else {
-            avatarImageView.image = UIImage(named: "mock-person")
-        }
+        updateUser()
     }
     
     required init?(coder: NSCoder) {
@@ -73,6 +66,17 @@ final class ProfileViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         avatarImageView.layer.cornerRadius = avatarImageView.frame.height / 2
+    }
+    
+    private func updateUser() {
+        firstNameField.text = currentUser.firstName != "" ? currentUser.firstName : "Guest"
+        lastNameField.text = currentUser.lastName
+        emailField.text = currentUser.email
+        if let userImageData = currentUser.userImageData {
+            avatarImageView.image = UIImage(data: userImageData)
+        } else {
+            avatarImageView.image = UIImage(named: "mock-person")
+        }
     }
     
     // MARK: - Behaviour
