@@ -15,7 +15,7 @@ final class SettingsViewController: UIViewController {
     
     private let nameLabel = UILabel(
         font: .systemFont(ofSize: 18, weight: .semibold),
-        textAlignment: .left, color: .black
+        textAlignment: .left, color: .label
     )
     
     private let emailLabel = UILabel(

@@ -8,6 +8,7 @@ final class UserRealm: Object {
     dynamic var lastName: String = ""
     dynamic var userId: String = ""
     dynamic var email: String = ""
+    dynamic var isMale: Bool = true
     dynamic var userImageData: Data?
     var movies = List<MovieRealm>()
     
@@ -19,5 +20,6 @@ final class UserRealm: Object {
         self.userId = userId
         self.email = email
         self.userImageData = userImageData
+        self.isMale = true
     }
 }

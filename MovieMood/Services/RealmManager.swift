@@ -6,15 +6,24 @@ protocol RealmManagerProtocol: AnyObject {
     func fetchAllUsers(completion: @escaping ([UserRealm]) -> Void)
     func removeObject(object: Object, completion: @escaping (Bool) -> Void)
     func removeAll(completion: @escaping (Bool) -> Void)
-    func fetchFilms(userId: String, completion: @escaping ([MovieRealm]) -> Void)
+    func fetchFilms(userId: String,
+                    completion: @escaping ([MovieRealm]) -> Void)
     func isExistRealmUser(userId: String) -> Bool
-    func fetchRealmUser(userId: String, completion: @escaping (UserRealm?) -> Void)
+    func fetchRealmUser(userId: String,
+                        completion: @escaping (UserRealm?) -> Void)
     func updateUserData(user: UserRealm, firstName: String, lastName: String,
-                        avatarImageData: Data?, completion: (Bool) -> Void)
+                        avatarImageData: Data?, isMale: Bool,
+                        completion: (Bool) -> Void)
+    func isLikedMovie(for user: UserRealm, with movieId: String) -> Bool
+    func saveMovie(for user: UserRealm, with filmId: String,
+                   completion: @escaping (Bool) -> Void)
+    func removeMovie(for user: UserRealm, with filmId: String,
+                     completion: @escaping (Bool) -> Void)
 }
 
 /// Ream manager instance that uses when need to save user and his favorites movies
 final class RealmManager: RealmManagerProtocol {
+    
     static let shared = RealmManager()
     
     private let realm: Realm? = {
@@ -33,15 +42,83 @@ final class RealmManager: RealmManagerProtocol {
         }
     }()
     
+    /// Check on is favorite movie or not
+    /// - Parameters:
+    ///   - user: Current realm user
+    ///   - movieId: Movie id that need to check
+    /// - Returns: Returns true if favorite
+    func isLikedMovie(for user: UserRealm, with movieId: String) -> Bool {
+        let movies = user.movies
+        for movie in movies {
+            if movie.movieId == movieId {
+                return true
+            }
+        }
+        return false
+    }
+    
+    /// Attempt to save movie ID to realm database
+    /// - Parameters:
+    ///   - user: Current realm user
+    ///   - filmId: Movie id that need to save
+    ///   - completion:Returns true if success
+    func saveMovie(for user: UserRealm, with filmId: String,
+                   completion: @escaping (Bool) -> Void) {
+        let movie = MovieRealm()
+        movie.movieId = filmId
+        do {
+            try realm?.write({
+                user.movies.append(movie)
+            })
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    /// Attempt to remove movie ID from realm database
+    /// - Parameters:
+    ///   - user: Current realm user
+    ///   - filmId: Movie id that need to remove
+    ///   - completion: Returns true if success
+    func removeMovie(for user: UserRealm, with filmId: String,
+                     completion: @escaping (Bool) -> Void) {
+        let movies = user.movies
+        
+        for (index, movie) in movies.enumerated() {
+            if movie.movieId == filmId {
+                do {
+                    try realm?.write({
+                        movies.remove(at: index)
+                        completion(true)
+                    })
+                } catch {
+                    completion(false)
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    /// Attempt to update user data in Realm
+    /// - Parameters:
+    ///   - user: Current Realm User
+    ///   - firstName: User name
+    ///   - lastName: User last name
+    ///   - avatarImageData: User avatar image data
+    ///   - isMale: User sex. Default == male
+    ///   - completion: Returns true if okey
     func updateUserData(user: UserRealm, firstName: String, lastName: String,
-                        avatarImageData: Data?, completion: (Bool) -> Void) {
+                        avatarImageData: Data?, isMale: Bool, completion: (Bool) -> Void) {
         do {
             try realm?.write({
                 user.firstName = firstName
                 user.lastName = lastName
                 user.userImageData = avatarImageData
+                user.isMale = isMale
+                completion(true)
             })
         } catch {
+            completion(false)
             print(error.localizedDescription)
         }
     }
@@ -119,6 +196,8 @@ final class RealmManager: RealmManagerProtocol {
     }
     
     
+    /// Attempt to remove all the data in the realm
+    /// - Parameter completion: Returns true if okey
     func removeAll(completion: @escaping (Bool) -> Void) {
         do {
             try realm?.write({
@@ -130,5 +209,4 @@ final class RealmManager: RealmManagerProtocol {
             completion(false)
         }
     }
-    
 }

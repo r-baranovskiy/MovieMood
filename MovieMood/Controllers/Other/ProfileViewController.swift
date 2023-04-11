@@ -51,7 +51,8 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        maleButton.isSelected = true
+        maleButton.isSelected = currentUser.isMale
+        femaleButton.isSelected = !currentUser.isMale
         setupView()
         updateUser()
         addTargets()
@@ -111,18 +112,27 @@ final class ProfileViewController: UIViewController {
             return
         }
         
+        let isMale = maleButton.isSelected ? true : false
+        
         RealmManager.shared.updateUserData(
             user: currentUser, firstName: firstName,
-            lastName: lastName, avatarImageData: avatarImageData) { success in
-            print(success)
-        }
+            lastName: lastName, avatarImageData: avatarImageData,
+            isMale: isMale) { [weak self] success in
+                if success {
+                    let alert = UIAlertController.createAlert(
+                        title: "Successfully", message: "") { _ in
+                            self?.navigationController?.popViewController(animated: true)
+                        }
+                    self?.present(alert, animated: true)
+                }
+            }
     }
     
     @objc
     private func didTapBlurView() {
         blurView.removeFromSuperview()
     }
-
+    
     @objc
     private func didTapAvatar() {
         DispatchQueue.main.async {
@@ -240,7 +250,7 @@ extension ProfileViewController {
             distribution: .equalSpacing
         )
         view.addSubviewWithoutTranslates(avatarImageView, stack)
-
+        
         NSLayoutConstraint.activate([
             avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             avatarImageView.topAnchor.constraint(
