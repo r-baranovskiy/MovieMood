@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AuthManager.shared.fetchCurrentMovieUser { result in
                 switch result {
                 case .success(let movieUser):
-                    window.rootViewController = MainTabBarController(user: movieUser)
+                    window.rootViewController = OnboardingViewController(user: movieUser)
                 case .failure:
                     window.rootViewController = SignInViewController()
                 }

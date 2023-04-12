@@ -75,6 +75,8 @@
 		80FBE9C929E3234200849E13 /* ImageNetworkLoaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C829E3234200849E13 /* ImageNetworkLoaderManager.swift */; };
 		80FBE9CD29E3613100849E13 /* HeaderSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9CC29E3613100849E13 /* HeaderSectionView.swift */; };
 		80FBE9D229E3692600849E13 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9D129E3692600849E13 /* SettingsSection.swift */; };
+		C57B47C129DF2C5A0005A3FD /* UIScrollView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57B47C029DF2C5A0005A3FD /* UIScrollView + Extension.swift */; };
+		C57B47C329E0612C0005A3FD /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57B47C229E0612C0005A3FD /* OnboardingView.swift */; };
 		E5C1401929E56F32009E5C05 /* FilterPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C1401829E56F32009E5C05 /* FilterPopupView.swift */; };
 		E5C1401B29E597CE009E5C05 /* StarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C1401A29E597CE009E5C05 /* StarButton.swift */; };
 		E5C1401D29E5A6B3009E5C05 /* CategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C1401C29E5A6B3009E5C05 /* CategoryButton.swift */; };
@@ -147,6 +149,8 @@
 		80FBE9C829E3234200849E13 /* ImageNetworkLoaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNetworkLoaderManager.swift; sourceTree = "<group>"; };
 		80FBE9CC29E3613100849E13 /* HeaderSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeaderSectionView.swift; path = MovieMood/Views/Views/HeaderSectionView.swift; sourceTree = SOURCE_ROOT; };
 		80FBE9D129E3692600849E13 /* SettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
+		C57B47C029DF2C5A0005A3FD /* UIScrollView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView + Extension.swift"; sourceTree = "<group>"; };
+		C57B47C229E0612C0005A3FD /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		E5C1401829E56F32009E5C05 /* FilterPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPopupView.swift; sourceTree = "<group>"; };
 		E5C1401A29E597CE009E5C05 /* StarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarButton.swift; sourceTree = "<group>"; };
 		E5C1401C29E5A6B3009E5C05 /* CategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButton.swift; sourceTree = "<group>"; };
@@ -194,6 +198,7 @@
 		8058C56929E09A6D003C4757 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C57B47C229E0612C0005A3FD /* OnboardingView.swift */,
 				806231B329E55717003B8CE4 /* SearchView.swift */,
 				80182A8329DF5A43002B99DD /* TransformView.swift */,
 				809BD0C629E1FC6800002069 /* PhotoPickerView.swift */,
@@ -279,6 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				808E8CBC29DAC186003DD106 /* UIColor + Extension.swift */,
+				C57B47C029DF2C5A0005A3FD /* UIScrollView + Extension.swift */,
 				809FE97A29DD8F3E007EAF7A /* UIAlertController+ Extension.swift */,
 				80182A8529DF5A59002B99DD /* CGFloat + Extension.swift */,
 				8081199829E00A5A001A0E4A /* UIStackView + Extension.swift */,
@@ -539,6 +545,8 @@
 				803898C829DC7BCA00103156 /* SignInViewController.swift in Sources */,
 				80FBE9C129E2A4EC00849E13 /* GoogleButton.swift in Sources */,
 				808E8CC129DAC9E8003DD106 /* HomeViewController.swift in Sources */,
+				C57B47C329E0612C0005A3FD /* OnboardingView.swift in Sources */,
+				C57B47C129DF2C5A0005A3FD /* UIScrollView + Extension.swift in Sources */,
 				80A2E61329E56122001AF7C6 /* UserModel.swift in Sources */,
 				80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */,
 				8081199B29E00A82001A0E4A /* UILabel + Extension.swift in Sources */,
