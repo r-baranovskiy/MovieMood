@@ -123,6 +123,16 @@ extension HistoryViewController: UICollectionViewDelegate,
                            genre: "Action", isFavorite: isFavorite)
             return cell
         }
+        cell.delegate = self
+        let movie = movies[indexPath.row]
+        let imageUrl = URL(
+            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
+        )
+        cell.configure(url: imageUrl, movieName: movie.title,
+                       duration: 0, creatingDate: movie.release_date,
+                       genre: "Action")
+        return cell
+    }
 }
 
 // MARK: - Setup View
