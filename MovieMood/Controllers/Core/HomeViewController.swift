@@ -3,9 +3,9 @@ import SDWebImage
 
 final class HomeViewController: UIViewController {
     
-    enum CategoryType {
+    enum ShowType {
         case movies
-        case serials
+        case tv
     }
     
     private let apiManager = ApiManager(
@@ -19,6 +19,7 @@ final class HomeViewController: UIViewController {
     private var filmCovers = [UIImage]()
     private var popularMovies = [MovieDetail]()
     private var ratingTV = [TVDetail]()
+    private var showType: ShowType?
     
     private var userImageView: UIImageView = {
         let userIV = UIImageView()
@@ -31,7 +32,7 @@ final class HomeViewController: UIViewController {
     }()
     
     private let cateforySegmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: ["Films", "Serials"])
+        let control = UISegmentedControl(items: ["Films", "TV"])
         control.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .bold),
             NSAttributedString.Key.foregroundColor: UIColor.label
@@ -40,6 +41,19 @@ final class HomeViewController: UIViewController {
         control.selectedSegmentTintColor = .custom.mainBlue
         control.selectedSegmentIndex = 0
         return control
+    }()
+    
+    private lazy var spiner: UIActivityIndicatorView = {
+        let active = UIActivityIndicatorView(style: .large)
+        let size = CGSize(width: 100, height: 100)
+        active.frame = CGRect(
+            x: (animateContainerView.frame.width - size.width) / 2,
+            y: (animateContainerView.frame.height - size.height) / 2,
+            width: size.width, height: size.height
+        )
+        print(animateContainerView)
+        active.hidesWhenStopped = true
+        return active
     }()
     
     private var usernameLabel = UILabel(
@@ -88,23 +102,30 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         settings()
-        updateData(with: .serials)
+        updateData(with: .movies)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateUser()
     }
-        
+    
     // MARK: - Actions
     
     @objc
     private func didChangeControl(_ sender: UISegmentedControl) {
+        for subview in animateContainerView.subviews {
+            if subview != spiner {
+                subview.removeFromSuperview()
+            }
+        }
         switch sender.selectedSegmentIndex {
         case 0:
+            filmCovers = []
             updateData(with: .movies)
         case 1:
-            updateData(with: .serials)
+            filmCovers = []
+            updateData(with: .tv)
         default:
             break
         }
@@ -129,24 +150,25 @@ final class HomeViewController: UIViewController {
         }
     }
     
-    private func updateData(with category: CategoryType) {
+    private func updateData(with category: ShowType) {
         switch category {
         case .movies:
             fetchMovies()
-        case .serials:
+        case .tv:
             fetchTV()
         }
     }
     
     private func fetchTV() {
+        showType = .tv
         Task {
             do {
                 let shows = try await apiManager.fetchRatingTV().results
                 for tv in shows {
                     let show = try await apiManager.fetchTVDetail(with: tv.id)
                     ratingTV.append(show)
-                    print(show)
                 }
+                fetchFilmCovers(with: ratingTV)
                 await MainActor.run {
                     moviesTableView.reloadData()
                 }
@@ -157,6 +179,7 @@ final class HomeViewController: UIViewController {
     }
     
     private func fetchMovies() {
+        showType = .movies
         Task {
             do {
                 let movies = try await apiManager.fetchMovies().results
@@ -164,7 +187,7 @@ final class HomeViewController: UIViewController {
                     let movie = try await apiManager.fetchMovieDetail(with: movie.id)
                     popularMovies.append(movie)
                 }
-                fetchFilmCovers()
+                fetchFilmCovers(with: popularMovies)
                 await MainActor.run {
                     moviesTableView.reloadData()
                 }
@@ -174,13 +197,16 @@ final class HomeViewController: UIViewController {
         }
     }
     
-    private func fetchFilmCovers() {
-        ImageNetworkLoaderManager.shared.fetchImageArray(movieModels: popularMovies) { [weak self] result in
+    private func fetchFilmCovers(with models: [Any]) {
+        animateContainerView.addSubview(spiner)
+        spiner.startAnimating()
+        ImageNetworkLoaderManager.shared.fetchImageArray(movieModels: models) { [weak self] result in
             switch result {
             case .success(let images):
                 self?.filmCovers = images
                 DispatchQueue.main.async {
                     self?.showHeaderFilms()
+                    self?.spiner.stopAnimating()
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -196,7 +222,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let movie = popularMovies[indexPath.row]
         
         if !RealmManager.shared.isAddedToRecentMovie(for: currentUser,
-                                                    with: movie.id) {
+                                                     with: movie.id) {
             RealmManager.shared.saveMovie(for: currentUser, with: movie.id,
                                           moviesType: .recent) { success in
                 print("Saved")
@@ -213,7 +239,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        popularMovies.count
+        guard let type = showType else { return 0 }
+        switch type {
+        case .movies:
+            return popularMovies.count
+        case .tv:
+            return ratingTV.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -221,14 +253,29 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             withIdentifier: MovieTableViewCell.identifier, for: indexPath
         ) as? MovieTableViewCell else { return UITableViewCell() }
         
-        let movie = popularMovies[indexPath.row]
-        let imageUrl = URL(
-            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
-        )
-        cell.configure(url: imageUrl, movieName: movie.title,
-                       duration: 120, genre: "Erotic",
-                       votesAmoutCount: 288, rate: 5.5)
-        return cell
+        guard let type = showType else { return UITableViewCell() }
+        
+        switch type {
+        case .movies:
+            let movie = popularMovies[indexPath.row]
+            let imageUrl = URL(
+                string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
+            )
+            cell.configure(url: imageUrl, movieName: movie.title,
+                           duration: 120, genre: "Erotic",
+                           votesAmoutCount: 288, rate: 5.5)
+            return cell
+        case .tv:
+            let tv = ratingTV[indexPath.row]
+            let imageUrl = URL(
+                string: "https://image.tmdb.org/t/p/w500/\(tv.posterPath)"
+            )
+            cell.configure(url: imageUrl, movieName: tv.name,
+                           duration: 40, genre: "TV",
+                           votesAmoutCount: tv.voteCount, rate: tv.voteAverage
+            )
+            return cell
+        }
     }
 }
 
@@ -274,7 +321,6 @@ extension HomeViewController: UICollectionViewDelegate,
 extension HomeViewController {
     private func showHeaderFilms() {
         let height = animateContainerHeigh
-        
         let carouselView = TransformView(
             images: filmCovers,
             imageSize: CGSize(
