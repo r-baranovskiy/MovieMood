@@ -41,17 +41,6 @@ final class MainTabBarController: UITabBarController {
         setTabBarAppearance()
         setupHomeButton()
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        let movie = MovieRealm()
-        movie.movieId = "1488"
-//        RealmManager.shared.saveMovie(for: realmUser!, with: movie.movieId) { success in
-//            print("SAVED")
-//        }
-        //print(RealmManager.shared.isLikedMovie(for: realmUser!, with: movie.movieId))
-        //print(realmUser?.movies)
-    }
 }
 
 // MARK: - generateTabBar()
@@ -72,7 +61,9 @@ extension MainTabBarController {
                 ) : UIViewController(),
                 image: UIImage(), title: "Home"),
             generateVC(
-                viewController: FavoriteViewController(),
+                viewController: realmUser != nil ? FavoriteViewController(
+                    currentUser: realmUser!
+                ) : UIViewController(),
                 image: UIImage(named: "heart-icon"), title: "Favorites"),
             generateVC(
                 viewController: realmUser != nil ? SettingsViewController(

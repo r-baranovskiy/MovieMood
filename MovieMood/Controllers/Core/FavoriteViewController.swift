@@ -6,7 +6,8 @@ final class FavoriteViewController: UIViewController {
     
     private var currentUser: UserRealm
     
-    private var favoriteMovies = [MovieModel]()
+    private var favoriteMoviesId = [MovieRealm]()
+    private var movies = [MovieDetail]()
     
     private let apiManager = ApiManager(
         networkManager: NetworkManager(jsonService: JSONDecoderManager())
@@ -40,15 +41,70 @@ final class FavoriteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
+        updateFavoritesId()
+        fetchMovies()
     }
     
-    // MARK: - Actions
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        updateFavoritesId()
+//        fetchMovies()
+        movies.filter({ $0.id == 100 })
+    }
     
+    private func updateFavoritesId() {
+        RealmManager.shared.fetchFilms(userId: currentUser.userId) {
+            [weak self] moviesRealm in
+            guard let self = self else { return }
+            for movie in moviesRealm where !self.favoriteMoviesId.contains(movie) {
+                self.favoriteMoviesId.append(movie)
+            }
+        }
+    }
+    
+    private func fetchMovies() {
+        for id in favoriteMoviesId {
+            Task {
+                do {
+                    let movie = try await apiManager.fetchMovieDetail(with: id.movieId)
+                    
+                    movies.append(movie)
+                    await MainActor.run(body: {
+                        movieColletionView.reloadData()
+                    })
+                }
+            }
+        }
+    }
 }
+
+// MARK: - MovieCollectionViewCellDelegate
 
 extension FavoriteViewController: MovieCollectionViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?) {
-        <#code#>
+        guard let indexPath = indexPath else { return }
+        let movieId = movies[indexPath.row].id
+        if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
+            RealmManager.shared.saveMovie(
+                for: currentUser, with: movies[indexPath.row].id
+            ) { [weak self] success in
+                print("Liked")
+                DispatchQueue.main.async {
+                    self?.movieColletionView.reloadData()
+                }
+            }
+        } else {
+            RealmManager.shared.removeMovie(for: currentUser,
+                                            with: movieId) { [weak self] success in
+                if success {
+                    DispatchQueue.main.async {
+                        self?.movies.remove(at: indexPath.row)
+                        self?.movieColletionView.reloadData()
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -57,7 +113,7 @@ extension FavoriteViewController: MovieCollectionViewCellDelegate {
 extension FavoriteViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        favoriteMovies.count
+        movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -69,19 +125,18 @@ extension FavoriteViewController: UICollectionViewDataSource {
         }
         cell.delegate = self
         cell.indexPath = indexPath
-        let movie = favoriteMovies[indexPath.row]
-        let imageUrl = URL(
-            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path)"
-        )
+        let movie = movies[indexPath.row]
         
+        let imageUrl = URL(
+            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
+        )
         let isFavorite = RealmManager.shared.isLikedMovie(
-            for: currentUser, with: String(movie.id)
+            for: currentUser, with: movie.id
         )
         
         cell.configure(url: imageUrl, movieName: movie.title,
                        duration: 0, creatingDate: movie.release_date,
                        genre: "Action", isFavorite: isFavorite)
-        return cell
         return cell
     }
 }
@@ -102,5 +157,30 @@ extension FavoriteViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: view.frame.width / 2)
+    }
+}
+
+// MARK: - Setup View
+
+extension FavoriteViewController {
+    private func setupView() {
+        view.backgroundColor = .custom.mainBackground
+        movieColletionView.backgroundColor = .clear
+        
+        view.addSubviewWithoutTranslates(movieColletionView)
+        NSLayoutConstraint.activate([
+            movieColletionView.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor
+            ),
+            movieColletionView.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor
+            ),
+            movieColletionView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            movieColletionView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            )
+        ])
     }
 }

@@ -14,10 +14,10 @@ protocol RealmManagerProtocol: AnyObject {
     func updateUserData(user: UserRealm, firstName: String, lastName: String,
                         avatarImageData: Data?, isMale: Bool,
                         completion: (Bool) -> Void)
-    func isLikedMovie(for user: UserRealm, with movieId: String) -> Bool
-    func saveMovie(for user: UserRealm, with filmId: String,
+    func isLikedMovie(for user: UserRealm, with movieId: Int) -> Bool
+    func saveMovie(for user: UserRealm, with filmId: Int,
                    completion: @escaping (Bool) -> Void)
-    func removeMovie(for user: UserRealm, with filmId: String,
+    func removeMovie(for user: UserRealm, with filmId: Int,
                      completion: @escaping (Bool) -> Void)
 }
 
@@ -47,7 +47,7 @@ final class RealmManager: RealmManagerProtocol {
     ///   - user: Current realm user
     ///   - movieId: Movie id that need to check
     /// - Returns: Returns true if favorite
-    func isLikedMovie(for user: UserRealm, with movieId: String) -> Bool {
+    func isLikedMovie(for user: UserRealm, with movieId: Int) -> Bool {
         let movies = user.movies
         for movie in movies {
             if movie.movieId == movieId {
@@ -62,7 +62,7 @@ final class RealmManager: RealmManagerProtocol {
     ///   - user: Current realm user
     ///   - filmId: Movie id that need to save
     ///   - completion:Returns true if success
-    func saveMovie(for user: UserRealm, with filmId: String,
+    func saveMovie(for user: UserRealm, with filmId: Int,
                    completion: @escaping (Bool) -> Void) {
         let movie = MovieRealm()
         movie.movieId = filmId
@@ -80,7 +80,7 @@ final class RealmManager: RealmManagerProtocol {
     ///   - user: Current realm user
     ///   - filmId: Movie id that need to remove
     ///   - completion: Returns true if success
-    func removeMovie(for user: UserRealm, with filmId: String,
+    func removeMovie(for user: UserRealm, with filmId: Int,
                      completion: @escaping (Bool) -> Void) {
         let movies = user.movies
         
