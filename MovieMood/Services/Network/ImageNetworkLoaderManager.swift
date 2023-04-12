@@ -4,7 +4,7 @@ final class ImageNetworkLoaderManager {
     
     static let shared = ImageNetworkLoaderManager()
     
-    func fetchImageArray(movieModels: [MovieModel],
+    func fetchImageArray(movieModels: [MovieDetail],
                          completion: @escaping (Result<[UIImage], Error>) -> Void) {
         guard movieModels.count >= 15 else { return }
         let movieModels = movieModels.shuffled()[0...14]

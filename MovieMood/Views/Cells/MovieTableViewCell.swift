@@ -92,6 +92,7 @@ final class MovieTableViewCell: UITableViewCell {
     // MARK: - Setup Content View
     
     private func setupViewContent() {
+        backgroundColor = .clear
         let descriptionView = createDesctiptionView()
         
         addSubviewWithoutTranslates(movieImageView, descriptionView)

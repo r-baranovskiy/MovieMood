@@ -3,6 +3,11 @@ import SDWebImage
 
 final class HomeViewController: UIViewController {
     
+    enum CategoryType {
+        case movies
+        case serials
+    }
+    
     private let apiManager = ApiManager(
         networkManager: NetworkManager(jsonService: JSONDecoderManager())
     )
@@ -12,7 +17,8 @@ final class HomeViewController: UIViewController {
     private let currentUser: UserRealm
     
     private var filmCovers = [UIImage]()
-    private var movies = [MovieModel]()
+    private var popularMovies = [MovieDetail]()
+    private var ratingTV = [TVDetail]()
     
     private var userImageView: UIImageView = {
         let userIV = UIImageView()
@@ -22,6 +28,18 @@ final class HomeViewController: UIViewController {
         userIV.widthAnchor.constraint(equalToConstant: 40).isActive = true
         userIV.layer.cornerRadius = userIV.frame.height / 2
         return userIV
+    }()
+    
+    private let cateforySegmentedControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: ["Films", "Serials"])
+        control.setTitleTextAttributes([
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .bold),
+            NSAttributedString.Key.foregroundColor: UIColor.label
+        ], for: .normal)
+        control.backgroundColor = .custom.mainBackground
+        control.selectedSegmentTintColor = .custom.mainBlue
+        control.selectedSegmentIndex = 0
+        return control
     }()
     
     private var usernameLabel = UILabel(
@@ -40,6 +58,7 @@ final class HomeViewController: UIViewController {
     
     private let moviesTableView: UITableView = {
         let table = UITableView()
+        table.backgroundColor = .clear
         table.separatorStyle = .none
         table.showsVerticalScrollIndicator = false
         table.register(
@@ -47,30 +66,6 @@ final class HomeViewController: UIViewController {
             forCellReuseIdentifier: MovieTableViewCell.identifier
         )
         return table
-    }()
-    
-    // MARK: - Collection
-    
-    private let categoryCollection: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let colletion = UICollectionView(
-            frame: .zero, collectionViewLayout: layout
-        )
-        colletion.register(
-            CategoryCollectionViewCell.self,
-            forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier
-        )
-        layout.estimatedItemSize = CGSize(width: 100, height: 30)
-        layout.minimumLineSpacing = 15
-        layout.minimumInteritemSpacing = 0
-        layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 8, left: 24, bottom: 8, right: 24)
-        colletion.contentInsetAdjustmentBehavior = .always
-        colletion.backgroundColor = .clear
-        colletion.bounces = false
-        colletion.showsHorizontalScrollIndicator = false
-        return colletion
     }()
     
     private var categories = CategoryCellViewModel.fetchCategories()
@@ -92,18 +87,35 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setDelegates()
-        fetchMovies()
+        settings()
+        updateData(with: .serials)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateUser()
     }
+        
+    // MARK: - Actions
     
-    private func setDelegates() {
-        categoryCollection.delegate = self
-        categoryCollection.dataSource = self
+    @objc
+    private func didChangeControl(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            updateData(with: .movies)
+        case 1:
+            updateData(with: .serials)
+        default:
+            break
+        }
+    }
+    
+    // MARK: - Behaviour
+    
+    private func settings() {
+        cateforySegmentedControl.addTarget(
+            self, action: #selector(didChangeControl), for: .valueChanged
+        )
         moviesTableView.delegate = self
         moviesTableView.dataSource = self
     }
@@ -117,12 +129,41 @@ final class HomeViewController: UIViewController {
         }
     }
     
-    // MARK: - Behaviour
+    private func updateData(with category: CategoryType) {
+        switch category {
+        case .movies:
+            fetchMovies()
+        case .serials:
+            fetchTV()
+        }
+    }
+    
+    private func fetchTV() {
+        Task {
+            do {
+                let shows = try await apiManager.fetchRatingTV().results
+                for tv in shows {
+                    let show = try await apiManager.fetchTVDetail(with: tv.id)
+                    ratingTV.append(show)
+                    print(show)
+                }
+                await MainActor.run {
+                    moviesTableView.reloadData()
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     private func fetchMovies() {
         Task {
             do {
-                movies = try await apiManager.fetchMovies().results
+                let movies = try await apiManager.fetchMovies().results
+                for movie in movies {
+                    let movie = try await apiManager.fetchMovieDetail(with: movie.id)
+                    popularMovies.append(movie)
+                }
                 fetchFilmCovers()
                 await MainActor.run {
                     moviesTableView.reloadData()
@@ -134,7 +175,7 @@ final class HomeViewController: UIViewController {
     }
     
     private func fetchFilmCovers() {
-        ImageNetworkLoaderManager.shared.fetchImageArray(movieModels: movies) { [weak self] result in
+        ImageNetworkLoaderManager.shared.fetchImageArray(movieModels: popularMovies) { [weak self] result in
             switch result {
             case .success(let images):
                 self?.filmCovers = images
@@ -152,7 +193,7 @@ final class HomeViewController: UIViewController {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movie = movies[indexPath.row]
+        let movie = popularMovies[indexPath.row]
         
         if !RealmManager.shared.isAddedToRecentMovie(for: currentUser,
                                                     with: movie.id) {
@@ -172,7 +213,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        movies.count
+        popularMovies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -180,7 +221,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             withIdentifier: MovieTableViewCell.identifier, for: indexPath
         ) as? MovieTableViewCell else { return UITableViewCell() }
         
-        let movie = movies[indexPath.row]
+        let movie = popularMovies[indexPath.row]
         let imageUrl = URL(
             string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
         )
@@ -264,7 +305,7 @@ extension HomeViewController {
         view.backgroundColor = .custom.mainBackground
         view.addSubviewWithoutTranslates(
             topStackView, animateContainerView,
-            categoryCollection, moviesTableView
+            cateforySegmentedControl, moviesTableView
         )
         
         NSLayoutConstraint.activate([
@@ -294,17 +335,23 @@ extension HomeViewController {
         ])
         
         NSLayoutConstraint.activate([
-            categoryCollection.heightAnchor.constraint(equalToConstant: 50),
-            categoryCollection.topAnchor.constraint(
+            cateforySegmentedControl.heightAnchor.constraint(
+                equalToConstant: 30
+            ),
+            cateforySegmentedControl.topAnchor.constraint(
                 equalTo: animateContainerView.bottomAnchor, constant: 50
             ),
-            categoryCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            categoryCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            cateforySegmentedControl.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor, constant: 16
+            ),
+            cateforySegmentedControl.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor, constant: -16
+            )
         ])
         
         NSLayoutConstraint.activate([
             moviesTableView.topAnchor.constraint(
-                equalTo: categoryCollection.bottomAnchor, constant: 10
+                equalTo: cateforySegmentedControl.bottomAnchor, constant: 10
             ),
             moviesTableView.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10
