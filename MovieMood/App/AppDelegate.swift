@@ -13,9 +13,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AuthManager.shared.fetchCurrentMovieUser { result in
                 switch result {
                 case .success(let movieUser):
-                    window.rootViewController = OnboardingViewController(user: movieUser)
+                    window.rootViewController = MainTabBarController(user: movieUser)
                 case .failure:
-                    window.rootViewController = SignInViewController()
+                    window.rootViewController = OnboardingViewController()
                 }
             }
         let darkMode = UserDefaults.standard.bool(forKey: OptionType.darkMode.rawValue)

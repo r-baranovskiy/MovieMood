@@ -2,19 +2,7 @@ import UIKit
 
 // MARK: - Properties and viewDidLoad()
 final class OnboardingViewController: UIViewController {
-    private let currentUser: MovieUser
-    private var realmUser: UserRealm?
-    
-    // MARK: - Init
-    
-    init(user: MovieUser) {
-        self.currentUser = user
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+
     private lazy var firstView = generateOnboardingView(textLabel: "Hello! I'll help to choose a movie!", descriprionLabel: "Going to enjoy Movie Night? Don't know which movie will like your friends? I'll solve this problem easily!")
     private lazy var secondView = generateOnboardingView(textLabel: "Choose genres that you preer the most!", descriprionLabel: "Pick your favorite genres, and relevant movies will be included to the voting list. Tune your preferences in Profile")
     private lazy var  thirdView = generateOnboardingView(textLabel: "Discover and vote on movies!", descriprionLabel: "Explore a curated list of movies based on your favorite genres. Vote on the movies you want to watch and enjoy a personalized movie night!")
@@ -158,9 +146,10 @@ extension OnboardingViewController {
         if Int(pageIndex) < views.count - 1 {
             scrollView.scrollTo(horizotalPage: Int(pageIndex) + 1, animated: true)
         } else {
-            let mainTabBarController = MainTabBarController(user: currentUser)
-            mainTabBarController.modalPresentationStyle = .fullScreen
-            present(mainTabBarController, animated: true)
+            let signInVC = SignInViewController()
+            signInVC.modalPresentationStyle = .fullScreen
+            signInVC.modalTransitionStyle = .crossDissolve
+            present(signInVC, animated: true)
         }
     }
 }
