@@ -13,9 +13,9 @@ final class CategoryButton: UIButton {
         case all = "All"
         case action = "Action"
         case adventure = "Adventure"
-        case erotic = "Erotic"
-        case exotic = "Exotic"
-        case comedy = "Comedy"
+        case mystery = "Mystery"
+        case fantasy = "Fantasy"
+        case others = "Others"
         }
     
     let category: Category
@@ -32,13 +32,14 @@ final class CategoryButton: UIButton {
     
     private func setupButton() {
         backgroundColor = .clear
-        layer.cornerRadius = 16
+        layer.cornerRadius = 19.5
         layer.borderWidth = 1
         layer.borderColor = UIColor.custom.mainBlue.cgColor
         
         setTitle(category.rawValue, for: .normal)
-        titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        heightAnchor.constraint(equalToConstant: 32).isActive = true
+        setTitleColor(.label, for: .normal)
+        titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
+        heightAnchor.constraint(equalToConstant: 39).isActive = true
 
         contentHorizontalAlignment = .center
         
