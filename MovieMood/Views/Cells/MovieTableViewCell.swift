@@ -38,8 +38,7 @@ final class MovieTableViewCell: UITableViewCell {
     )
     
     private let likeButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "heart-icon"), for: .normal)
+        let button = UIButton(type: .system)
         return button
     }()
     
@@ -78,12 +77,12 @@ final class MovieTableViewCell: UITableViewCell {
         votesAmountLabel.text = nil
     }
     
-    func configure(url: URL?, movieName: String, duration: Int,
+    func configure(url: URL?, movieName: String, duration: String, isFavorite: Bool,
                    genre: String, votesAmoutCount: Int, rate: Double) {
-        isFavorite = true
+        self.isFavorite = isFavorite
         movieImageView.sd_setImage(with: url)
         movieNameLabel.text = movieName
-        durationLabel.text = String(duration)
+        durationLabel.text = duration
         genreLabel.text = genre
         ratingLabel.text = String(rate)
         votesAmountLabel.text = "(\(votesAmoutCount))"

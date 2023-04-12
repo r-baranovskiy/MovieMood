@@ -261,58 +261,29 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             let imageUrl = URL(
                 string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
             )
+            let isFavorite = RealmManager.shared.isLikedMovie(for: currentUser, with: movie.id)
             cell.configure(url: imageUrl, movieName: movie.title,
-                           duration: 120, genre: "Erotic",
-                           votesAmoutCount: 288, rate: 5.5)
+                           duration: "\(movie.runtime) minutes",
+                           isFavorite: isFavorite,
+                           genre: movie.genres.first?.name ?? "",
+                           votesAmoutCount: movie.vote_count,
+                           rate: movie.vote_average
+            )
             return cell
         case .tv:
             let tv = ratingTV[indexPath.row]
             let imageUrl = URL(
                 string: "https://image.tmdb.org/t/p/w500/\(tv.posterPath)"
             )
-            cell.configure(url: imageUrl, movieName: tv.name,
-                           duration: 40, genre: "TV",
-                           votesAmoutCount: tv.voteCount, rate: tv.voteAverage
+            let isFavorite = RealmManager.shared.isLikedMovie(for: currentUser, with: tv.id)
+            cell.configure(
+                url: imageUrl, movieName: tv.name,
+                duration: "Episodes: \(tv.numberOfEpisodes)",
+                isFavorite: isFavorite, genre: tv.genres.first?.name ?? "",
+                votesAmoutCount: tv.voteCount, rate: tv.voteAverage
             )
             return cell
         }
-    }
-}
-
-// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
-
-extension HomeViewController: UICollectionViewDelegate,
-                              UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView,
-                        numberOfItemsInSection section: Int) -> Int {
-        categories.count
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: CategoryCollectionViewCell.identifier,
-            for: indexPath) as? CategoryCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        cell.configureCell(with: categories[indexPath.row])
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        didSelectItemAt indexPath: IndexPath) {
-        categories.enumerated().forEach { index, value in
-            if index == indexPath.row {
-                categories[index].isSelected = true
-            } else {
-                categories[index].isSelected = false
-            }
-        }
-        categories = categories.map {
-            CategoryCellViewModel(title: $0.title, isSelected: $0.isSelected)
-        }
-        collectionView.reloadData()
     }
 }
 
