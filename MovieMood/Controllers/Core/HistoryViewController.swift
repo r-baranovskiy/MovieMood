@@ -50,14 +50,17 @@ final class HistoryViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         updateRecentMoviesId()
+        fetchMovies()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(recentMovies.count)
+        updateRecentMoviesId()
+        fetchMovies()
     }
     
     private func updateRecentMoviesId() {
+        recentMoviesId = []
         RealmManager.shared.fetchMovies(
             userId: currentUser.userId, moviesType: .recent
         ) { [weak self] movies in
@@ -70,13 +73,19 @@ final class HistoryViewController: UIViewController {
             Task {
                 do {
                     let movie = try await apiManager.fetchMovieDetail(with: id.movieId)
-                    recentMovies.insert(movie, at: 0)
-                    await MainActor.run(body: {
-                        movieColletionView.reloadData()
-                    })
+                    if !checkOnContains(movidId: id.movieId) {
+                        recentMovies.insert(movie, at: 0)
+                        await MainActor.run(body: {
+                            movieColletionView.reloadData()
+                        })
+                    }
                 }
             }
         }
+    }
+    
+    private func checkOnContains(movidId: Int) -> Bool {
+        return recentMovies.contains(where: { $0.id == movidId })
     }
 }
 
