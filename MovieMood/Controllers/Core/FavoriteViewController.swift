@@ -2,101 +2,105 @@ import UIKit
 
 final class FavoriteViewController: UIViewController {
     
-}
-  /*
-    var films : [Movie] = [Movie]()
+    // MARK: - Properties
     
-    fileprivate let collectionView : UICollectionView = {
+    private var currentUser: UserRealm
+    
+    private var favoriteMovies = [MovieModel]()
+    
+    private let apiManager = ApiManager(
+        networkManager: NetworkManager(jsonService: JSONDecoderManager())
+    )
+    
+    private lazy var movieColletionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 24
-        layout.scrollDirection = .vertical
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        
-        // registr collectionView cell
-        cv.register(ReusableCollectionViewCell.self , forCellWithReuseIdentifier: "ReusableCollectionViewCell")
-
-        return cv
+        let collection = UICollectionView(
+            frame: .zero,collectionViewLayout: layout
+        )
+        collection.register(
+            MovieCollectionViewCell.self,
+            forCellWithReuseIdentifier: MovieCollectionViewCell.identifier
+        )
+        collection.delegate = self
+        collection.dataSource = self
+        return collection
     }()
     
     
+    init(currentUser: UserRealm) {
+        self.currentUser = currentUser
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(collectionView)
-        
-        createMovieArray()
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        collectionViewConstraintsSetup()
     }
     
-    
-    func createMovieArray() {
-        films.append(Movie(movieName: "Drifting Home", movieImage: UIImage(named: "mock-film-one")!, movieCategory: "none", movieDuration: "200 minuts", dateCreating: "17 sep 2002"))
-        films.append(Movie(movieName: "Luck", movieImage: UIImage(named: "mock-film-two")!, movieCategory: "none", movieDuration: "148 minuts", dateCreating: "21 oct 2013"))
-        films.append(Movie(movieName: "Fistful", movieImage: UIImage(named: "mock-film-three")!, movieCategory: "none", movieDuration: "130 minuts", dateCreating: "14 sen 2021"))
-        films.append(Movie(movieName: "Jurassik World", movieImage: UIImage(named: "mock-film-four")!, movieCategory: "none", movieDuration: "156 minuts", dateCreating: "11 dec 2010"))
-        films.append(Movie(movieName: "Drifting Home", movieImage: UIImage(named: "mock-film-three")!, movieCategory: "none", movieDuration: "200 minuts", dateCreating: "17 sep 2002"))
-        films.append(Movie(movieName: "Luck", movieImage: UIImage(named: "mock-film-two")!, movieCategory: "none", movieDuration: "148 minuts", dateCreating: "21 oct 2013"))
-        films.append(Movie(movieName: "Fistful", movieImage: UIImage(named: "mock-film-three")!, movieCategory: "none", movieDuration: "130 minuts", dateCreating: "14 sen 2021"))
-        films.append(Movie(movieName: "Jurassik World", movieImage: UIImage(named: "mock-film-four")!, movieCategory: "none", movieDuration: "156 minuts", dateCreating: "11 dec 2010"))
-    }
+    // MARK: - Actions
     
 }
 
-// MARK: - CollectionView constrains settup
-
-extension FavoriteViewController {
-    func collectionViewConstraintsSetup() {
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+extension FavoriteViewController: MovieCollectionViewCellDelegate {
+    func didTapLike(withIndexPath indexPath: IndexPath?) {
+        <#code#>
     }
 }
 
-    // MARK: - CollectionView Delegate Methods
+// MARK: - UICollectionViewDataSource
 
-extension FavoriteViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    
-    // setup amount of cells in collectionview
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return films.count
+extension FavoriteViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        favoriteMovies.count
     }
     
-    //setup data in cell
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReusableCollectionViewCell", for: indexPath) as! ReusableCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: MovieCollectionViewCell.identifier,
+            for: indexPath) as? MovieCollectionViewCell else {
+            return UICollectionViewCell()
+        }
         cell.delegate = self
-        cell.film = films[indexPath.row]
+        cell.indexPath = indexPath
+        let movie = favoriteMovies[indexPath.row]
+        let imageUrl = URL(
+            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path)"
+        )
+        
+        let isFavorite = RealmManager.shared.isLikedMovie(
+            for: currentUser, with: String(movie.id)
+        )
+        
+        cell.configure(url: imageUrl, movieName: movie.title,
+                       duration: 0, creatingDate: movie.release_date,
+                       genre: "Action", isFavorite: isFavorite)
+        return cell
         return cell
     }
-    
-    //setup size of cell
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let widthPerItem = collectionView.bounds.width
-        return CGSize(width: widthPerItem, height: 160)
-    }
-    
-    // Setting up Collection View Header size
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.size.width, height:  70)
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension FavoriteViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        
     }
 }
 
-// MARK: - Cell Delegate Methods
+// MARK: - UICollectionViewDelegateFlowLayout
 
-extension FavoriteViewController: ReusableCollectionViewCellDelegate{
-    
-    func didTapAction() {
-        print("action button pressed")
+extension FavoriteViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: view.frame.width / 2)
     }
-    
-    func didTapLike() {
-        print("like button pressed")
-    }
-    
 }
-*/
