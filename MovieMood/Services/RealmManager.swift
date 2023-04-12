@@ -20,6 +20,7 @@ protocol RealmManagerProtocol: AnyObject {
     func fetchMovies(userId: String, moviesType: MoviesType,
                      completion: @escaping ([MovieRealm]) -> Void)
     func isLikedMovie(for user: UserRealm, with movieId: Int) -> Bool
+    func isAddedToRecentMovie(for user: UserRealm, with movieId: Int) -> Bool
     func saveMovie(for user: UserRealm, with filmId: Int, moviesType: MoviesType,
                    completion: @escaping (Bool) -> Void)
     func removeMovie(for user: UserRealm, with movieId: Int,
@@ -85,6 +86,21 @@ final class RealmManager: RealmManagerProtocol {
         return false
     }
     
+    /// Check on user favorite movies contain a movie or not
+    /// - Parameters:
+    ///   - user: Current realm user
+    ///   - movieId: Movie id that need to check
+    /// - Returns: Returns true if favorite
+    func isAddedToRecentMovie(for user: UserRealm, with movieId: Int) -> Bool {
+        let movies = user.recentWatchMovies
+        for movie in movies {
+            if movie.movieId == movieId {
+                return true
+            }
+        }
+        return false
+    }
+    
     /// Attempt to save movie ID to realm database
     /// - Parameters:
     ///   - user: Current realm user
@@ -111,11 +127,9 @@ final class RealmManager: RealmManagerProtocol {
             do {
                 try realm?.write({
                     user.recentWatchMovies.append(movie)
-                    print(user.recentWatchMovies)
                     completion(true)
                 })
-            } catch {
-                completion(false)
+            } catch let error {
                 print(error.localizedDescription)
             }
         }

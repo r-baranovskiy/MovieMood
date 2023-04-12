@@ -154,15 +154,16 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movie = movies[indexPath.row]
         
-        let detailVC = DetailViewController(movieId: movie.id)
-        RealmManager.shared.saveMovie(for: currentUser, with: movie.id,
-                                      moviesType: .recent) { [weak self] success in
-            if success {
-                print(success)
-                DispatchQueue.main.async {
-                    self?.navigationController?.pushViewController(detailVC, animated: true)
-                }
+        if !RealmManager.shared.isAddedToRecentMovie(for: currentUser,
+                                                    with: movie.id) {
+            RealmManager.shared.saveMovie(for: currentUser, with: movie.id,
+                                          moviesType: .recent) { success in
+                print("Saved")
             }
+        }
+        let detailVC = DetailViewController(movieId: movie.id)
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(detailVC, animated: true)
         }
     }
     

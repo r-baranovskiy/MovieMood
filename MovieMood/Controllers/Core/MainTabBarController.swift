@@ -20,6 +20,13 @@ final class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateUser()
+        generateTabBar()
+        setTabBarAppearance()
+        setupHomeButton()
+    }
+    
+    private func updateUser() {
         let realmUser = UserRealm(
             firstName: currentUser.firstName ?? "",
             lastName: currentUser.lastName ?? "",
@@ -37,14 +44,6 @@ final class MainTabBarController: UITabBarController {
                 }
             }
         }
-        generateTabBar()
-        setTabBarAppearance()
-        setupHomeButton()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        print("Recent watch movies - \(realmUser?.recentWatchMovies)")
-        print("Liked movies - \(realmUser?.favoriteMovies)")
     }
 }
 

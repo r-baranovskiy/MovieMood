@@ -5,6 +5,7 @@ final class HistoryViewController: UIViewController {
     private let currentUser: UserRealm
     
     private var recentMovies = [MovieDetail]()
+    
     private var recentMoviesId = [MovieRealm]()
     
     // MARK: - Collection View
@@ -49,7 +50,11 @@ final class HistoryViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         updateRecentMoviesId()
-        fetchMovies()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print(recentMovies.count)
     }
     
     private func updateRecentMoviesId() {
@@ -65,7 +70,7 @@ final class HistoryViewController: UIViewController {
             Task {
                 do {
                     let movie = try await apiManager.fetchMovieDetail(with: id.movieId)
-                    recentMovies.append(movie)
+                    recentMovies.insert(movie, at: 0)
                     await MainActor.run(body: {
                         movieColletionView.reloadData()
                     })
