@@ -9,12 +9,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        AuthManager.shared.logOut { result in
-            //
-        }
-        let rootVC = AuthManager.shared.checkOnLoggedIn() ? MainTabBarController() : SignInViewController()
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = rootVC
+        AuthManager.shared.fetchCurrentMovieUser { result in
+                switch result {
+                case .success(let movieUser):
+                    window.rootViewController = OnboardingViewController(user: movieUser)
+                case .failure:
+                    window.rootViewController = SignInViewController()
+                }
+            }
+        let darkMode = UserDefaults.standard.bool(forKey: OptionType.darkMode.rawValue)
+        window.overrideUserInterfaceStyle = darkMode ? .dark : .light
         window.makeKeyAndVisible()
         self.window = window
         return true

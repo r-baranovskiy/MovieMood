@@ -10,7 +10,6 @@ final class SignInViewController: UIViewController {
     private let topView: UIView = {
         let view = UIView()
         view.backgroundColor = .custom.mainBlue
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -18,48 +17,36 @@ final class SignInViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .custom.mainBackground
         view.layer.cornerRadius = 30
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     /// Labels
-    private let welcomeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Welcome to Movie Mood"
-        label.font = .systemFont(ofSize: 24, weight: .bold)
-        label.textColor = .label
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
     
-    private let accountLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Log In to your account"
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.textColor = .label
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let welcomeLabel = UILabel(
+        text: "Welcome to Movie Mood",
+        font: .systemFont(ofSize: 24, weight: .bold),
+        textAlignment: .center, color: .label
+    )
     
-    private let orContinueLabel: UILabel = {
-        let label = UILabel()
-        label.text = "⎯⎯ or continue with ⎯⎯"
-        label.textColor = .custom.lightGray
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let accountLabel = UILabel(
+        text: "Log In to your account",
+        font: .systemFont(ofSize: 16, weight: .semibold),
+        textAlignment: .center, color: .label
+    )
+    
+    private let continueWithLabel = UILabel(
+        text: "⎯⎯ or continue with ⎯⎯",
+        font: .systemFont(ofSize: 14, weight: .semibold),
+        textAlignment: .center, color: .custom.lightGray
+    )
     
     /// TextFields
-    private let emailTextField = AuthTextField(forStyle: .email)
-    private let passwordTextField = AuthTextField(forStyle: .password)
+    private let emailTextField = AppTextField(forStyle: .email)
+    private let passwordTextField = AppTextField(forStyle: .password)
     
     /// Buttons
     private let continueButton = BlueButton(withStyle: .continueEmail)
-    private let googleButton = GIDSignInButton()
+    private let googleButton = GoogleButton(type: .system)
     private let dontHaveAccButton = DontHaveAccButton(type: .system)
     
     // MARK: - Lifecycle
@@ -67,7 +54,19 @@ final class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        hideKeyboardWhenTappedAround()
+        keyboardSetting()
         addTargets()
+    }
+    
+    override func traitCollectionDidChange(
+        _ previousTraitCollection: UITraitCollection?
+    ) {
+        if (traitCollection.hasDifferentColorAppearance(
+            comparedTo: previousTraitCollection)
+        ) {
+            googleButton.layer.borderColor = UIColor.label.cgColor
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -93,17 +92,17 @@ final class SignInViewController: UIViewController {
             password: passwordTextField.text) { [weak self] result in
                 switch result {
                 case .success(let user):
-                    let tabBar = MainTabBarController()
+                    let tabBar = MainTabBarController(user: user)
                     tabBar.modalTransitionStyle = .crossDissolve
                     tabBar.modalPresentationStyle = .fullScreen
                     self?.present(tabBar, animated: true)
                 case .failure(let error):
-                    let alert = UIAlertController.errorAlert(
+                    let alert = UIAlertController.createAlert(
                         title: "Error", message: error.localizedDescription
                     )
                     self?.present(alert, animated: true)
                 }
-        }
+            }
     }
     
     @objc
@@ -112,9 +111,14 @@ final class SignInViewController: UIViewController {
         { [weak self] result in
             switch result {
             case .success(let user):
-                print(user)
+                DispatchQueue.main.async {
+                    let tabBar = MainTabBarController(user: user)
+                    tabBar.modalTransitionStyle = .crossDissolve
+                    tabBar.modalPresentationStyle = .fullScreen
+                    self?.present(tabBar, animated: true)
+                }
             case .failure(let error):
-                let alert = UIAlertController.errorAlert(
+                let alert = UIAlertController.createAlert(
                     title: "Error", message: error.localizedDescription
                 )
                 self?.present(alert, animated: true)
@@ -131,11 +135,28 @@ final class SignInViewController: UIViewController {
     }
 }
 
+// MARK: - Keyboard Setting
+
+extension SignInViewController {
+    private func keyboardSetting() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(
+            self, selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification, object: nil
+        )
+        notificationCenter.addObserver(
+            self, selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification, object: nil
+        )
+    }
+}
+
+// MARK: - Setup View
+
 extension SignInViewController {
     private func setupView() {
         
-        view.addSubview(topView)
-        view.addSubview(bottomView)
+        view.addSubviewWithoutTranslates(topView, bottomView)
         NSLayoutConstraint.activate([
             bottomView.heightAnchor.constraint(
                 equalTo: view.heightAnchor, multiplier: 0.70
@@ -152,7 +173,7 @@ extension SignInViewController {
             topView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         
-        topView.addSubview(welcomeLabel)
+        topView.addSubviewWithoutTranslates(welcomeLabel, accountLabel)
         NSLayoutConstraint.activate([
             welcomeLabel.topAnchor.constraint(
                 equalTo: topView.topAnchor, constant: 70
@@ -160,7 +181,6 @@ extension SignInViewController {
             welcomeLabel.centerXAnchor.constraint(equalTo: topView.centerXAnchor)
         ])
         
-        topView.addSubview(accountLabel)
         NSLayoutConstraint.activate([
             accountLabel.topAnchor.constraint(
                 equalTo: welcomeLabel.topAnchor, constant: 50
@@ -168,14 +188,9 @@ extension SignInViewController {
             accountLabel.centerXAnchor.constraint(equalTo: topView.centerXAnchor)
         ])
         
-        googleButton.colorScheme = .dark
-        googleButton.style = .wide
-        googleButton.layer.cornerRadius = 8
-        googleButton.clipsToBounds = true
-        
         let stack = UIStackView(arrangedSubviews: [
             emailTextField, passwordTextField, continueButton,
-            orContinueLabel, googleButton, dontHaveAccButton
+            continueWithLabel, googleButton, dontHaveAccButton
         ])
         
         stack.axis = .vertical
@@ -183,7 +198,7 @@ extension SignInViewController {
         stack.spacing = 20
         stack.translatesAutoresizingMaskIntoConstraints = false
         
-        bottomView.addSubview(stack)
+        bottomView.addSubviewWithoutTranslates(stack)
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(
                 equalTo: bottomView.topAnchor, constant: 70

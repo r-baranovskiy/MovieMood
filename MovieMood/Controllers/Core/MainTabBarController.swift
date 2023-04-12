@@ -1,14 +1,42 @@
 import UIKit
 
-// MARK: - viewDidLoad()
 final class MainTabBarController: UITabBarController {
-
-private let apiManager: ApiManagerProtocol = ApiManager(networkManager: NetworkManager(jsonService: JSONDecoderManager()))
+    
+    private let currentUser: MovieUser
+    private var realmUser: UserRealm?
+    
+    // MARK: - Init
+    
+    init(user: MovieUser) {
+        self.currentUser = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        fetchMovies()
-        fetchMovieDetail()
+        let realmUser = UserRealm(
+            firstName: currentUser.firstName ?? "",
+            lastName: currentUser.lastName ?? "",
+            userId: currentUser.id, email: currentUser.email,
+            userImageData: currentUser.avatarImageData
+        )
+        if RealmManager.shared.isExistRealmUser(userId: realmUser.userId) {
+            RealmManager.shared.fetchRealmUser(userId: realmUser.userId) { user in
+                self.realmUser = user
+            }
+        } else {
+            RealmManager.shared.saveUser(user: realmUser) { success in
+                if success {
+                    self.realmUser = realmUser
+                }
+            }
+        }
         generateTabBar()
         setTabBarAppearance()
         setupHomeButton()
@@ -21,28 +49,40 @@ extension MainTabBarController {
         viewControllers = [
             generateVC(
                 viewController: SearchViewController(),
-                image: UIImage(named: "search-icon")),
+                image: UIImage(named: "search-icon"), title: "Search"),
             generateVC(
-                viewController: HistoryViewController(),
-                image: UIImage(named: "video-icon")),
+                viewController: realmUser != nil ? HistoryViewController(
+                    currentUser: realmUser!
+                ) : UIViewController(),
+                image: UIImage(named: "video-icon"), title: "Recent Watch"),
             generateVC(
-                viewController: HomeViewController(),
-                image: UIImage()),
+                viewController: realmUser != nil ? HomeViewController(
+                    currentUser: realmUser!
+                ) : UIViewController(),
+                image: UIImage(), title: "Home"),
             generateVC(
-                viewController: FavoriteViewController(),
-                image: UIImage(named: "heart-icon")),
+                viewController: realmUser != nil ? FavoriteViewController(
+                    currentUser: realmUser!
+                ) : UIViewController(),
+                image: UIImage(named: "heart-icon"), title: "Favorites"),
             generateVC(
-                viewController: ProfileViewController(),
-                image: UIImage(named: "profile-icon"))
+                viewController: realmUser != nil ? SettingsViewController(
+                    user: realmUser!
+                ) : UIViewController(),
+                image: UIImage(named: "profile-icon"), title: "Profile")
         ]
     }
 }
 
 // MARK: - generateVC()
 extension MainTabBarController {
-    private func generateVC(viewController: UIViewController, image: UIImage?) -> UIViewController {
+    private func generateVC(viewController: UIViewController, image: UIImage?,
+                            title: String) -> UINavigationController {
         viewController.tabBarItem.image = image
-        return viewController
+        let navVC = UINavigationController(rootViewController: viewController)
+        navVC.navigationBar.tintColor = .label
+        viewController.navigationItem.title = title
+        return navVC
     }
 }
 
@@ -69,9 +109,8 @@ extension MainTabBarController {
         homeButton.frame.size = CGSize(width: 48, height: 48)
         tabBar.addSubview(homeButton)
 
-        if let items = self.tabBar.items, items.count > 0 {
-            let tabBarItem = items[2]
-            tabBarItem.isEnabled = false
+        if let homeItem = tabBar.items?[2] {
+            homeItem.isEnabled = false
         }
 
         homeButton.addTarget(self, action: #selector(homeButtonTapped), for: .touchUpInside)
@@ -101,38 +140,5 @@ extension MainTabBarController {
 
     @objc private func homeButtonUp(sender: UIButton) {
         sender.layer.shadowOpacity = 0
-    }
-}
-
-extension MainTabBarController {
-    func fetchMovies() {
-        Task(priority: .userInitiated) {
-            do {
-                let movies = try await apiManager.fetchMovies()
-                await MainActor.run(body: {
-                    print(movies)
-                })
-            } catch {
-                await MainActor.run(body: {
-                    print(error, error.localizedDescription)
-                })
-            }
-        }
-    }
-    
-    func fetchMovieDetail() {
-        Task(priority: .userInitiated) {
-            do {
-                let movieDetail = try await apiManager.fetchMovieDetail(with: 980078)
-                await MainActor.run(body: {
-                    print(movieDetail)
-                })
-            } catch {
-                await MainActor.run(body: {
-                    print(error, error.localizedDescription)
-                })
-            }
-        }
-
     }
 }

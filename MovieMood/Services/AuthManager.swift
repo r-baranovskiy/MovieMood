@@ -25,8 +25,71 @@ final class AuthManager {
         }
     }
     
+    /// Attempt to change password
+    /// - Parameters:
+    ///   - password: Current user password
+    ///   - newPassword: New user password
+    ///   - confirmPassword: Confirm new user password
+    ///   - completion: Retturns succes or not
+    func changePassword(password: String?, newPassword: String?,
+                        confirmPassword: String?,
+                        completion: @escaping (Result<Bool, Error>) -> Void) {
+        guard let password = password, let newPassword = newPassword,
+              let confirmPassword = confirmPassword, password != "",
+              newPassword != "", confirmPassword != ""  else {
+            completion(.failure(AuthError.notFilled))
+            return
+        }
+        
+        guard newPassword == confirmPassword else {
+            completion(.failure(AuthError.passwordNotMatched))
+            return
+        }
+        
+        let user = Auth.auth().currentUser
+        
+        if let email = user?.email {
+            let credential = EmailAuthProvider.credential(withEmail: email,
+                                                          password: password)
+            user?.reauthenticate(with: credential) { result, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                } else {
+                    user?.updatePassword(to: newPassword) { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            completion(.success(true))
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /// Attempt to fetch current MovieUser
+    /// - Parameter completion: Returns Current MovieUser
+    func fetchCurrentMovieUser(completion: @escaping (Result<MovieUser,
+                                                      Error>) -> Void) {
+        guard let user = Auth.auth().currentUser else {
+            completion(.failure(AuthError.notLoggedIn))
+            return
+        }
+        
+        let movieUser = MovieUser(id: user.uid,
+                                  firstName: user.displayName ?? "",
+                                  email: user.email ?? "")
+        completion(.success(movieUser))
+    }
+    
+    /// Attempt to login user with email and password
+    /// - Parameters:
+    ///   - email: User email
+    ///   - password: User password
+    ///   - completion: Returns Firebase User
     func loginWithEmail(email: String?, password: String?,
-                        completion: @escaping (Result<User, Error>) -> Void) {
+                        completion: @escaping (Result<MovieUser, Error>) -> Void) {
         guard let email = email, let password = password,
               email != "", password != "" else {
             completion(.failure(AuthError.notFilled))
@@ -38,7 +101,9 @@ final class AuthManager {
                 return
             }
             if let result = result {
-                completion(.success(result.user))
+                let movieUser = MovieUser(id: result.user.uid,
+                                          email: result.user.email!)
+                completion(.success(movieUser))
             } else {
                 completion(.failure(AuthError.unknownError))
             }
@@ -83,11 +148,23 @@ final class AuthManager {
                     completion(.failure(AuthError.unknownError))
                     return
                 }
-                let movieUser = MovieUser(id: user.uid,
-                                          firstName: user.displayName ?? "Guest",
-                                          email: user.email ?? "",
-                                          avatarImageUrl: user.photoURL)
-                completion(.success(movieUser))
+                
+                if let userImageUrl = user.photoURL {
+                    DispatchQueue.global().async {
+                        do {
+                            let data = try Data(contentsOf: userImageUrl)
+                            
+                            let movieUser = MovieUser(
+                                id: user.uid, firstName: user.displayName ?? "Guest",
+                                email: user.email ?? "",
+                                avatarImageData: data
+                            )
+                            completion(.success(movieUser))
+                        } catch {
+                            
+                        }
+                    }
+                }
             }
         }
     }
