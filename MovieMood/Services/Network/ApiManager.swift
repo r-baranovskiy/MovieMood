@@ -6,6 +6,8 @@ protocol ApiManagerProtocol {
     func fetchCastAndCrew(with movieId: Int) async throws -> CastAndCrew
     func fetchMovieVideo(with movieId: Int) async throws -> MovieVideoModel
     func fetchSearchMovies(with movieName: String) async throws -> Movie
+    func fetchRatingTV() async throws -> TV
+    func fetchTVDetail(with tvId: Int) async throws -> TVDetail
 }
 
 final class ApiManager {
@@ -19,6 +21,16 @@ final class ApiManager {
 }
 
 extension ApiManager: ApiManagerProtocol {
+    
+    func fetchRatingTV() async throws -> TV {
+        let urlString = "https://api.themoviedb.org/3/tv/top_rated?api_key=\(APIKey.apiKey)&language=en-US&page=1"
+        return try await networkManager.request(urlString: urlString)
+    }
+    
+    func fetchTVDetail(with tvId: Int) async throws -> TVDetail {
+        let urlString = "https://api.themoviedb.org/3/tv/\(tvId)?api_key=\(APIKey.apiKey)&language=en-US"
+        return try await networkManager.request(urlString: urlString)
+    }
 
     func fetchMovies() async throws -> Movie {
         let urlString = "https://api.themoviedb.org/4/discover/movie?sort_by=popularity.desc&api_key=\(APIKey.apiKey)"
