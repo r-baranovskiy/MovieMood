@@ -45,6 +45,7 @@ final class SearchViewController: UIViewController {
         fetchMovies()
     }
     
+    //MARK: - Private Methodes
     private func fetchSearchMovies(with movie: String) {
         Task {
             do {
@@ -83,6 +84,16 @@ final class SearchViewController: UIViewController {
     
     @objc private func filterButtonTapped() {
         
+    }
+    
+    //MARK: - Filters Methodes
+    private func searchByGenre(_ sender: UIButton) {
+        switch sender.tag {
+        case 1:
+            print("hi")
+        default:
+            break
+        }
     }
     
 }
@@ -125,21 +136,28 @@ extension SearchViewController: UICollectionViewDelegate,
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: MovieCollectionViewCell.identifier,
-            for: indexPath) as? MovieCollectionViewCell else {
-            return UICollectionViewCell()
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: MovieCollectionViewCell.identifier,
+                for: indexPath) as? MovieCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.delegate = self
+            let movie = movies[indexPath.row]
+            let imageUrl = URL(
+                string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
+            )
+            
+            var movieGenre = ""
+            
+            if !movie.genre_ids.isEmpty {
+                movieGenre = genres[movie.genre_ids[0]] ?? "none"
+            }
+            
+            cell.configure(url: imageUrl, movieName: movie.title,
+                           duration: 0, creatingDate: movie.release_date,
+                           genre: movieGenre)
+            return cell
         }
-        cell.delegate = self
-        let movie = movies[indexPath.row]
-        let imageUrl = URL(
-            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
-        )
-        cell.configure(url: imageUrl, movieName: movie.title,
-                       duration: 0, creatingDate: movie.release_date,
-                       genre: "Action")
-        return cell
-    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movie = movies[indexPath.item]
@@ -158,7 +176,6 @@ extension SearchViewController {
         view.addSubviewWithoutTranslates(movieColletionView)
         
         NSLayoutConstraint.activate([
-            
             movieColletionView.topAnchor.constraint(equalTo: searchMovie.bottomAnchor, constant: 30),
             movieColletionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             movieColletionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
