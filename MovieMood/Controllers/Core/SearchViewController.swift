@@ -54,7 +54,7 @@ final class SearchViewController: UIViewController {
                     movieColletionView.reloadData()
                 })
             } catch {
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }
@@ -99,8 +99,8 @@ final class SearchViewController: UIViewController {
 }
 
 extension SearchViewController: MovieCollectionViewCellDelegate {
-    func didTapLike() {
-        print("Like")
+    func didTapLike(withIndexPath indexPath: IndexPath?) {
+        print(indexPath)
     }
 }
 
@@ -155,7 +155,7 @@ extension SearchViewController: UICollectionViewDelegate,
             
             cell.configure(url: imageUrl, movieName: movie.title,
                            duration: 0, creatingDate: movie.release_date,
-                           genre: movieGenre)
+                           genre: movieGenre, isFavorite: true)
             return cell
         }
     
