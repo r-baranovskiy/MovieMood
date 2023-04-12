@@ -33,6 +33,8 @@ final class SearchViewController: UIViewController {
         networkManager: NetworkManager(jsonService: JSONDecoderManager())
     )
     
+    private lazy var tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,8 +43,6 @@ final class SearchViewController: UIViewController {
         addAction()
         setupCollectionView()
         fetchMovies()
-
-        endEditing()
     }
     
     private func fetchSearchMovies(with movie: String) {
@@ -96,6 +96,14 @@ extension SearchViewController: MovieCollectionViewCellDelegate {
 //MARK: - UITextFieldDelegate
 extension SearchViewController: UITextFieldDelegate {
     
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        view.removeGestureRecognizer(tapGesture)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        view.addGestureRecognizer(tapGesture)
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let movie = textField.text, movie.count != 0 else { return true }
         fetchSearchMovies(with: movie)
@@ -104,10 +112,6 @@ extension SearchViewController: UITextFieldDelegate {
         return true
     }
     
-    func endEditing() {
-        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
-        view.addGestureRecognizer(tapGesture)
-    }
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
@@ -138,7 +142,6 @@ extension SearchViewController: UICollectionViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Click")
         let movie = movies[indexPath.item]
         let detailVC = DetailViewController(movieId: movie.id)
         DispatchQueue.main.async {
