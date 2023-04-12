@@ -46,6 +46,10 @@ final class HistoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        fetchMovies()
+    }
+    
+    private func fetchMovies() {
         Task {
             do {
                 movies = try await apiManager.fetchMovies().results
@@ -59,14 +63,16 @@ final class HistoryViewController: UIViewController {
     }
 }
 
+// MARK: - MovieCollectionViewCellDelegate
+
 extension HistoryViewController: MovieCollectionViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?) {
         guard let indexPath = indexPath else { return }
-        let movieId = String(movies[indexPath.row].id)
+        let movieId = movies[indexPath.row].id
         
         if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
             RealmManager.shared.saveMovie(
-                for: currentUser, with: String(movies[indexPath.row].id)
+                for: currentUser, with: movies[indexPath.row].id
             ) { [weak self] success in
                     DispatchQueue.main.async {
                         self?.movieColletionView.reloadData()
@@ -109,7 +115,7 @@ extension HistoryViewController: UICollectionViewDelegate,
             )
             
             let isFavorite = RealmManager.shared.isLikedMovie(
-                for: currentUser, with: String(movie.id)
+                for: currentUser, with: movie.id
             )
             
             cell.configure(url: imageUrl, movieName: movie.title,

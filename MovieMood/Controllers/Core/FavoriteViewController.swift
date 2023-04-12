@@ -2,101 +2,185 @@ import UIKit
 
 final class FavoriteViewController: UIViewController {
     
-}
-  /*
-    var films : [Movie] = [Movie]()
+    // MARK: - Properties
     
-    fileprivate let collectionView : UICollectionView = {
+    private var currentUser: UserRealm
+    
+    private var favoriteMoviesId = [MovieRealm]()
+    private var movies = [MovieDetail]()
+    
+    private let apiManager = ApiManager(
+        networkManager: NetworkManager(jsonService: JSONDecoderManager())
+    )
+    
+    private lazy var movieColletionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 24
-        layout.scrollDirection = .vertical
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        
-        // registr collectionView cell
-        cv.register(ReusableCollectionViewCell.self , forCellWithReuseIdentifier: "ReusableCollectionViewCell")
-
-        return cv
+        let collection = UICollectionView(
+            frame: .zero,collectionViewLayout: layout
+        )
+        collection.register(
+            MovieCollectionViewCell.self,
+            forCellWithReuseIdentifier: MovieCollectionViewCell.identifier
+        )
+        collection.delegate = self
+        collection.dataSource = self
+        return collection
     }()
     
     
+    init(currentUser: UserRealm) {
+        self.currentUser = currentUser
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(collectionView)
-        
-        createMovieArray()
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        collectionViewConstraintsSetup()
+        setupView()
+        updateFavoritesId()
+        fetchMovies()
     }
     
-    
-    func createMovieArray() {
-        films.append(Movie(movieName: "Drifting Home", movieImage: UIImage(named: "mock-film-one")!, movieCategory: "none", movieDuration: "200 minuts", dateCreating: "17 sep 2002"))
-        films.append(Movie(movieName: "Luck", movieImage: UIImage(named: "mock-film-two")!, movieCategory: "none", movieDuration: "148 minuts", dateCreating: "21 oct 2013"))
-        films.append(Movie(movieName: "Fistful", movieImage: UIImage(named: "mock-film-three")!, movieCategory: "none", movieDuration: "130 minuts", dateCreating: "14 sen 2021"))
-        films.append(Movie(movieName: "Jurassik World", movieImage: UIImage(named: "mock-film-four")!, movieCategory: "none", movieDuration: "156 minuts", dateCreating: "11 dec 2010"))
-        films.append(Movie(movieName: "Drifting Home", movieImage: UIImage(named: "mock-film-three")!, movieCategory: "none", movieDuration: "200 minuts", dateCreating: "17 sep 2002"))
-        films.append(Movie(movieName: "Luck", movieImage: UIImage(named: "mock-film-two")!, movieCategory: "none", movieDuration: "148 minuts", dateCreating: "21 oct 2013"))
-        films.append(Movie(movieName: "Fistful", movieImage: UIImage(named: "mock-film-three")!, movieCategory: "none", movieDuration: "130 minuts", dateCreating: "14 sen 2021"))
-        films.append(Movie(movieName: "Jurassik World", movieImage: UIImage(named: "mock-film-four")!, movieCategory: "none", movieDuration: "156 minuts", dateCreating: "11 dec 2010"))
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        updateFavoritesId()
+//        fetchMovies()
+        movies.filter({ $0.id == 100 })
     }
     
+    private func updateFavoritesId() {
+        RealmManager.shared.fetchFilms(userId: currentUser.userId) {
+            [weak self] moviesRealm in
+            guard let self = self else { return }
+            for movie in moviesRealm where !self.favoriteMoviesId.contains(movie) {
+                self.favoriteMoviesId.append(movie)
+            }
+        }
+    }
+    
+    private func fetchMovies() {
+        for id in favoriteMoviesId {
+            Task {
+                do {
+                    let movie = try await apiManager.fetchMovieDetail(with: id.movieId)
+                    
+                    movies.append(movie)
+                    await MainActor.run(body: {
+                        movieColletionView.reloadData()
+                    })
+                }
+            }
+        }
+    }
 }
 
-// MARK: - CollectionView constrains settup
+// MARK: - MovieCollectionViewCellDelegate
 
-extension FavoriteViewController {
-    func collectionViewConstraintsSetup() {
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+extension FavoriteViewController: MovieCollectionViewCellDelegate {
+    func didTapLike(withIndexPath indexPath: IndexPath?) {
+        guard let indexPath = indexPath else { return }
+        let movieId = movies[indexPath.row].id
+        if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
+            RealmManager.shared.saveMovie(
+                for: currentUser, with: movies[indexPath.row].id
+            ) { [weak self] success in
+                print("Liked")
+                DispatchQueue.main.async {
+                    self?.movieColletionView.reloadData()
+                }
+            }
+        } else {
+            RealmManager.shared.removeMovie(for: currentUser,
+                                            with: movieId) { [weak self] success in
+                if success {
+                    DispatchQueue.main.async {
+                        self?.movies.remove(at: indexPath.row)
+                        self?.movieColletionView.reloadData()
+                    }
+                }
+            }
+        }
     }
 }
 
-    // MARK: - CollectionView Delegate Methods
+// MARK: - UICollectionViewDataSource
 
-extension FavoriteViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    
-    // setup amount of cells in collectionview
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return films.count
+extension FavoriteViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        movies.count
     }
     
-    //setup data in cell
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReusableCollectionViewCell", for: indexPath) as! ReusableCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: MovieCollectionViewCell.identifier,
+            for: indexPath) as? MovieCollectionViewCell else {
+            return UICollectionViewCell()
+        }
         cell.delegate = self
-        cell.film = films[indexPath.row]
+        cell.indexPath = indexPath
+        let movie = movies[indexPath.row]
+        
+        let imageUrl = URL(
+            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
+        )
+        let isFavorite = RealmManager.shared.isLikedMovie(
+            for: currentUser, with: movie.id
+        )
+        
+        cell.configure(url: imageUrl, movieName: movie.title,
+                       duration: 0, creatingDate: movie.release_date,
+                       genre: "Action", isFavorite: isFavorite)
         return cell
     }
-    
-    //setup size of cell
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let widthPerItem = collectionView.bounds.width
-        return CGSize(width: widthPerItem, height: 160)
-    }
-    
-    // Setting up Collection View Header size
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.size.width, height:  70)
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension FavoriteViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        
     }
 }
 
-// MARK: - Cell Delegate Methods
+// MARK: - UICollectionViewDelegateFlowLayout
 
-extension FavoriteViewController: ReusableCollectionViewCellDelegate{
-    
-    func didTapAction() {
-        print("action button pressed")
+extension FavoriteViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: view.frame.width / 2)
     }
-    
-    func didTapLike() {
-        print("like button pressed")
-    }
-    
 }
-*/
+
+// MARK: - Setup View
+
+extension FavoriteViewController {
+    private func setupView() {
+        view.backgroundColor = .custom.mainBackground
+        movieColletionView.backgroundColor = .clear
+        
+        view.addSubviewWithoutTranslates(movieColletionView)
+        NSLayoutConstraint.activate([
+            movieColletionView.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor
+            ),
+            movieColletionView.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor
+            ),
+            movieColletionView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            movieColletionView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            )
+        ])
+    }
+}

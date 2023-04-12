@@ -7,6 +7,7 @@ struct MovieDetail: Decodable {
     let release_date: String
     let poster_path: String?
     let overview: String?
+    let id: Int
 }
 
 struct Genre: Decodable {
