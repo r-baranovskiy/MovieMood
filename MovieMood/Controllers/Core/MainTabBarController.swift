@@ -41,6 +41,11 @@ final class MainTabBarController: UITabBarController {
         setTabBarAppearance()
         setupHomeButton()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("Recent watch movies - \(realmUser?.recentWatchMovies)")
+        print("Liked movies - \(realmUser?.favoriteMovies)")
+    }
 }
 
 // MARK: - generateTabBar()

@@ -1,23 +1,28 @@
 import Foundation
 import RealmSwift
 
+enum MoviesType {
+    case favorite
+    case recent
+}
+
 protocol RealmManagerProtocol: AnyObject {
     func saveUser(user: UserRealm, completion: @escaping (Bool) -> Void)
     func fetchAllUsers(completion: @escaping ([UserRealm]) -> Void)
     func removeObject(object: Object, completion: @escaping (Bool) -> Void)
     func removeAll(completion: @escaping (Bool) -> Void)
-    func fetchFilms(userId: String,
-                    completion: @escaping ([MovieRealm]) -> Void)
     func isExistRealmUser(userId: String) -> Bool
     func fetchRealmUser(userId: String,
                         completion: @escaping (UserRealm?) -> Void)
     func updateUserData(user: UserRealm, firstName: String, lastName: String,
                         avatarImageData: Data?, isMale: Bool,
                         completion: (Bool) -> Void)
+    func fetchMovies(userId: String, moviesType: MoviesType,
+                     completion: @escaping ([MovieRealm]) -> Void)
     func isLikedMovie(for user: UserRealm, with movieId: Int) -> Bool
-    func saveMovie(for user: UserRealm, with filmId: Int,
+    func saveMovie(for user: UserRealm, with filmId: Int, moviesType: MoviesType,
                    completion: @escaping (Bool) -> Void)
-    func removeMovie(for user: UserRealm, with filmId: Int,
+    func removeMovie(for user: UserRealm, with movieId: Int,
                      completion: @escaping (Bool) -> Void)
 }
 
@@ -42,13 +47,36 @@ final class RealmManager: RealmManagerProtocol {
         }
     }()
     
+    /// Attempt to fetch all the movies that user has
+    /// - Parameters:
+    ///   - userId: Realm User ID
+    ///   - moviesType: Movies type that need to fetch
+    ///   - completion: Returns array of movies IDs for necessary type
+    func fetchMovies(userId: String, moviesType: MoviesType,
+                     completion: @escaping ([MovieRealm]) -> Void) {
+        switch moviesType {
+        case .favorite:
+            fetchAllUsers { users in
+                for user in users where user.userId == userId {
+                    completion(Array(user.favoriteMovies))
+                }
+            }
+        case .recent:
+            fetchAllUsers { users in
+                for user in users where user.userId == userId {
+                    completion(Array(user.recentWatchMovies))
+                }
+            }
+        }
+    }
+    
     /// Check on is favorite movie or not
     /// - Parameters:
     ///   - user: Current realm user
     ///   - movieId: Movie id that need to check
     /// - Returns: Returns true if favorite
     func isLikedMovie(for user: UserRealm, with movieId: Int) -> Bool {
-        let movies = user.movies
+        let movies = user.favoriteMovies
         for movie in movies {
             if movie.movieId == movieId {
                 return true
@@ -61,17 +89,35 @@ final class RealmManager: RealmManagerProtocol {
     /// - Parameters:
     ///   - user: Current realm user
     ///   - filmId: Movie id that need to save
-    ///   - completion:Returns true if success
-    func saveMovie(for user: UserRealm, with filmId: Int,
+    ///   - moviesType: Movies type that need to save
+    ///   - completion: Returns true if success
+    func saveMovie(for user: UserRealm, with movieId: Int, moviesType: MoviesType,
                    completion: @escaping (Bool) -> Void) {
         let movie = MovieRealm()
-        movie.movieId = filmId
-        do {
-            try realm?.write({
-                user.movies.append(movie)
-            })
-        } catch {
-            print(error.localizedDescription)
+        movie.movieId = movieId
+        
+        switch moviesType {
+        case .favorite:
+            do {
+                try realm?.write({
+                    user.favoriteMovies.append(movie)
+                    completion(true)
+                })
+            } catch {
+                completion(false)
+                print(error.localizedDescription)
+            }
+        case .recent:
+            do {
+                try realm?.write({
+                    user.recentWatchMovies.append(movie)
+                    print(user.recentWatchMovies)
+                    completion(true)
+                })
+            } catch {
+                completion(false)
+                print(error.localizedDescription)
+            }
         }
     }
     
@@ -82,7 +128,7 @@ final class RealmManager: RealmManagerProtocol {
     ///   - completion: Returns true if success
     func removeMovie(for user: UserRealm, with filmId: Int,
                      completion: @escaping (Bool) -> Void) {
-        let movies = user.movies
+        let movies = user.favoriteMovies
         
         for (index, movie) in movies.enumerated() {
             if movie.movieId == filmId {
@@ -144,18 +190,6 @@ final class RealmManager: RealmManagerProtocol {
             }
         } catch {
             completion(false)
-        }
-    }
-    
-    /// Returns all the favorites movies when user liked
-    /// - Parameters:
-    ///   - userId: User id that was saved
-    ///   - completion: Returns array of movies ID
-    func fetchFilms(userId: String, completion: @escaping ([MovieRealm]) -> Void) {
-        fetchAllUsers { users in
-            for user in users where user.userId == userId {
-                completion(Array(user.movies))
-            }
         }
     }
     

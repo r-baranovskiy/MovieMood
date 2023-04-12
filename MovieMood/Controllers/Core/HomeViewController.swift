@@ -96,6 +96,11 @@ final class HomeViewController: UIViewController {
         fetchMovies()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //fetchMovies()
+    }
+    
     private func setDelegates() {
         categoryCollection.delegate = self
         categoryCollection.dataSource = self
@@ -150,8 +155,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let movie = movies[indexPath.row]
         
         let detailVC = DetailViewController(movieId: movie.id)
-        DispatchQueue.main.async {
-            self.navigationController?.pushViewController(detailVC, animated: true)
+        RealmManager.shared.saveMovie(for: currentUser, with: movie.id,
+                                      moviesType: .recent) { [weak self] success in
+            if success {
+                print(success)
+                DispatchQueue.main.async {
+                    self?.navigationController?.pushViewController(detailVC, animated: true)
+                }
+            }
         }
     }
     
