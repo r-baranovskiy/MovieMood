@@ -1,13 +1,13 @@
 import UIKit
 import SDWebImage
 
+enum ShowType {
+    case movies
+    case tv
+}
+
 final class HomeViewController: UIViewController {
-    
-    enum ShowType {
-        case movies
-        case tv
-    }
-    
+        
     private let apiManager = ApiManager(
         networkManager: NetworkManager(jsonService: JSONDecoderManager())
     )
@@ -215,6 +215,37 @@ final class HomeViewController: UIViewController {
     }
 }
 
+extension HomeViewController: MovieTableViewCellDelegate {
+    func didTapLike(withIndexPath indexPath: IndexPath?, forType type: ShowType?) {
+        guard let type = type, let indexPath = indexPath else { return }
+        
+        var id: Int?
+        
+        switch type {
+        case .movies:
+            let movieId = popularMovies[indexPath.row].id
+            id = movieId
+        case .tv:
+            let showId = ratingTV[indexPath.row].id
+            id = showId
+        }
+        
+        guard let id = id else { return }
+        
+        if !RealmManager.shared.isLikedMovie(for: currentUser, with: id) {
+            RealmManager.shared.saveMovie(
+                for: currentUser, with: id, moviesType: .favorite
+            ) { _ in
+                print("Liked")
+            }
+        } else {
+            RealmManager.shared.removeMovie(for: currentUser, with: id) { _ in
+                print("Deleted")
+            }
+        }
+    }
+}
+
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
@@ -269,6 +300,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                            votesAmoutCount: movie.vote_count,
                            rate: movie.vote_average
             )
+            cell.showType = .movies
+            cell.indexPath = indexPath
+            cell.delegate = self
             return cell
         case .tv:
             let tv = ratingTV[indexPath.row]
@@ -282,6 +316,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 isFavorite: isFavorite, genre: tv.genres.first?.name ?? "",
                 votesAmoutCount: tv.voteCount, rate: tv.voteAverage
             )
+            cell.showType = .tv
+            cell.indexPath = indexPath
+            cell.delegate = self
             return cell
         }
     }
@@ -374,10 +411,10 @@ extension HomeViewController {
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10
             ),
             moviesTableView.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor, constant: 12
+                equalTo: view.leadingAnchor, constant: 0
             ),
             moviesTableView.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor, constant: -12
+                equalTo: view.trailingAnchor, constant: 0
             )
         ])
     }

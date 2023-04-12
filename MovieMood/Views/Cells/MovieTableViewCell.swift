@@ -1,21 +1,25 @@
 import UIKit
 
-protocol ReusableCellDelegate: AnyObject {
-    func didTapFavorite()
+protocol MovieTableViewCellDelegate: AnyObject {
+    func didTapLike(withIndexPath indexPath: IndexPath?, forType type: ShowType?)
 }
 
 final class MovieTableViewCell: UITableViewCell {
     
     static let identifier = "MovieTableViewCell"
     
-    weak var delegate: ReusableCellDelegate?
+    weak var delegate: MovieTableViewCellDelegate?
+    
+    var indexPath: IndexPath?
+    var showType: ShowType?
     
     // MARK: - Propeties
     
     private var isFavorite: Bool = false {
         didSet {
+            likeButton.imageView?.image = nil
             let image = UIImage(named: isFavorite ? "heart-icon-fill" : "heart-icon")
-            likeButton.setBackgroundImage(image, for: .normal)
+            likeButton.setImage(image, for: .normal)
         }
     }
     
@@ -37,8 +41,11 @@ final class MovieTableViewCell: UITableViewCell {
         textAlignment: .left, color: .label, numberOfLines: 2
     )
     
-    private let likeButton: UIButton = {
-        let button = UIButton(type: .system)
+    private lazy var likeButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(didTapLike), for: .touchUpInside)
+        let image = UIImage(named: isFavorite ? "heart-icon-fill" : "heart-icon")
+        button.setImage(image, for: .normal)
         return button
     }()
     
@@ -75,6 +82,13 @@ final class MovieTableViewCell: UITableViewCell {
         movieNameLabel.text = nil
         durationLabel.text = nil
         votesAmountLabel.text = nil
+        ratingLabel.text = nil
+    }
+    
+    @objc
+    private func didTapLike() {
+        delegate?.didTapLike(withIndexPath: indexPath, forType: showType)
+        isFavorite.toggle()
     }
     
     func configure(url: URL?, movieName: String, duration: String, isFavorite: Bool,
@@ -94,11 +108,11 @@ final class MovieTableViewCell: UITableViewCell {
         backgroundColor = .clear
         let descriptionView = createDesctiptionView()
         
-        addSubviewWithoutTranslates(movieImageView, descriptionView)
+        contentView.addSubviewWithoutTranslates(movieImageView, descriptionView)
         
         NSLayoutConstraint.activate([
             movieImageView.leadingAnchor.constraint(
-                equalTo: leadingAnchor, constant: 24
+                equalTo: contentView.leadingAnchor, constant: 24
             ),
             movieImageView.widthAnchor.constraint(
                 equalToConstant: 80
@@ -107,20 +121,20 @@ final class MovieTableViewCell: UITableViewCell {
                 equalTo: movieImageView.widthAnchor
             ),
             movieImageView.centerYAnchor.constraint(
-                equalTo: centerYAnchor
+                equalTo: contentView.centerYAnchor
             ),
             
             descriptionView.topAnchor.constraint(
-                equalTo: topAnchor, constant: 10
+                equalTo: contentView.topAnchor, constant: 10
             ),
             descriptionView.bottomAnchor.constraint(
-                equalTo: bottomAnchor, constant: -10
+                equalTo: contentView.bottomAnchor, constant: -10
             ),
             descriptionView.leadingAnchor.constraint(
                 equalTo: movieImageView.trailingAnchor, constant: 12
             ),
             descriptionView.trailingAnchor.constraint(
-                equalTo: trailingAnchor, constant: -20
+                equalTo: contentView.trailingAnchor, constant: -20
             )
         ])
     }
@@ -131,7 +145,6 @@ extension MovieTableViewCell {
         selectionStyle = .none
         
         let view = UIView()
-        
         let firstView = UIView()
         firstView.addSubviewWithoutTranslates(genreLabel, likeButton)
         NSLayoutConstraint.activate([
