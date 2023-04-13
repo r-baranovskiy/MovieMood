@@ -27,30 +27,38 @@ final class SearchViewController: UIViewController {
     private let crossButton = CrossButton()
     private let filterButton = FilterButton()
     private let searchImageView = SearchView(frame: CGRect())
+    private let filterPopupView = FilterPopupView()
     
-    private var movies = [MovieModel]()
+    private var moviesModel = [MovieModel]()
+    private var movies = [MovieDetail]()
     private let apiManager = ApiManager(
         networkManager: NetworkManager(jsonService: JSONDecoderManager())
     )
+    private var moviesID: [Int] = []
     
     private lazy var tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        filterPopupView.delegate = self
         searchMovie.delegate = self
         setupSearchUI()
         addAction()
         setupCollectionView()
-        fetchMovies()
+        //fetchMovies()
     }
     
-    //MARK: - Private Methodes
+    //MARK: - Network Methodes
     private func fetchSearchMovies(with movie: String) {
         Task {
             do {
-                movies = try await apiManager.fetchSearchMovies(with: movie).results
+                moviesModel = try await apiManager.fetchSearchMovies(with: movie).results
+                for movie in moviesModel {
+                    moviesID.append(movie.id)
+                }
                 await MainActor.run(body: {
+                    fetchDetailMovies()
                     movieColletionView.reloadData()
                 })
             } catch {
@@ -59,19 +67,37 @@ final class SearchViewController: UIViewController {
         }
     }
     
-    private func fetchMovies() {
-        Task {
-            do {
-                movies = try await apiManager.fetchMovies().results
-                await MainActor.run(body: {
-                    movieColletionView.reloadData()
-                })
-            } catch {
-                print(error.localizedDescription)
+    private func fetchDetailMovies() {
+        for id in moviesID {
+            Task {
+                do {
+                    let movie = try await apiManager.fetchMovieDetail(with: id)
+                    movies.append(movie)
+                    await MainActor.run(body: {
+                        movieColletionView.reloadData()
+                    })
+                } catch {
+                    print(error)
+                }
             }
         }
     }
     
+//    private func fetchMovies() {
+//        Task {
+//            do {
+//                moviesModel = try await apiManager.fetchMovies().results
+//                await MainActor.run(body: {
+//                    movieColletionView.reloadData()
+//                })
+//            } catch {
+//                print(error.localizedDescription)
+//            }
+//        }
+//    }
+    
+    
+    //MARK: - Private Methodes
     private func addAction() {
         crossButton.addTarget(self, action: #selector(crossButtonTapped), for: .touchUpInside)
         filterButton.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
@@ -83,7 +109,13 @@ final class SearchViewController: UIViewController {
     }
     
     @objc private func filterButtonTapped() {
-        
+        let heightTabBar = tabBarController?.tabBar.frame.height ?? 0
+        view.addSubview(filterPopupView)
+        filterPopupView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height / 2)
+        print(view.frame.height)
+        UIView.animate(withDuration: 0.3) {
+            self.filterPopupView.frame.origin.y -= (self.view.frame.height / 2) + heightTabBar
+        }
     }
     
     //MARK: - Filters Methodes
@@ -100,8 +132,8 @@ final class SearchViewController: UIViewController {
 
 extension SearchViewController: MovieCollectionViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?) {
-        print(indexPath)
     }
+    
 }
 
 //MARK: - UITextFieldDelegate
@@ -122,6 +154,12 @@ extension SearchViewController: UITextFieldDelegate {
         textField.endEditing(true)
         return true
     }
+    
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        guard let movie = textField.text, movie.count != 0 else { return true }
+//        fetchSearchMovies(with: movie)
+//        return true
+//    }
     
 }
 
@@ -147,15 +185,14 @@ extension SearchViewController: UICollectionViewDelegate,
                 string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
             )
             
-            var movieGenre = ""
-            
-            if !movie.genre_ids.isEmpty {
-                movieGenre = genres[movie.genre_ids[0]] ?? "none"
+            var movieGenre = "none"
+            if !movie.genres.isEmpty {
+                movieGenre = movie.genres[0].name
             }
             
             cell.configure(url: imageUrl, movieName: movie.title,
-                           duration: 0, creatingDate: movie.release_date,
-                           genre: movieGenre, isFavorite: true)
+                           duration: movie.runtime ?? 0, creatingDate: movie.release_date,
+                           genre: movieGenre, isFavorite: false)
             return cell
         }
     
@@ -165,6 +202,13 @@ extension SearchViewController: UICollectionViewDelegate,
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(detailVC, animated: true)
         }
+    }
+}
+
+//MARK: - FilterPopupViewDelegate
+extension SearchViewController: FilterPopupViewDelegate {
+    func didTapApplyFilter(with filter: [String]) {
+        print(filter)
     }
 }
 

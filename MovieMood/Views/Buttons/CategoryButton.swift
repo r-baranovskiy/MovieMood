@@ -35,7 +35,7 @@ final class CategoryButton: UIButton {
         layer.cornerRadius = 19.5
         layer.borderWidth = 1
         layer.borderColor = UIColor.custom.mainBlue.cgColor
-        
+
         setTitle(category.rawValue, for: .normal)
         setTitleColor(.label, for: .normal)
         titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
