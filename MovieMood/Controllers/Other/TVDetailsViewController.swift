@@ -317,3 +317,98 @@ final class TVDetailsViewController: UIViewController {
         }
     }
 }
+
+//MARK: - UICollectionViewDataSource
+
+extension TVDetailsViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        cast.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DetailCollectionViewCell.self)", for: indexPath) as? DetailCollectionViewCell else { return UICollectionViewCell() }
+
+        if let poster = cast[indexPath.item].profile_path {
+            cell.photoImageView.sd_setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/\(poster)"))
+        }
+        cell.nameLabel.text = cast[indexPath.item].name
+        cell.professionLabel.text = cast[indexPath.item].character
+        return cell
+    }
+}
+
+//MARK: - Setup UI
+
+extension TVDetailsViewController {
+    
+    private func setupUI() {
+        dateStackView.addArrangedSubview(dateImageView)
+        dateStackView.addArrangedSubview(firstAirLabel)
+        dateStackView.addArrangedSubview(dashImageView)
+        dateStackView.addArrangedSubview(lastAirLabel)
+        
+        seasonsStackView.addArrangedSubview(seasonsAmountLable)
+        seasonsStackView.addArrangedSubview(valueOfSeasonsTextLabel)
+        
+        episodesStackView.addArrangedSubview(episodesAmountLable)
+        episodesStackView.addArrangedSubview(valueOfEpisodesTextLabel)
+        
+        genreStackView.addArrangedSubview(genreImageView)
+        genreStackView.addArrangedSubview(genreLabel)
+        
+        horizontalInformationStack.addArrangedSubview(dateStackView)
+        horizontalInformationStack.addArrangedSubview(seasonsStackView)
+        horizontalInformationStack.addArrangedSubview(episodesStackView)
+        horizontalInformationStack.addArrangedSubview(genreStackView)
+        
+        informationStackView.addArrangedSubview(tvNameLabel)
+        informationStackView.addArrangedSubview(horizontalInformationStack)
+        informationStackView.addArrangedSubview(starsStackView)
+        
+        view.addSubviewWithoutTranslates(mainScrollView)
+    
+        mainScrollView.addSubviewWithoutTranslates(
+            tvImageView, informationStackView, storyLineLabel, textView,
+            castAndCrewLabel, collectionView, watchButton
+        )
+        
+        
+        NSLayoutConstraint.activate([
+            mainScrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            mainScrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            mainScrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            mainScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            tvImageView.topAnchor.constraint(equalTo: mainScrollView.topAnchor, constant: 40),
+            tvImageView.heightAnchor.constraint(equalToConstant: 300),
+            tvImageView.widthAnchor.constraint(equalToConstant: 225),
+            tvImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            informationStackView.topAnchor.constraint(equalTo: tvImageView.bottomAnchor, constant: 24),
+            informationStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30),
+            informationStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30),
+            
+            storyLineLabel.topAnchor.constraint(equalTo: informationStackView.bottomAnchor, constant: 30),
+            storyLineLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
+            
+            textView.topAnchor.constraint(equalTo: storyLineLabel.bottomAnchor, constant: 16),
+            textView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
+            textView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24),
+            
+            castAndCrewLabel.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 24),
+            castAndCrewLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
+            
+            collectionView.topAnchor.constraint(equalTo: castAndCrewLabel.bottomAnchor, constant: 16),
+            collectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
+            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24),
+            collectionView.heightAnchor.constraint(equalToConstant: 50),
+            
+            watchButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 28),
+            watchButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            watchButton.widthAnchor.constraint(equalToConstant: 181),
+            watchButton.heightAnchor.constraint(equalToConstant: 56),
+            watchButton.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -20)
+        ])
+    }
+}
+
