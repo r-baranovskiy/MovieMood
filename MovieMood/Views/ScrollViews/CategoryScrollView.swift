@@ -8,26 +8,31 @@ final class CategoryScrollView: UIScrollView {
     
     weak var buttonDelegate: CategoryScrollViewDelegate?
     
+    private let withTV: Bool
+    
+    private let allButton = CategoryButton(category: .all)
+    private let tvButton = CategoryButton(category: .tv)
     private let horrorButton = CategoryButton(category: .horror)
     private let actionButton = CategoryButton(category: .action)
     private let adventureButton = CategoryButton(category: .adventure)
     private let mysteryButton = CategoryButton(category: .mystery)
     private let fantasyButton = CategoryButton(category: .fantasy)
     private let comedyButton = CategoryButton(category: .comedy)
-    private let allButton = CategoryButton(category: .all)
     
     private lazy var stackView: UIStackView = {
         return UIStackView(
             subviews: [
-                allButton, horrorButton, actionButton, adventureButton,
-                mysteryButton, fantasyButton, comedyButton
+                allButton, tvButton, horrorButton, actionButton,
+                adventureButton, mysteryButton, fantasyButton, comedyButton
             ], axis: .horizontal, spacing: 12,
             aligment: .fill, distribution: .fillProportionally
         )
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(withTV: Bool) {
+        self.withTV = withTV
+        super.init(frame: .zero)
+        tvButton.isHidden = !withTV
         setupScrollView()
         setTargets()
     }
@@ -36,13 +41,23 @@ final class CategoryScrollView: UIScrollView {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        setupScrollView()
+//        setTargets()
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
     }
     
     private func setTargets() {
         [horrorButton, actionButton, adventureButton,
-         mysteryButton, fantasyButton, comedyButton, allButton]
+         mysteryButton, fantasyButton, comedyButton, allButton, tvButton]
             .forEach({ $0.addTarget(self, action: #selector(selectGenreButton),
                                     for: .touchUpInside) })
         
@@ -53,6 +68,7 @@ final class CategoryScrollView: UIScrollView {
         fantasyButton.tag = 14
         comedyButton.tag = 35
         allButton.tag = 0
+        tvButton.tag = 1
     }
     
     // MARK: - Actions
@@ -61,8 +77,8 @@ final class CategoryScrollView: UIScrollView {
     private func selectGenreButton(_ sender: UIButton) {
         
         let buttons = [
-            allButton, horrorButton, actionButton, adventureButton,
-            fantasyButton, comedyButton, mysteryButton
+            allButton, tvButton, horrorButton, actionButton,
+            adventureButton, fantasyButton, comedyButton, mysteryButton
         ]
         for button in buttons {
             button.isSelected = false
@@ -80,7 +96,10 @@ final class CategoryScrollView: UIScrollView {
     private func setupScrollView() {
         showsHorizontalScrollIndicator = false
         
-        stackView.arrangedSubviews.forEach({
+        [
+            allButton, tvButton, horrorButton, actionButton,
+            adventureButton, fantasyButton, comedyButton, mysteryButton
+        ].forEach({
             $0.widthAnchor.constraint(
                 equalToConstant: $0.intrinsicContentSize.width + 20
             ).isActive = true

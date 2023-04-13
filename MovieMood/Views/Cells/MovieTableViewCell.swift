@@ -98,7 +98,7 @@ final class MovieTableViewCell: UITableViewCell {
         movieNameLabel.text = movieName
         durationLabel.text = duration
         genreLabel.text = genre
-        ratingLabel.text = String(rate)
+        ratingLabel.text = "\(Double(round(10 * rate) / 10))"
         votesAmountLabel.text = "(\(votesAmoutCount))"
     }
     

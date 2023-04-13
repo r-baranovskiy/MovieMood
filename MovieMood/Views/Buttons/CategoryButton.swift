@@ -1,15 +1,9 @@
-//
-//  CategoryButton.swift
-//  MovieMood
-//
-//  Created by Nikolai Zvonarev on 11.04.2023.
-//
-
 import UIKit
 
 final class CategoryButton: UIButton {
     
     enum Category: String {
+        case tv = "TV"
         case all = "All"
         case horror = "Horror"
         case action = "Action"
