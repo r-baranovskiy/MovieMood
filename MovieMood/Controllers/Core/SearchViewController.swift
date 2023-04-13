@@ -36,6 +36,9 @@ final class SearchViewController: UIViewController {
     )
     private var moviesID: [Int] = []
     
+    private var movieGenre = ""
+    private var movieVotes = ""
+    
     private lazy var tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
     
     // MARK: - Lifecycle
@@ -208,7 +211,8 @@ extension SearchViewController: UICollectionViewDelegate,
 //MARK: - FilterPopupViewDelegate
 extension SearchViewController: FilterPopupViewDelegate {
     func didTapApplyFilter(with filter: [String]) {
-        print(filter)
+        movieGenre = filter[0]
+        movieVotes = filter[1]
     }
 }
 
