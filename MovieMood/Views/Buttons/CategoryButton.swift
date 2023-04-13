@@ -1,15 +1,10 @@
-//
-//  CategoryButton.swift
-//  MovieMood
-//
-//  Created by Nikolai Zvonarev on 11.04.2023.
-//
-
 import UIKit
 
 final class CategoryButton: UIButton {
     
     enum Category: String {
+        case tv = "TV"
+        case all = "All"
         case horror = "Horror"
         case action = "Action"
         case adventure = "Adventure"
@@ -18,7 +13,7 @@ final class CategoryButton: UIButton {
         case comedy = "Comedy"
     }
     
-    let category: Category
+    private let category: Category
     
     init(category: Category) {
         self.category = category
@@ -32,7 +27,7 @@ final class CategoryButton: UIButton {
     
     private func setupButton() {
         backgroundColor = .clear
-        layer.cornerRadius = 19.5
+        layer.cornerRadius = intrinsicContentSize.width / 1.5
         layer.borderWidth = 1
         layer.borderColor = UIColor.custom.mainBlue.cgColor
         
@@ -43,5 +38,9 @@ final class CategoryButton: UIButton {
         
         contentHorizontalAlignment = .center
         
+        if category == .all {
+            isSelected = true
+            backgroundColor = .custom.mainBlue
+        }
     }
 }

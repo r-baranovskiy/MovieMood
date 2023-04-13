@@ -69,6 +69,7 @@
 		80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559C29D78C0500A8F1C3 /* RealmManager.swift */; };
 		80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */; };
 		80D0DDB729E43EA300C68B93 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D0DDB629E43EA300C68B93 /* SettingTableViewCell.swift */; };
+		80DD04EB29E838E800090C94 /* CategoryScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DD04EA29E838E800090C94 /* CategoryScrollView.swift */; };
 		80F22DC729E1FE6800F3C659 /* PhotoPickerMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */; };
 		80FBE9C129E2A4EC00849E13 /* GoogleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */; };
 		80FBE9C329E2AF1600849E13 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C229E2AF1600849E13 /* UIViewController + Extension.swift */; };
@@ -143,6 +144,7 @@
 		80AD559C29D78C0500A8F1C3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		80D0DDB629E43EA300C68B93 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		80DD04EA29E838E800090C94 /* CategoryScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryScrollView.swift; sourceTree = "<group>"; };
 		80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerMethodView.swift; sourceTree = "<group>"; };
 		80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleButton.swift; sourceTree = "<group>"; };
 		80FBE9C229E2AF1600849E13 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
@@ -371,6 +373,7 @@
 		80AD558429D7889D00A8F1C3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				80DD04E929E838D000090C94 /* ScrollViews */,
 				8058C56A29E09A76003C4757 /* Any */,
 				8058C56929E09A6D003C4757 /* Views */,
 				8058C56829E09A57003C4757 /* TextFields */,
@@ -422,6 +425,14 @@
 				8058C56B29E09A9C003C4757 /* SettingsViewController.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		80DD04E929E838D000090C94 /* ScrollViews */ = {
+			isa = PBXGroup;
+			children = (
+				80DD04EA29E838E800090C94 /* CategoryScrollView.swift */,
+			);
+			path = ScrollViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -519,6 +530,7 @@
 				1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */,
 				8058C56C29E09A9C003C4757 /* SettingsViewController.swift in Sources */,
 				806231B029E556FA003B8CE4 /* CrossButton.swift in Sources */,
+				80DD04EB29E838E800090C94 /* CategoryScrollView.swift in Sources */,
 				804CB41829DC73C000955FA9 /* AppTextField.swift in Sources */,
 				804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */,
 				E5C1401B29E597CE009E5C05 /* StarButton.swift in Sources */,
