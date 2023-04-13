@@ -18,7 +18,7 @@ final class CategoryButton: UIButton {
         case comedy = "Comedy"
     }
     
-    let category: Category
+    private let category: Category
     
     init(category: Category) {
         self.category = category
@@ -32,7 +32,7 @@ final class CategoryButton: UIButton {
     
     private func setupButton() {
         backgroundColor = .clear
-        layer.cornerRadius = 19.5
+        layer.cornerRadius = 20
         layer.borderWidth = 1
         layer.borderColor = UIColor.custom.mainBlue.cgColor
         
