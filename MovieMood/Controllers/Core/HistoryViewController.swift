@@ -50,6 +50,7 @@ final class HistoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        categoriesScrollView.buttonDelegate = self
         setupView()
         updateRecentMoviesId()
         fetchMovies()
@@ -88,6 +89,13 @@ final class HistoryViewController: UIViewController {
     
     private func checkOnContains(movidId: Int) -> Bool {
         return recentMovies.contains(where: { $0.id == movidId })
+    }
+}
+
+extension HistoryViewController: CategoryScrollViewDelegate {
+    func didChangeCategory(with tag: Int) {
+        guard tag != 0 else { return }
+        print(tag)
     }
 }
 

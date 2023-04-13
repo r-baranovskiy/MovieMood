@@ -10,6 +10,7 @@ import UIKit
 final class CategoryButton: UIButton {
     
     enum Category: String {
+        case all = "All"
         case horror = "Horror"
         case action = "Action"
         case adventure = "Adventure"
@@ -32,7 +33,7 @@ final class CategoryButton: UIButton {
     
     private func setupButton() {
         backgroundColor = .clear
-        layer.cornerRadius = 20
+        layer.cornerRadius = intrinsicContentSize.width / 1.5
         layer.borderWidth = 1
         layer.borderColor = UIColor.custom.mainBlue.cgColor
         
@@ -43,5 +44,9 @@ final class CategoryButton: UIButton {
         
         contentHorizontalAlignment = .center
         
+        if category == .all {
+            isSelected = true
+            backgroundColor = .custom.mainBlue
+        }
     }
 }
