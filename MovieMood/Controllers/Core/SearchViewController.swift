@@ -29,15 +29,11 @@ final class SearchViewController: UIViewController {
     private let searchImageView = SearchView(frame: CGRect())
     private let filterPopupView = FilterPopupView()
     
-    private var moviesModel = [MovieModel]()
     private var movies = [MovieDetail]()
     private let apiManager = ApiManager(
         networkManager: NetworkManager(jsonService: JSONDecoderManager())
     )
     private var moviesID: [Int] = []
-    
-    private var movieGenre = ""
-    private var movieVotes = ""
     
     private lazy var tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
     
@@ -56,49 +52,19 @@ final class SearchViewController: UIViewController {
     private func fetchSearchMovies(with movie: String) {
         Task {
             do {
-                moviesModel = try await apiManager.fetchSearchMovies(with: movie).results
-                for movie in moviesModel {
-                    moviesID.append(movie.id)
+                let movies = try await apiManager.fetchSearchMovies(with: movie).results
+                for movie in movies {
+                    let movie = try await apiManager.fetchMovieDetail(with: movie.id)
+                    self.movies.append(movie)
                 }
-                await MainActor.run(body: {
-                    fetchDetailMovies()
+                await MainActor.run {
                     movieColletionView.reloadData()
-                })
+                }
             } catch {
                 print(error.localizedDescription)
             }
         }
     }
-    
-    private func fetchDetailMovies() {
-        for id in moviesID {
-            Task {
-                do {
-                    let movie = try await apiManager.fetchMovieDetail(with: id)
-                    movies.append(movie)
-                    await MainActor.run(body: {
-                        movieColletionView.reloadData()
-                    })
-                } catch {
-                    print(error)
-                }
-            }
-        }
-    }
-    
-//    private func fetchMovies() {
-//        Task {
-//            do {
-//                moviesModel = try await apiManager.fetchMovies().results
-//                await MainActor.run(body: {
-//                    movieColletionView.reloadData()
-//                })
-//            } catch {
-//                print(error.localizedDescription)
-//            }
-//        }
-//    }
-    
     
     //MARK: - Private Methodes
     private func addAction() {
@@ -115,33 +81,58 @@ final class SearchViewController: UIViewController {
         let heightTabBar = tabBarController?.tabBar.frame.height ?? 0
         view.addSubview(filterPopupView)
         filterPopupView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height / 2)
-        print(view.frame.height)
         UIView.animate(withDuration: 0.3) {
             self.filterPopupView.frame.origin.y -= (self.view.frame.height / 2) + heightTabBar
         }
     }
     
-    //MARK: - Filters Methodes
-    private func searchByGenre(_ sender: UIButton) {
-        switch sender.tag {
-        case 1:
-            print("hi")
-        default:
-            break
+    private func hideFilter() {
+        let heightTabBar = tabBarController?.tabBar.frame.height ?? 0
+        UIView.animate(withDuration: 0.3) {
+            self.filterPopupView.frame.origin.y += (self.view.frame.height / 2) + heightTabBar
+        } completion: { _ in
+            self.filterPopupView.removeFromSuperview()
         }
     }
-    
 }
 
 extension SearchViewController: MovieCollectionViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?) {
+        
     }
-    
+}
+
+//MARK: - FilterPopupViewDelegate
+extension SearchViewController: FilterPopupViewDelegate {
+    func didTapApplyFilter(with genre: String, votes: String) {
+        movies = []
+        hideFilter()
+        let genres = [
+            "Horror": 27, "Action": 28, "Adventure": 12,
+            "Mystery": 9648, "Fantasy": 14, "Comedy": 35
+        ]
+        
+        Task {
+            do {
+                let movies = try await apiManager.fetchFilterMovies(
+                    with: genres[genre] ?? 28, votes: votes.count * 2
+                ).results
+                for movie in movies {
+                    let movie = try await apiManager.fetchMovieDetail(with: movie.id)
+                    self.movies.append(movie)
+                }
+                await MainActor.run {
+                    movieColletionView.reloadData()
+                }
+            } catch {
+                print("Error")
+            }
+        }
+    }
 }
 
 //MARK: - UITextFieldDelegate
 extension SearchViewController: UITextFieldDelegate {
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         view.removeGestureRecognizer(tapGesture)
     }
@@ -152,23 +143,17 @@ extension SearchViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let movie = textField.text, movie.count != 0 else { return true }
+        movies = []
         fetchSearchMovies(with: movie)
         textField.text = ""
         textField.endEditing(true)
         return true
     }
-    
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        guard let movie = textField.text, movie.count != 0 else { return true }
-//        fetchSearchMovies(with: movie)
-//        return true
-//    }
-    
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension SearchViewController: UICollectionViewDelegate,
-                                 UICollectionViewDataSource {
+                                UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         movies.count
@@ -194,7 +179,7 @@ extension SearchViewController: UICollectionViewDelegate,
             }
             
             cell.configure(url: imageUrl, movieName: movie.title,
-                           duration: movie.runtime ?? 0, creatingDate: movie.release_date,
+                           duration: movie.runtime ?? 0 , creatingDate: movie.release_date,
                            genre: movieGenre, isFavorite: false)
             return cell
         }
@@ -205,14 +190,6 @@ extension SearchViewController: UICollectionViewDelegate,
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(detailVC, animated: true)
         }
-    }
-}
-
-//MARK: - FilterPopupViewDelegate
-extension SearchViewController: FilterPopupViewDelegate {
-    func didTapApplyFilter(with filter: [String]) {
-        movieGenre = filter[0]
-        movieVotes = filter[1]
     }
 }
 

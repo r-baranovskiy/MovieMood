@@ -215,6 +215,8 @@ final class HomeViewController: UIViewController {
     }
 }
 
+// MARK: - MovieTableViewCellDelegate
+
 extension HomeViewController: MovieTableViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?, forType type: ShowType?) {
         guard let type = type, let indexPath = indexPath else { return }
@@ -294,7 +296,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             )
             let isFavorite = RealmManager.shared.isLikedMovie(for: currentUser, with: movie.id)
             cell.configure(url: imageUrl, movieName: movie.title,
-                           duration: "\(movie.runtime) minutes",
+                           duration: "\(movie.runtime ?? 0) minutes",
                            isFavorite: isFavorite,
                            genre: movie.genres.first?.name ?? "",
                            votesAmoutCount: movie.vote_count,

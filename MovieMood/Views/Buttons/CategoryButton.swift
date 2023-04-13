@@ -10,13 +10,13 @@ import UIKit
 final class CategoryButton: UIButton {
     
     enum Category: String {
-        case all = "All"
+        case horror = "Horror"
         case action = "Action"
         case adventure = "Adventure"
         case mystery = "Mystery"
         case fantasy = "Fantasy"
-        case others = "Others"
-        }
+        case comedy = "Comedy"
+    }
     
     let category: Category
     
@@ -35,12 +35,12 @@ final class CategoryButton: UIButton {
         layer.cornerRadius = 19.5
         layer.borderWidth = 1
         layer.borderColor = UIColor.custom.mainBlue.cgColor
-
+        
         setTitle(category.rawValue, for: .normal)
         setTitleColor(.label, for: .normal)
         titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
         heightAnchor.constraint(equalToConstant: 39).isActive = true
-
+        
         contentHorizontalAlignment = .center
         
     }

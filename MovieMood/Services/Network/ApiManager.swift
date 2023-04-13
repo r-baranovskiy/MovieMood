@@ -8,7 +8,7 @@ protocol ApiManagerProtocol {
     func fetchSearchMovies(with movieName: String) async throws -> Movie
     func fetchRatingTV() async throws -> TV
     func fetchTVDetail(with tvId: Int) async throws -> TVDetail
-    func fetchFilterMovies(with genre: String, votes: String) async throws -> Movie
+    func fetchFilterMovies(with genre: Int, votes: Int) async throws -> Movie
 }
 
 final class ApiManager {
@@ -23,8 +23,8 @@ final class ApiManager {
 
 extension ApiManager: ApiManagerProtocol {
     
-    func fetchFilterMovies(with genre: String, votes: String) async throws -> Movie {
-        let urlString = "https://api.themoviedb.org/3/discover/movie?api_key=\(APIKey.apiKey)&with_genres=\(genre)&vote_average.lte=\(votes)"
+    func fetchFilterMovies(with genre: Int, votes: Int) async throws -> Movie {
+        let urlString = "https://api.themoviedb.org/3/discover/movie?api_key=\(APIKey.apiKey)&with_genres=\(genre)&vote_average.gte=\(votes)"
         return try await networkManager.request(urlString: urlString)
     }
     
