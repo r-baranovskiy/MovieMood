@@ -38,7 +38,7 @@ final class SearchViewController: UIViewController {
     }()
     
     private lazy var blurView: UIVisualEffectView = {
-        let effect = UIBlurEffect(style: .dark)
+        let effect = UIBlurEffect(style: .light)
         let blur = UIVisualEffectView(effect: effect)
         return blur
     }()
@@ -65,7 +65,7 @@ final class SearchViewController: UIViewController {
         searchTextField.delegate = self
         searchTextField.searchFieldDelegate = self
         setupCollectionView()
-        //fetchMovies()
+        fetchRatingMovies()
     }
     
     @objc
@@ -77,6 +77,7 @@ final class SearchViewController: UIViewController {
     
     //MARK: - Network Methodes
     private func fetchSearchMovies(with movie: String) {
+        movies = []
         Task {
             do {
                 let movies = try await apiManager.fetchSearchMovies(with: movie).results
@@ -93,12 +94,30 @@ final class SearchViewController: UIViewController {
         }
     }
     
+    private func fetchRatingMovies() {
+        Task {
+            do {
+                let movies = try await apiManager.fetchRaitingMovies().results
+                for movie in movies {
+                    let movie = try await apiManager.fetchMovieDetail(with: movie.id)
+                    self.movies.append(movie)
+                }
+                await MainActor.run(body: {
+                    movieColletionView.reloadData()
+                })
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
     private func hideFilter() {
         UIView.animate(withDuration: 0.3) {
             self.filterPopupView.frame.origin.y += self.view.frame.height / 2
         } completion: { _ in
             self.filterPopupView.removeFromSuperview()
             self.blurView.removeFromSuperview()
+            self.tabBarController?.tabBar.isHidden = false
         }
     }
 }
@@ -124,12 +143,8 @@ extension SearchViewController: MovieCollectionViewCellDelegate {
 
 //MARK: - FilterPopupViewDelegate
 extension SearchViewController: FilterPopupViewDelegate {
-    func didTapClearFilter() {
-        //
-    }
-    
     func didTapClose() {
-        //
+        hideFilter()
     }
     
     func didTapApplyFilter(with genre: String, votes: String) {
