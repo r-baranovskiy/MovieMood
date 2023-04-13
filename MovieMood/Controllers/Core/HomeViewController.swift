@@ -72,8 +72,6 @@ final class HomeViewController: UIViewController {
         return table
     }()
     
-    private var categories = CategoryCellViewModel.fetchCategories()
-    
     // MARK: - Init
     
     init(currentUser: UserRealm) {
