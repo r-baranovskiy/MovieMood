@@ -3,7 +3,8 @@ struct MovieDetail: Decodable {
     let genres: [Genre]
     let title: String
     let vote_average: Double
-    let runtime: Int?
+    let vote_count: Int
+    let runtime: Int
     let release_date: String
     let poster_path: String?
     let overview: String?

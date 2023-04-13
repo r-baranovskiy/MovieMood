@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 case .success(let movieUser):
                     window.rootViewController = MainTabBarController(user: movieUser)
                 case .failure:
-                    window.rootViewController = SignInViewController()
+                    window.rootViewController = OnboardingViewController()
                 }
             }
         let darkMode = UserDefaults.standard.bool(forKey: OptionType.darkMode.rawValue)

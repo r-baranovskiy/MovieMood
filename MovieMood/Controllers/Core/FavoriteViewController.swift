@@ -48,16 +48,16 @@ final class FavoriteViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        updateFavoritesId()
-//        fetchMovies()
-       // movies.filter({ $0.id == 100 })
+        updateFavoritesId()
+        fetchMovies()
     }
     
     private func updateFavoritesId() {
-        RealmManager.shared.fetchFilms(userId: currentUser.userId) {
-            [weak self] moviesRealm in
+        RealmManager.shared.fetchMovies(
+            userId: currentUser.userId, moviesType: .favorite
+        ) { [weak self] realmMovies in
             guard let self = self else { return }
-            for movie in moviesRealm where !self.favoriteMoviesId.contains(movie) {
+            for movie in realmMovies where !self.favoriteMoviesId.contains(movie) {
                 self.favoriteMoviesId.append(movie)
             }
         }
@@ -87,8 +87,8 @@ extension FavoriteViewController: MovieCollectionViewCellDelegate {
         let movieId = movies[indexPath.row].id
         if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
             RealmManager.shared.saveMovie(
-                for: currentUser, with: movies[indexPath.row].id
-            ) { [weak self] success in
+                for: currentUser, with: movies[indexPath.row].id,
+                moviesType: .favorite) { [weak self] success in
                 print("Liked")
                 DispatchQueue.main.async {
                     self?.movieColletionView.reloadData()
@@ -98,6 +98,7 @@ extension FavoriteViewController: MovieCollectionViewCellDelegate {
             RealmManager.shared.removeMovie(for: currentUser,
                                             with: movieId) { [weak self] success in
                 if success {
+                    print("Disliked")
                     DispatchQueue.main.async {
                         self?.movies.remove(at: indexPath.row)
                         self?.movieColletionView.reloadData()

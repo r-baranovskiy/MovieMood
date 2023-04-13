@@ -4,6 +4,10 @@ final class HistoryViewController: UIViewController {
     
     private let currentUser: UserRealm
     
+    private var recentMovies = [MovieDetail]()
+    
+    private var recentMoviesId = [MovieRealm]()
+    
     // MARK: - Collection View
     
     private lazy var movieColletionView: UICollectionView = {
@@ -27,7 +31,6 @@ final class HistoryViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var movies = [MovieModel]()
     private let apiManager = ApiManager(
         networkManager: NetworkManager(jsonService: JSONDecoderManager())
     )
@@ -46,20 +49,43 @@ final class HistoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        updateRecentMoviesId()
         fetchMovies()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateRecentMoviesId()
+        fetchMovies()
+    }
+    
+    private func updateRecentMoviesId() {
+        recentMoviesId = []
+        RealmManager.shared.fetchMovies(
+            userId: currentUser.userId, moviesType: .recent
+        ) { [weak self] movies in
+            self?.recentMoviesId = movies
+        }
+    }
+    
     private func fetchMovies() {
-        Task {
-            do {
-                movies = try await apiManager.fetchMovies().results
-                await MainActor.run(body: {
-                    movieColletionView.reloadData()
-                })
-            } catch {
-                print(error.localizedDescription)
+        for id in recentMoviesId {
+            Task {
+                do {
+                    let movie = try await apiManager.fetchMovieDetail(with: id.movieId)
+                    if !checkOnContains(movidId: id.movieId) {
+                        recentMovies.insert(movie, at: 0)
+                        await MainActor.run(body: {
+                            movieColletionView.reloadData()
+                        })
+                    }
+                }
             }
         }
+    }
+    
+    private func checkOnContains(movidId: Int) -> Bool {
+        return recentMovies.contains(where: { $0.id == movidId })
     }
 }
 
@@ -68,11 +94,11 @@ final class HistoryViewController: UIViewController {
 extension HistoryViewController: MovieCollectionViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?) {
         guard let indexPath = indexPath else { return }
-        let movieId = movies[indexPath.row].id
+        let movieId = recentMovies[indexPath.row].id
         
         if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
             RealmManager.shared.saveMovie(
-                for: currentUser, with: movies[indexPath.row].id
+                for: currentUser, with: movieId, moviesType: .favorite
             ) { [weak self] success in
                 DispatchQueue.main.async {
                     self?.movieColletionView.reloadData()
@@ -82,7 +108,7 @@ extension HistoryViewController: MovieCollectionViewCellDelegate {
             RealmManager.shared.removeMovie(for: currentUser,
                                             with: movieId) { success in
                 if success {
-                    print("УДАЛЕННОООО")
+                    print("Deleted")
                 }
             }
         }
@@ -95,7 +121,7 @@ extension HistoryViewController: UICollectionViewDelegate,
                                  UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        movies.count
+        recentMovies.count
     }
     
     func collectionView(
@@ -106,14 +132,13 @@ extension HistoryViewController: UICollectionViewDelegate,
                 for: indexPath) as? MovieCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            
             cell.delegate = self
             cell.indexPath = indexPath
-            let movie = movies[indexPath.row]
-            let imageUrl = URL(
-                string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path)"
-            )
+            let movie = recentMovies[indexPath.row]
             
+            let imageUrl = URL(
+                string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
+            )
             let isFavorite = RealmManager.shared.isLikedMovie(
                 for: currentUser, with: movie.id
             )
@@ -123,15 +148,6 @@ extension HistoryViewController: UICollectionViewDelegate,
                            genre: "Action", isFavorite: isFavorite)
             return cell
         }
-//    cell.delegate = self
-//    let movie = movies[indexPath.row]
-//    let imageUrl = URL(
-//        string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
-//    )
-//    cell.configure(url: imageUrl, movieName: movie.title,
-//                   duration: 0, creatingDate: movie.release_date,
-//                   genre: "Action")
-//    return cell
 }
 
 // MARK: - Setup View

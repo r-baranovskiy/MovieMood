@@ -62,7 +62,7 @@ final class SearchViewController: UIViewController {
                     movieColletionView.reloadData()
                 })
             } catch {
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }
@@ -132,7 +132,6 @@ final class SearchViewController: UIViewController {
 
 extension SearchViewController: MovieCollectionViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?) {
-        print("Like")
     }
     
 }

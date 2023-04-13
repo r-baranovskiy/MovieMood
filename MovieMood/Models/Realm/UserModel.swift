@@ -10,7 +10,8 @@ final class UserRealm: Object {
     dynamic var email: String = ""
     dynamic var isMale: Bool = true
     dynamic var userImageData: Data?
-    var movies = List<MovieRealm>()
+    var favoriteMovies = List<MovieRealm>()
+    var recentWatchMovies = List<MovieRealm>()
     
     convenience init(firstName: String, lastName: String, userId: String,
                      email: String, userImageData: Data?) {
