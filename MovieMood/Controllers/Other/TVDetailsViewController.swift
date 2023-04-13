@@ -222,7 +222,7 @@ final class TVDetailsViewController: UIViewController {
     
     func configure(idTV: Int){
         Task {
-            detailTV = try? await apiManager.fetchMovieDetail(with: tvId)
+            detailTV = try? await apiManager.fetchTVDetail(with: tvId)
             model = try? await apiManager.fetchCastAndCrew(with: tvId)
             movieVideo = try? await apiManager.fetchMovieVideo(with: tvId)
             await MainActor.run(body: {
@@ -232,8 +232,8 @@ final class TVDetailsViewController: UIViewController {
                 if let name = detailTV?.genres, !name.isEmpty {
                     genreLabel.text = name[0].name
                 }
-                valueOfSeasonsTextLabel.text = String(detailTV?.numberOfSeasons)
-                valueOfEpisodesTextLabel.text = String(detailTV?.numberOfEpisodes)
+                valueOfSeasonsTextLabel.text = String(detailTV?.numberOfSeasons ?? 0)
+                valueOfEpisodesTextLabel.text = String(detailTV?.numberOfEpisodes ?? 0)
                 textView.text = "По сути, тут должно быть описание из API"
                 //                textView.text = detailMovie?.overview
                 rating = detailTV?.voteAverage
