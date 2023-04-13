@@ -55,10 +55,25 @@ final class FilterPopupView: UIView {
     // MARK: - Actions
     
     @objc
-    private func selectButton(_ sender: UIButton) {
+    private func selectGenreButton(_ sender: UIButton) {
         let buttons = [
             allButton, actionButton, adventureButton, mysteryButton,
             fantasyButton, othersButton
+        ]
+        for button in buttons {
+            button.isSelected = false
+            button.backgroundColor = .clear
+        }
+        
+        sender.isSelected = true
+        sender.backgroundColor = .custom.mainBlue
+    }
+    
+    @objc
+    private func selectStarButton(_ sender: UIButton) {
+        let buttons = [
+            oneStarButton, twoStarButton, threeStarButton,
+            fourStarButton, fiveStarButton
         ]
         for button in buttons {
             button.isSelected = false
@@ -94,10 +109,15 @@ final class FilterPopupView: UIView {
         applyFiltersButton.addTarget(self, action: #selector(didTapApplyFilter),
                                      for: .touchUpInside)
         [
+            allButton, actionButton, adventureButton,
+            mysteryButton, fantasyButton, othersButton
+        ].forEach({ $0.addTarget(self, action: #selector(selectGenreButton),
+                                 for: .touchUpInside) })
+        [
             oneStarButton,twoStarButton, threeStarButton,
-            fourStarButton, fiveStarButton, allButton, actionButton,
-            adventureButton, mysteryButton, fantasyButton, othersButton
-        ].forEach({ $0.addTarget(self, action: #selector(selectButton), for: .touchUpInside) })
+            fourStarButton, fiveStarButton
+        ].forEach({ $0.addTarget(self, action: #selector(selectStarButton),
+                                 for: .touchUpInside) })
     }
     
     
@@ -130,7 +150,7 @@ final class FilterPopupView: UIView {
             let ratingView = UIView()
             return ratingView
         }()
-                
+        
         let upperStackView = UIStackView(
             subviews: [titleLabel, clearFiltersButton],
             axis: .horizontal, spacing: 200, aligment: .fill,
