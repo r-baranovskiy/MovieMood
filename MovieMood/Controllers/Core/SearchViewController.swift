@@ -5,6 +5,7 @@ final class SearchViewController: UIViewController {
     // MARK: - Properties
     
     private var movies = [MovieDetail]()
+    private let currentUser: UserRealm
     
     private let apiManager = ApiManager(
         networkManager: NetworkManager(jsonService: JSONDecoderManager())
@@ -38,13 +39,28 @@ final class SearchViewController: UIViewController {
         return collection
     }()
     
+    private lazy var blurView: UIVisualEffectView = {
+        let effect = UIBlurEffect(style: .dark)
+        let blur = UIVisualEffectView(effect: effect)
+        return blur
+    }()
+    
     private let searchTextField = MovieSearchTextField()
-    private let filterPopupView = FilterPopupView()
+    
+    // MARK: - Init
+    
+    init(currentUser: UserRealm) {
+        self.currentUser = currentUser
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        filterPopupView.delegate = self
         searchTextField.delegate = self
         searchTextField.searchFieldDelegate = self
         setupCollectionView()
@@ -70,12 +86,12 @@ final class SearchViewController: UIViewController {
     }
     
     private func hideFilter() {
-        let heightTabBar = tabBarController?.tabBar.frame.height ?? 0
-        UIView.animate(withDuration: 0.3) {
-            self.filterPopupView.frame.origin.y += (self.view.frame.height / 2) + heightTabBar
-        } completion: { _ in
-            self.filterPopupView.removeFromSuperview()
-        }
+//        let heightTabBar = tabBarController?.tabBar.frame.height ?? 0
+//        UIView.animate(withDuration: 0.3) {
+//            self.filterPopupView.frame.origin.y += (self.view.frame.height / 2) + heightTabBar
+//        } completion: { _ in
+//            self.filterPopupView.removeFromSuperview()
+//        }
     }
 }
 
@@ -88,16 +104,7 @@ extension SearchViewController: MovieSearchTextFieldDelegate {
     }
     
     func didTapFilterButton() {
-        let heightTabBar = tabBarController?.tabBar.frame.height ?? 0
-        view.addSubview(filterPopupView)
-        filterPopupView.frame = CGRect(
-            x: 0, y: view.frame.height, width: view.frame.width,
-            height: view.frame.height / 2
-        )
-        UIView.animate(withDuration: 0.3) {
-            self.filterPopupView.frame.origin.y -= (
-                self.view.frame.height / 2) + heightTabBar
-        }
+        showFilteView()
     }
 }
 
@@ -195,6 +202,27 @@ extension SearchViewController: UICollectionViewDelegate,
         let detailVC = DetailViewController(movieId: movie.id)
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(detailVC, animated: true)
+        }
+    }
+}
+
+// MARK: - Setup BlurView
+
+extension SearchViewController {
+    private func showFilteView() {
+        let frameForFilteView = CGRect(
+            x: 0, y: view.frame.height,
+            width: view.frame.width, height: view.frame.height / 2
+        )
+        tabBarController?.tabBar.isHidden = true
+        let filterPopupView = FilterPopupView()
+        filterPopupView.delegate = self
+        view.addSubview(blurView)
+        blurView.frame = view.bounds
+        blurView.contentView.addSubview(filterPopupView)
+        filterPopupView.frame = frameForFilteView
+        UIView.animate(withDuration: 0.3) {
+            filterPopupView.frame.origin.y -= self.view.frame.height / 2
         }
     }
 }

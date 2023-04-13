@@ -52,7 +52,9 @@ extension MainTabBarController {
     private func generateTabBar() {
         viewControllers = [
             generateVC(
-                viewController: SearchViewController(),
+                viewController: realmUser != nil ? SearchViewController(
+                    currentUser: realmUser!
+                ) : UIViewController(),
                 image: UIImage(named: "search-icon"), title: "Search"),
             generateVC(
                 viewController: realmUser != nil ? HistoryViewController(
