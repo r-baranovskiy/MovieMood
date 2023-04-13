@@ -10,7 +10,7 @@ final class ImageNetworkLoaderManager {
         let movieModels = movieModels.shuffled()[0...14]
         var images = [UIImage]()
         let urls = movieModels.compactMap({
-            URL(string: "https://image.tmdb.org/t/p/w500/\($0.poster_path)") })
+            URL(string: "https://image.tmdb.org/t/p/w500/\($0.poster_path ?? "")") })
         DispatchQueue.global(qos: .userInitiated).async {
             urls.forEach({
                 do {

@@ -45,7 +45,7 @@ final class FilterPopupView: UIView {
     
     override init(frame: CGRect) {
         super .init(frame: frame)
-        backgroundColor = .custom.lightGray
+        backgroundColor = .white //.custom.lightGray
         setupView()
         setTargets()
     }
@@ -55,8 +55,6 @@ final class FilterPopupView: UIView {
     }
     
     // MARK: - Actions
-    
-    
     
     @objc
     private func didTapFilterButton(_ sender: UIButton) {

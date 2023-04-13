@@ -74,10 +74,10 @@ extension HistoryViewController: MovieCollectionViewCellDelegate {
             RealmManager.shared.saveMovie(
                 for: currentUser, with: movies[indexPath.row].id
             ) { [weak self] success in
-                    DispatchQueue.main.async {
-                        self?.movieColletionView.reloadData()
-                    }
+                DispatchQueue.main.async {
+                    self?.movieColletionView.reloadData()
                 }
+            }
         } else {
             RealmManager.shared.removeMovie(for: currentUser,
                                             with: movieId) { success in
@@ -123,16 +123,15 @@ extension HistoryViewController: UICollectionViewDelegate,
                            genre: "Action", isFavorite: isFavorite)
             return cell
         }
-        cell.delegate = self
-        let movie = movies[indexPath.row]
-        let imageUrl = URL(
-            string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
-        )
-        cell.configure(url: imageUrl, movieName: movie.title,
-                       duration: 0, creatingDate: movie.release_date,
-                       genre: "Action")
-        return cell
-    }
+//    cell.delegate = self
+//    let movie = movies[indexPath.row]
+//    let imageUrl = URL(
+//        string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
+//    )
+//    cell.configure(url: imageUrl, movieName: movie.title,
+//                   duration: 0, creatingDate: movie.release_date,
+//                   genre: "Action")
+//    return cell
 }
 
 // MARK: - Setup View

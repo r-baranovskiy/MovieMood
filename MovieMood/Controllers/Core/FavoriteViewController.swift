@@ -50,7 +50,7 @@ final class FavoriteViewController: UIViewController {
         super.viewWillAppear(animated)
 //        updateFavoritesId()
 //        fetchMovies()
-        movies.filter({ $0.id == 100 })
+       // movies.filter({ $0.id == 100 })
     }
     
     private func updateFavoritesId() {
