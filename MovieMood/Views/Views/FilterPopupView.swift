@@ -2,6 +2,7 @@ import UIKit
 
 protocol FilterPopupViewDelegate: AnyObject {
     func didTapApplyFilter(with genre: String, votes: String)
+    func didTapClose()
 }
 
 final class FilterPopupView: UIView {
@@ -23,9 +24,19 @@ final class FilterPopupView: UIView {
     private let fantasyButton = CategoryButton(category: .fantasy)
     private let comedyButton = CategoryButton(category: .comedy)
     
+    private let closeButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "cross")?
+            .withTintColor(.label), for: .normal)
+        button.heightAnchor.constraint(equalToConstant: 12).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 12).isActive = true
+        return button
+    }()
+    
     private let clearFiltersButton: UIButton = {
-        let clearButton = UIButton()
+        let clearButton = UIButton(type: .system)
         clearButton.setTitle("Clear filters", for: .normal)
+        clearButton.contentHorizontalAlignment = .right
         clearButton.setTitleColor(.custom.mainBlue, for: .normal)
         clearButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .regular)
         return clearButton
@@ -47,6 +58,23 @@ final class FilterPopupView: UIView {
     }
     
     // MARK: - Actions
+    
+    @objc
+    private func didTapClear() {
+        [
+            horrorButton, actionButton, adventureButton, mysteryButton,
+            fantasyButton, comedyButton, oneStarButton, twoStarButton,
+            threeStarButton, fourStarButton, fiveStarButton
+        ].forEach({
+            $0.isSelected = false
+            $0.backgroundColor = .clear
+        })
+    }
+    
+    @objc
+    private func didTapClose() {
+        delegate?.didTapClose()
+    }
     
     @objc
     private func selectGenreButton(_ sender: UIButton) {
@@ -111,6 +139,12 @@ final class FilterPopupView: UIView {
     }
     
     private func setTargets() {
+        closeButton.addTarget(self, action: #selector(didTapClose),
+                              for: .touchUpInside)
+        
+        clearFiltersButton.addTarget(self, action: #selector(didTapClear),
+                                     for: .touchUpInside)
+        
         applyFiltersButton.addTarget(self, action: #selector(didTapApplyFilter),
                                      for: .touchUpInside)
         [
@@ -138,12 +172,12 @@ final class FilterPopupView: UIView {
         
         let categoriesLabel = UILabel(
             text: "Categories",
-            font: .systemFont(ofSize: 16, weight: .bold),
+            font: .systemFont(ofSize: 18, weight: .semibold),
             textAlignment: .left, color: .label)
         
         let starRatingLabel = UILabel(
             text: "Star Rating",
-            font: .systemFont(ofSize: 16, weight: .bold),
+            font: .systemFont(ofSize: 18, weight: .semibold),
             textAlignment: .left, color: .label)
         
         let categoriesContainer: UIView = {
@@ -157,13 +191,15 @@ final class FilterPopupView: UIView {
         }()
         
         let upperStackView = UIStackView(
-            subviews: [titleLabel, clearFiltersButton],
-            axis: .horizontal, spacing: 200, aligment: .fill,
+            subviews: [closeButton, titleLabel, clearFiltersButton],
+            axis: .horizontal, spacing: 10, aligment: .fill,
             distribution: .fill
         )
         
         let filtersStackView = UIStackView(
-            subviews: [upperStackView, categoriesLabel, categoriesContainer, starRatingLabel, starRatingContainer, applyFiltersButton],
+            subviews: [upperStackView, categoriesLabel,
+                       categoriesContainer, starRatingLabel,
+                       starRatingContainer, applyFiltersButton],
             axis: .vertical, spacing: 10, aligment: .fill,
             distribution: .fill
         )

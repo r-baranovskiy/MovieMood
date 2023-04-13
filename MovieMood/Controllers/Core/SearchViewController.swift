@@ -11,8 +11,6 @@ final class SearchViewController: UIViewController {
         networkManager: NetworkManager(jsonService: JSONDecoderManager())
     )
     
-    private var moviesID: [Int] = []
-    
     private lazy var tapGesture: UITapGestureRecognizer = {
         return UITapGestureRecognizer(
             target: view,action: #selector(view.endEditing)
@@ -116,6 +114,14 @@ extension SearchViewController: MovieCollectionViewCellDelegate {
 
 //MARK: - FilterPopupViewDelegate
 extension SearchViewController: FilterPopupViewDelegate {
+    func didTapClearFilter() {
+        //
+    }
+    
+    func didTapClose() {
+        //
+    }
+    
     func didTapApplyFilter(with genre: String, votes: String) {
         movies = []
         hideFilter()
@@ -206,7 +212,7 @@ extension SearchViewController: UICollectionViewDelegate,
     }
 }
 
-// MARK: - Setup BlurView
+// MARK: - BlurView
 
 extension SearchViewController {
     private func showFilteView() {
