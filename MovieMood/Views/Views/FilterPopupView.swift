@@ -1,28 +1,8 @@
-//let heightTabBar = tabBarController?.tabBar.frame.height ?? 0
-//view.addSubview(filterPopupView)
-//filterPopupView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: 400)
-//print(view.frame.height)
-//UIView.animate(withDuration: 0.3) {
-//    self.filterPopupView.frame.origin.y -= 400 + heightTabBar
-//}
-//}
-
-
 import UIKit
 
-enum FilterType: String {
-    case all = ""
-    case action = "Action"
-    case adventure = "Adventure"
-    case mystery = "Mystery"
-    case fantasy = "Fantasy"
-    case others = "Others"
-}
-
 protocol FilterPopupViewDelegate: AnyObject {
-    func didTapFilter(with filter: FilterType)
+    func didTapApplyFilter(with filter: [String])
 }
-
 
 final class FilterPopupView: UIView {
     
@@ -43,6 +23,24 @@ final class FilterPopupView: UIView {
     private let fantasyButton = CategoryButton(category: .fantasy)
     private let othersButton = CategoryButton(category: .others)
     
+    private let clearFiltersButton: UIButton = {
+        let clearButton = UIButton()
+        clearButton.setTitle("Clear filters", for: .normal)
+        clearButton.setTitleColor(.custom.mainBlue, for: .normal)
+        clearButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .regular)
+        return clearButton
+    }()
+    
+    private let applyFiltersButton = BlueButton(withStyle: .applyFilters)
+    
+    private var isSelectedStarButton: Bool = false {
+        didSet {
+            
+        }
+    }
+    
+    // MARK: - Init
+    
     override init(frame: CGRect) {
         super .init(frame: frame)
         backgroundColor = .white //.custom.lightGray
@@ -57,22 +55,49 @@ final class FilterPopupView: UIView {
     // MARK: - Actions
     
     @objc
-    private func didTapFilterButton(_ sender: UIButton) {
-        switch sender.tag {
-        case 0:
-            delegate?.didTapFilter(with: .all)
-        case 1:
-            delegate?.didTapFilter(with: .action)
-        default:
-            break
+    private func selectButton(_ sender: UIButton) {
+        let buttons = [
+            allButton, actionButton, adventureButton, mysteryButton,
+            fantasyButton, othersButton
+        ]
+        for button in buttons {
+            button.isSelected = false
+            button.backgroundColor = .clear
         }
+        
+        sender.isSelected = true
+        sender.backgroundColor = .custom.mainBlue
+    }
+    
+    @objc
+    private func didTapApplyFilter(_ sender: UIButton) {
+        let filtersButton = [
+            oneStarButton,twoStarButton, threeStarButton,
+            fourStarButton, fiveStarButton, allButton, actionButton,
+            adventureButton, mysteryButton, fantasyButton, othersButton
+        ]
+        
+        var isSelectedTitleStrings = [String]()
+        
+        for button in filtersButton {
+            if button.isSelected {
+                if let title = button.currentTitle {
+                    isSelectedTitleStrings.append(title)
+                }
+            }
+        }
+        
+        delegate?.didTapApplyFilter(with: isSelectedTitleStrings)
     }
     
     private func setTargets() {
-        allButton.addTarget(self, action: #selector(didTapFilterButton), for: .touchUpInside)
-        allButton.tag = 0
-        actionButton.addTarget(self, action: #selector(didTapFilterButton), for: .touchUpInside)
-        actionButton.tag = 1
+        applyFiltersButton.addTarget(self, action: #selector(didTapApplyFilter),
+                                     for: .touchUpInside)
+        [
+            oneStarButton,twoStarButton, threeStarButton,
+            fourStarButton, fiveStarButton, allButton, actionButton,
+            adventureButton, mysteryButton, fantasyButton, othersButton
+        ].forEach({ $0.addTarget(self, action: #selector(selectButton), for: .touchUpInside) })
     }
     
     
@@ -105,17 +130,7 @@ final class FilterPopupView: UIView {
             let ratingView = UIView()
             return ratingView
         }()
-        
-        let clearFiltersButton: UIButton = {
-            let clearButton = UIButton()
-            clearButton.setTitle("Clear filters", for: .normal)
-            clearButton.setTitleColor(.custom.mainBlue, for: .normal)
-            clearButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .regular)
-            return clearButton
-        }()
-        
-        let applyFiltersButton = BlueButton(withStyle: .applyFilters)
-        
+                
         let upperStackView = UIStackView(
             subviews: [titleLabel, clearFiltersButton],
             axis: .horizontal, spacing: 200, aligment: .fill,

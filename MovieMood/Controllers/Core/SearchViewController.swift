@@ -208,9 +208,8 @@ extension SearchViewController: UICollectionViewDelegate,
 
 //MARK: - FilterPopupViewDelegate
 extension SearchViewController: FilterPopupViewDelegate {
-    
-    func didTapFilter(with filter: FilterType) {
-
+    func didTapApplyFilter(with filter: [String]) {
+        print(filter)
     }
 }
 
