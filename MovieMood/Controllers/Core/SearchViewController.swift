@@ -16,7 +16,7 @@ final class SearchViewController: UIViewController {
             target: view,action: #selector(view.endEditing)
         )
     }()
-        
+    
     //MARK: - Views
     
     private lazy var movieColletionView: UICollectionView = {
@@ -43,6 +43,8 @@ final class SearchViewController: UIViewController {
         return blur
     }()
     
+    private lazy var filterPopupView = FilterPopupView()
+    
     private let searchTextField = MovieSearchTextField()
     
     // MARK: - Init
@@ -59,10 +61,18 @@ final class SearchViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchTextField.addTarget(self, action: #selector(didChangeSearchText(_:)), for: .editingChanged)
         searchTextField.delegate = self
         searchTextField.searchFieldDelegate = self
         setupCollectionView()
         //fetchMovies()
+    }
+    
+    @objc
+    private func didChangeSearchText(_ sender: UITextField) {
+        guard let text = sender.text else { return }
+        movies = []
+        fetchSearchMovies(with: text)
     }
     
     //MARK: - Network Methodes
@@ -84,12 +94,12 @@ final class SearchViewController: UIViewController {
     }
     
     private func hideFilter() {
-//        let heightTabBar = tabBarController?.tabBar.frame.height ?? 0
-//        UIView.animate(withDuration: 0.3) {
-//            self.filterPopupView.frame.origin.y += (self.view.frame.height / 2) + heightTabBar
-//        } completion: { _ in
-//            self.filterPopupView.removeFromSuperview()
-//        }
+        UIView.animate(withDuration: 0.3) {
+            self.filterPopupView.frame.origin.y += self.view.frame.height / 2
+        } completion: { _ in
+            self.filterPopupView.removeFromSuperview()
+            self.blurView.removeFromSuperview()
+        }
     }
 }
 
@@ -221,14 +231,14 @@ extension SearchViewController {
             width: view.frame.width, height: view.frame.height / 2
         )
         tabBarController?.tabBar.isHidden = true
-        let filterPopupView = FilterPopupView()
+        
         filterPopupView.delegate = self
         view.addSubview(blurView)
         blurView.frame = view.bounds
         blurView.contentView.addSubview(filterPopupView)
         filterPopupView.frame = frameForFilteView
         UIView.animate(withDuration: 0.3) {
-            filterPopupView.frame.origin.y -= self.view.frame.height / 2
+            self.filterPopupView.frame.origin.y -= self.view.frame.height / 2
         }
     }
 }
