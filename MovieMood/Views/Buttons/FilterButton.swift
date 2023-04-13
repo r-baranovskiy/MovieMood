@@ -20,7 +20,7 @@ final class FilterButton: UIButton {
     }
     
     private func setupButton() {
-        setImage(UIImage(named: "filter"), for: .normal)
+        setImage(UIImage(named: "filter")?.withTintColor(.label), for: .normal)
         heightAnchor.constraint(equalToConstant: 13).isActive = true
         widthAnchor.constraint(equalToConstant: 13).isActive = true
     }

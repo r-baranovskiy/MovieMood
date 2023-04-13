@@ -23,16 +23,24 @@ final class SearchViewController: UIViewController {
     }()
     
     //MARK: - Private Properties
-    private let searchMovie = MovieSearchTextField()
+    private let searchTextField = MovieSearchTextField()
     private let crossButton = CrossButton()
     private let filterButton = FilterButton()
-    private let searchImageView = SearchView(frame: CGRect())
     private let filterPopupView = FilterPopupView()
     
     private var movies = [MovieDetail]()
     private let apiManager = ApiManager(
         networkManager: NetworkManager(jsonService: JSONDecoderManager())
     )
+    
+    private let searchImageView: UIImageView = {
+        let view = UIImageView(image: UIImage(named: "search")?.withTintColor(.label))
+        view.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        view.widthAnchor.constraint(equalToConstant: 16).isActive = true
+        return view
+    }()
+    
+    
     private var moviesID: [Int] = []
     
     private lazy var tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
@@ -41,7 +49,7 @@ final class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         filterPopupView.delegate = self
-        searchMovie.delegate = self
+        searchTextField.delegate = self
         setupSearchUI()
         addAction()
         setupCollectionView()
@@ -73,8 +81,8 @@ final class SearchViewController: UIViewController {
     }
     
     @objc private func crossButtonTapped() {
-        searchMovie.text = ""
-        searchMovie.endEditing(true)
+        searchTextField.text = ""
+        searchTextField.endEditing(true)
     }
     
     @objc private func filterButtonTapped() {
@@ -179,7 +187,8 @@ extension SearchViewController: UICollectionViewDelegate,
             }
             
             cell.configure(url: imageUrl, movieName: movie.title,
-                           duration: movie.runtime ?? 0 , creatingDate: movie.release_date,
+                           duration: "\(movie.runtime ?? 0) minutes",
+                           creatingDate: movie.release_date,
                            genre: movieGenre, isFavorite: false)
             return cell
         }
@@ -197,33 +206,62 @@ extension SearchViewController: UICollectionViewDelegate,
 extension SearchViewController {
     
     private func setupCollectionView() {
+        movieColletionView.backgroundColor = .none
         view.backgroundColor = .custom.mainBackground
         view.addSubviewWithoutTranslates(movieColletionView)
         
         NSLayoutConstraint.activate([
-            movieColletionView.topAnchor.constraint(equalTo: searchMovie.bottomAnchor, constant: 30),
-            movieColletionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            movieColletionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            movieColletionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            movieColletionView.topAnchor.constraint(
+                equalTo: searchTextField.bottomAnchor, constant: 24
+            ),
+            movieColletionView.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor
+            ),
+            movieColletionView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            movieColletionView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            )
         ])
     }
     
     private func setupSearchUI() {
-        view.addSubviewWithoutTranslates(searchMovie, crossButton, filterButton, searchImageView)
+        view.addSubviewWithoutTranslates(
+            searchTextField, crossButton, filterButton, searchImageView
+        )
         
         NSLayoutConstraint.activate([
-            searchMovie.topAnchor.constraint(equalTo: navigationItem.titleView?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor, constant: 35),
-            searchMovie.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
-            searchMovie.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24),
+            searchTextField.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 35
+            ),
+            searchTextField.leftAnchor.constraint(
+                equalTo: view.leftAnchor, constant: 24
+            ),
+            searchTextField.rightAnchor.constraint(
+                equalTo: view.rightAnchor, constant: -24
+            ),
             
-            filterButton.rightAnchor.constraint(equalTo: searchMovie.rightAnchor, constant: -19),
-            filterButton.centerYAnchor.constraint(equalTo: searchMovie.centerYAnchor),
+            filterButton.rightAnchor.constraint(
+                equalTo: searchTextField.rightAnchor, constant: -19
+            ),
+            filterButton.centerYAnchor.constraint(
+                equalTo: searchTextField.centerYAnchor
+            ),
             
-            crossButton.rightAnchor.constraint(equalTo: searchMovie.rightAnchor, constant: -55),
-            crossButton.centerYAnchor.constraint(equalTo: searchMovie.centerYAnchor),
+            crossButton.rightAnchor.constraint(
+                equalTo: searchTextField.rightAnchor, constant: -55
+            ),
+            crossButton.centerYAnchor.constraint(
+                equalTo: searchTextField.centerYAnchor
+            ),
             
-            searchImageView.leftAnchor.constraint(equalTo: searchMovie.leftAnchor, constant: 18),
-            searchImageView.centerYAnchor.constraint(equalTo: searchMovie.centerYAnchor)
+            searchImageView.leftAnchor.constraint(
+                equalTo: searchTextField.leftAnchor, constant: 18
+            ),
+            searchImageView.centerYAnchor.constraint(
+                equalTo: searchTextField.centerYAnchor
+            )
         ])
     }
 }

@@ -12,12 +12,13 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     
     var indexPath: IndexPath?
     
-    // MARK: - Properties
+    // MARK: - Propeties
     
     private var isFavorite: Bool = false {
         didSet {
+            likeButton.imageView?.image = nil
             let image = UIImage(named: isFavorite ? "heart-icon-fill" : "heart-icon")
-            likeButton.setBackgroundImage(image, for: .normal)
+            likeButton.setImage(image, for: .normal)
         }
     }
     
@@ -29,9 +30,11 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    private let likeButton: UIButton = {
+    private lazy var likeButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "heart-icon"), for: .normal)
+        button.addTarget(self, action: #selector(didTapLike), for: .touchUpInside)
+        let image = UIImage(named: isFavorite ? "heart-icon-fill" : "heart-icon")
+        button.setImage(image, for: .normal)
         return button
     }()
     
@@ -60,8 +63,6 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame )
         setupCell()
-        likeButton.addTarget(self, action: #selector(didTapLike),
-                             for: .touchUpInside)
     }
 
     required init?(coder: NSCoder) {
@@ -71,16 +72,17 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         movieImageView.image = nil
+        creatingDateLabel.text = nil
         movieNameLabel.text = nil
         durationLabel.text = nil
         genreLabel.text = nil
     }
     
-    func configure(url: URL?, movieName: String, duration: Int,
+    func configure(url: URL?, movieName: String, duration: String,
                    creatingDate: String, genre: String, isFavorite: Bool) {
         movieImageView.sd_setImage(with: url)
         movieNameLabel.text = movieName
-        durationLabel.text = String(duration)
+        durationLabel.text = duration
         creatingDateLabel.text = creatingDate
         genreLabel.text = genre
         self.isFavorite = isFavorite

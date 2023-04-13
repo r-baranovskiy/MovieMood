@@ -20,7 +20,7 @@ final class CrossButton: UIButton {
     }
     
     private func setupButton() {
-        setImage(UIImage(named: "cross"), for: .normal)
+        setImage(UIImage(named: "cross")?.withTintColor(.label), for: .normal)
         heightAnchor.constraint(equalToConstant: 10).isActive = true
         widthAnchor.constraint(equalToConstant: 10).isActive = true
     }

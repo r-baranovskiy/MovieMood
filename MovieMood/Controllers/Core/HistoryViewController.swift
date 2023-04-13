@@ -154,7 +154,8 @@ extension HistoryViewController: UICollectionViewDelegate,
             )
             
             cell.configure(url: imageUrl, movieName: movie.title,
-                           duration: 0, creatingDate: movie.release_date,
+                           duration: "\(movie.runtime ?? 0) minutes",
+                           creatingDate: movie.release_date,
                            genre: "Action", isFavorite: isFavorite)
             return cell
         }
