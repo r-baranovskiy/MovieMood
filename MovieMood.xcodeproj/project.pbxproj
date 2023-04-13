@@ -31,8 +31,6 @@
 		8058C56E29E09D90003C4757 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058C56D29E09D90003C4757 /* ChangePasswordViewController.swift */; };
 		806231AC29E556C1003B8CE4 /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806231AB29E556C1003B8CE4 /* DetailCollectionViewCell.swift */; };
 		806231AE29E556E2003B8CE4 /* MovieSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806231AD29E556E2003B8CE4 /* MovieSearchTextField.swift */; };
-		806231B029E556FA003B8CE4 /* CrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806231AF29E556FA003B8CE4 /* CrossButton.swift */; };
-		806231B229E55705003B8CE4 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806231B129E55704003B8CE4 /* FilterButton.swift */; };
 		8079B4E729E71A62005E00A9 /* TVDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8079B4E629E71A62005E00A9 /* TVDetail.swift */; };
 		8079B4E929E71DE4005E00A9 /* TVModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8079B4E829E71DE4005E00A9 /* TVModel.swift */; };
 		8081199929E00A5A001A0E4A /* UIStackView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081199829E00A5A001A0E4A /* UIStackView + Extension.swift */; };
@@ -103,8 +101,6 @@
 		8058C56D29E09D90003C4757 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		806231AB29E556C1003B8CE4 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		806231AD29E556E2003B8CE4 /* MovieSearchTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieSearchTextField.swift; sourceTree = "<group>"; };
-		806231AF29E556FA003B8CE4 /* CrossButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrossButton.swift; sourceTree = "<group>"; };
-		806231B129E55704003B8CE4 /* FilterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		8079B4E629E71A62005E00A9 /* TVDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVDetail.swift; sourceTree = "<group>"; };
 		8079B4E829E71DE4005E00A9 /* TVModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVModel.swift; sourceTree = "<group>"; };
 		8081199829E00A5A001A0E4A /* UIStackView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView + Extension.swift"; sourceTree = "<group>"; };
@@ -172,8 +168,6 @@
 		8058C56729E09A43003C4757 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				806231AF29E556FA003B8CE4 /* CrossButton.swift */,
-				806231B129E55704003B8CE4 /* FilterButton.swift */,
 				808E8CC629DB07B9003DD106 /* BlueButton.swift */,
 				804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */,
 				808119A229E03517001A0E4A /* GenderButton.swift */,
@@ -523,7 +517,6 @@
 				80182A8429DF5A43002B99DD /* TransformView.swift in Sources */,
 				1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */,
 				8058C56C29E09A9C003C4757 /* SettingsViewController.swift in Sources */,
-				806231B029E556FA003B8CE4 /* CrossButton.swift in Sources */,
 				80DD04EB29E838E800090C94 /* CategoryScrollView.swift in Sources */,
 				804CB41829DC73C000955FA9 /* AppTextField.swift in Sources */,
 				804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */,
@@ -574,7 +567,6 @@
 				80AD559129D78ACF00A8F1C3 /* AuthViewController.swift in Sources */,
 				80AD556F29D7884A00A8F1C3 /* AppDelegate.swift in Sources */,
 				809FE97629DD7FAE007EAF7A /* MovieUser.swift in Sources */,
-				806231B229E55705003B8CE4 /* FilterButton.swift in Sources */,
 				80F22DC729E1FE6800F3C659 /* PhotoPickerMethodView.swift in Sources */,
 				80FBE9CD29E3613100849E13 /* HeaderSectionView.swift in Sources */,
 			);
