@@ -251,7 +251,7 @@ final class TVDetailsViewController: UIViewController {
         
         Task {
             model = try? await apiManager.fetchCastAndCrew(with: tv.id)
-            movieVideo = try? await apiManager.fetchMovieVideo(with: tv.id)
+            movieVideo = try? await apiManager.fetchTvVideo(with: tv.id)
             await MainActor.run(body: {
                 textView.text = tv.overview
                 if let tvId = movieVideo?.results, !tvId.isEmpty {
