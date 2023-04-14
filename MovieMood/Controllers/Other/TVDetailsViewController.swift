@@ -62,7 +62,7 @@ final class TVDetailsViewController: UIViewController {
     
     private let seasonsAmountLable = UILabel(
         font: .systemFont(ofSize: 12, weight: .medium),
-        textAlignment: .left, color: .black
+        textAlignment: .left, color: .label
     )
     
     private let valueOfSeasonsTextLabel = UILabel(
@@ -82,7 +82,7 @@ final class TVDetailsViewController: UIViewController {
     
     private let episodesAmountLable = UILabel(
         font: .systemFont(ofSize: 12, weight: .medium),
-        textAlignment: .left, color: .black
+        textAlignment: .left, color: .label
     )
     
     private let valueOfEpisodesTextLabel = UILabel(
@@ -102,7 +102,7 @@ final class TVDetailsViewController: UIViewController {
     
     private let genreImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "film-icon"))
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -254,7 +254,6 @@ final class TVDetailsViewController: UIViewController {
             movieVideo = try? await apiManager.fetchMovieVideo(with: tv.id)
             await MainActor.run(body: {
                 textView.text = tv.overview
-                getStarsImage(with: rating ?? 0)
                 if let tvId = movieVideo?.results, !tvId.isEmpty {
                     videoID = tvId[0].key
                 }
