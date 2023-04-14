@@ -40,21 +40,7 @@ final class CategoryScrollView: UIScrollView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        setupScrollView()
-//        setTargets()
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
+
     private func setTargets() {
         [horrorButton, actionButton, adventureButton,
          mysteryButton, fantasyButton, comedyButton, allButton, tvButton]

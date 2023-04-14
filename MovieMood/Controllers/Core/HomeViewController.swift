@@ -209,29 +209,17 @@ extension HomeViewController: CategoryScrollViewDelegate {
 
 extension HomeViewController: MovieTableViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?, forType type: ShowType?) {
-        guard let type = type, let indexPath = indexPath else { return }
-        
-        var id: Int?
-        
-        switch type {
-        case .movies:
+        guard let indexPath = indexPath, showType == .tv else { return }
             let movieId = popularMovies[indexPath.row].id
-            id = movieId
-        case .tv:
-            let showId = ratingTV[indexPath.row].id
-            id = showId
-        }
         
-        guard let id = id else { return }
-        
-        if !RealmManager.shared.isLikedMovie(for: currentUser, with: id) {
+        if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
             RealmManager.shared.saveMovie(
-                for: currentUser, with: id, moviesType: .favorite
+                for: currentUser, with: movieId, moviesType: .favorite
             ) { _ in
                 print("Liked")
             }
         } else {
-            RealmManager.shared.removeMovie(for: currentUser, with: id) { _ in
+            RealmManager.shared.removeMovie(for: currentUser, with: movieId) { _ in
                 print("Deleted")
             }
         }
@@ -254,7 +242,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     print("Saved")
                 }
             }
-            let detailVC = DetailViewController(movieId: movie.id)
+            let isFavorite = RealmManager.shared.isLikedMovie(for: currentUser, with: movie.id)
+            let detailVC = DetailViewController(
+                movieId: movie.id, isFavorite: isFavorite,
+                currentUser: currentUser
+            )
             DispatchQueue.main.async {
                 self.navigationController?.pushViewController(detailVC, animated: true)
             }
@@ -311,11 +303,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             let imageUrl = URL(
                 string: "https://image.tmdb.org/t/p/w500/\(tv.posterPath)"
             )
-            let isFavorite = RealmManager.shared.isLikedMovie(for: currentUser, with: tv.id)
             cell.configure(
                 url: imageUrl, movieName: tv.name,
                 duration: "Episodes: \(tv.numberOfEpisodes)",
-                isFavorite: isFavorite, genre: tv.genres.first?.name ?? "",
+                isFavorite: false, genre: tv.genres.first?.name ?? "",
                 votesAmoutCount: tv.voteCount, rate: tv.voteAverage
             )
             cell.showType = .tv
