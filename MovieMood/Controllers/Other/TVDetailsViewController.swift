@@ -124,6 +124,16 @@ final class TVDetailsViewController: UIViewController {
         return stackView
     }()
     
+    private let secondHorizontalInfoStack : UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 10
+        stackView.distribution = .fillEqually
+        stackView.alignment = .center
+        stackView.contentMode = .center
+        return stackView
+    }()
+    
     // Stars block__________________________________________________________________
     
     private let starsStackView: UIStackView = {
@@ -216,6 +226,8 @@ final class TVDetailsViewController: UIViewController {
         title = "Movie Detail"
         navigationController?.navigationBar.backItem?.backBarButtonItem?.image = UIImage(named: "back-button-icon")
         setupUI()
+        seasonsAmountLable.text = "Seasons"
+        episodesAmountLable.text = "Episods"
     }
     
     // Methods BLock_____________________________________________________________________________________
@@ -357,12 +369,17 @@ extension TVDetailsViewController {
         genreStackView.addArrangedSubview(genreLabel)
         
         horizontalInformationStack.addArrangedSubview(dateStackView)
-        horizontalInformationStack.addArrangedSubview(seasonsStackView)
-        horizontalInformationStack.addArrangedSubview(episodesStackView)
+        //horizontalInformationStack.addArrangedSubview(seasonsStackView)
+        //horizontalInformationStack.addArrangedSubview(episodesStackView)
         horizontalInformationStack.addArrangedSubview(genreStackView)
+        
+        secondHorizontalInfoStack.addArrangedSubview(seasonsStackView)
+        secondHorizontalInfoStack.addArrangedSubview(episodesStackView)
+        
         
         informationStackView.addArrangedSubview(tvNameLabel)
         informationStackView.addArrangedSubview(horizontalInformationStack)
+        informationStackView.addArrangedSubview(secondHorizontalInfoStack)
         informationStackView.addArrangedSubview(starsStackView)
         
         view.addSubviewWithoutTranslates(mainScrollView)
