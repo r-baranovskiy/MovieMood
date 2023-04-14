@@ -260,8 +260,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case .tv:
             let tv = ratingTV[indexPath.row]
-            
-            let detailVC = TVDetailsViewController(tvId: tv.id)
+            let detailVC = TVDetailsViewController(tv: tv)
             DispatchQueue.main.async {
                 self.navigationController?.pushViewController(detailVC, animated: true)
             }

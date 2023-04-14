@@ -4,6 +4,10 @@ import SafariServices
 
 final class TVDetailsViewController: UIViewController {
     
+    private let apiManager:ApiManagerProtocol = ApiManager(
+        networkManager: NetworkManager(jsonService: JSONDecoderManager())
+    )
+    
     // MARK: - Properties
     
     private let mainScrollView = UIScrollView()
@@ -193,12 +197,7 @@ final class TVDetailsViewController: UIViewController {
         button.addTarget(nil, action: #selector(loadYouTubeVideo), for: .touchUpInside)
         return button
     }()
-    
-    // API Block____________________________________________________________________
-    
-    private let apiManager: ApiManagerProtocol = ApiManager(networkManager: NetworkManager(jsonService: JSONDecoderManager()))
-    
-    private var detailTV: TVDetail?
+
     private var model: CastAndCrew?
     private var movieVideo: MovieVideoModel?
     private var cast: [Cast] = []
@@ -206,12 +205,14 @@ final class TVDetailsViewController: UIViewController {
     private var rating: Double?
     private var videoID: String? = nil
     
-    private let tvId: Int
+    private let tv: TVDetail
     
-    init(tvId: Int) {
-        self.tvId = tvId
+    // MARK: - Init
+    
+    init(tv: TVDetail) {
+        self.tv = tv
         super.init(nibName: nil, bundle: nil)
-        configure(idTV: tvId)
+        configure()
     }
     
     required init?(coder: NSCoder) {
@@ -233,26 +234,25 @@ final class TVDetailsViewController: UIViewController {
     
     // Methods BLock_____________________________________________________________________________________
     
-    func configure(idTV: Int){
+    func configure(){
+        tvNameLabel.text = tv.name
+        firstAirLabel.text = tv.firstAirDate
+        lastAirLabel.text = tv.lastAirDate
+        valueOfSeasonsTextLabel.text = String(tv.numberOfSeasons)
+        valueOfEpisodesTextLabel.text = String(tv.numberOfEpisodes)
+        textView.text = tv.overview
+        rating = tv.voteAverage
+        tvImageView.sd_setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/\(tv.posterPath)"))
+        getStarsImage(with: rating ?? 0)
+        if let name = tv.genres.first?.name {
+            genreLabel.text = name
+        }
+        
         Task {
-            detailTV = try? await apiManager.fetchTVDetail(with: tvId)
-            model = try? await apiManager.fetchCastAndCrew(with: tvId)
-            movieVideo = try? await apiManager.fetchMovieVideo(with: tvId)
+            model = try? await apiManager.fetchCastAndCrew(with: tv.id)
+            movieVideo = try? await apiManager.fetchMovieVideo(with: tv.id)
             await MainActor.run(body: {
-                tvNameLabel.text = detailTV?.name
-                firstAirLabel.text = detailTV?.firstAirDate
-                lastAirLabel.text = detailTV?.lastAirDate
-                if let name = detailTV?.genres, !name.isEmpty {
-                    genreLabel.text = name[0].name
-                }
-                valueOfSeasonsTextLabel.text = String(detailTV?.numberOfSeasons ?? 0)
-                valueOfEpisodesTextLabel.text = String(detailTV?.numberOfEpisodes ?? 0)
                 textView.text = "По сути, тут должно быть описание из API"
-                //                textView.text = detailMovie?.overview
-                rating = detailTV?.voteAverage
-                if let poster = detailTV?.posterPath {
-                    tvImageView.sd_setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/\(poster)"))
-                }
                 getStarsImage(with: rating ?? 0)
                 if let tvId = movieVideo?.results, !tvId.isEmpty {
                     videoID = tvId[0].key
