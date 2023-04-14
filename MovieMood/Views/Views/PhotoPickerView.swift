@@ -78,7 +78,7 @@ final class PhotoPickerView: UIView {
     // MARK: - Setup View
     
     private func setupView() {
-        backgroundColor = .systemBackground
+        backgroundColor = .custom.mainBackground
         layer.cornerRadius = 12
         
         let separator = UIView()
