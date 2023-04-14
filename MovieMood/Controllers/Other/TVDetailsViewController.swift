@@ -42,6 +42,7 @@ final class TVDetailsViewController: UIViewController {
     private let dashImageView: UIImageView = {
         let img = UIImageView(image: UIImage(systemName: "arrow.right.to.line"))
         img.contentMode = .scaleAspectFit
+        img.tintColor = .custom.lightGray
         return img
     }()
     
@@ -127,8 +128,8 @@ final class TVDetailsViewController: UIViewController {
     private let secondHorizontalInfoStack : UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 10
-        stackView.distribution = .fillEqually
+        stackView.spacing = 5
+        stackView.distribution = .equalSpacing
         stackView.alignment = .center
         stackView.contentMode = .center
         return stackView
@@ -226,8 +227,8 @@ final class TVDetailsViewController: UIViewController {
         title = "Movie Detail"
         navigationController?.navigationBar.backItem?.backBarButtonItem?.image = UIImage(named: "back-button-icon")
         setupUI()
-        seasonsAmountLable.text = "Seasons"
-        episodesAmountLable.text = "Episods"
+        seasonsAmountLable.text = "Seasons:"
+        episodesAmountLable.text = "Episods:"
     }
     
     // Methods BLock_____________________________________________________________________________________
@@ -375,12 +376,12 @@ extension TVDetailsViewController {
         
         secondHorizontalInfoStack.addArrangedSubview(seasonsStackView)
         secondHorizontalInfoStack.addArrangedSubview(episodesStackView)
-        
+        secondHorizontalInfoStack.addArrangedSubview(starsStackView)
         
         informationStackView.addArrangedSubview(tvNameLabel)
         informationStackView.addArrangedSubview(horizontalInformationStack)
         informationStackView.addArrangedSubview(secondHorizontalInfoStack)
-        informationStackView.addArrangedSubview(starsStackView)
+        //informationStackView.addArrangedSubview(starsStackView)
         
         view.addSubviewWithoutTranslates(mainScrollView)
     

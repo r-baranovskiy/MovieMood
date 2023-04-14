@@ -259,10 +259,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 print("Saved")
             }
         }
-//        let detailVC = TVDetailsViewController(tvId: movie.id)
-//        DispatchQueue.main.async {
-//            self.navigationController?.pushViewController(detailVC, animated: true)
-//        }
         let detailVC = DetailViewController(movieId: movie.id)
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(detailVC, animated: true)
