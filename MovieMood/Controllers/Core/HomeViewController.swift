@@ -242,18 +242,29 @@ extension HomeViewController: MovieTableViewCellDelegate {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movie = popularMovies[indexPath.row]
-        
-        if !RealmManager.shared.isAddedToRecentMovie(for: currentUser,
-                                                     with: movie.id) {
-            RealmManager.shared.saveMovie(for: currentUser, with: movie.id,
-                                          moviesType: .recent) { success in
-                print("Saved")
+        guard let type = showType else { return }
+        switch type {
+        case .movies:
+            let movie = popularMovies[indexPath.row]
+            
+            if !RealmManager.shared.isAddedToRecentMovie(for: currentUser,
+                                                         with: movie.id) {
+                RealmManager.shared.saveMovie(for: currentUser, with: movie.id,
+                                              moviesType: .recent) { success in
+                    print("Saved")
+                }
             }
-        }
-        let detailVC = DetailViewController(movieId: movie.id)
-        DispatchQueue.main.async {
-            self.navigationController?.pushViewController(detailVC, animated: true)
+            let detailVC = DetailViewController(movieId: movie.id)
+            DispatchQueue.main.async {
+                self.navigationController?.pushViewController(detailVC, animated: true)
+            }
+        case .tv:
+            let tv = ratingTV[indexPath.row]
+            
+            let detailVC = TVDetailsViewController(tvId: tv.id)
+            DispatchQueue.main.async {
+                self.navigationController?.pushViewController(detailVC, animated: true)
+            }
         }
     }
     
