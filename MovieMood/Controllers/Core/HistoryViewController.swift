@@ -25,7 +25,7 @@ final class HistoryViewController: UIViewController {
             MovieCollectionViewCell.self,
             forCellWithReuseIdentifier: MovieCollectionViewCell.identifier
         )
-        
+        collection.backgroundColor = .none
         collection.delegate = self
         collection.dataSource = self
         return collection
@@ -134,6 +134,18 @@ extension HistoryViewController: UICollectionViewDelegate,
         recentMovies.count
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movie = recentMovies[indexPath.row]
+        let isFavorite = RealmManager.shared.isLikedMovie(for: currentUser, with: movie.id)
+        let detailVC = DetailViewController(
+            movieId: movie.id, isFavorite: isFavorite,
+            currentUser: currentUser
+        )
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
+    }
+    
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -167,7 +179,7 @@ extension HistoryViewController {
     private func setupView() {
         view.backgroundColor = .custom.mainBackground
         view.addSubviewWithoutTranslates(categoriesScrollView, movieColletionView)
-
+        
         NSLayoutConstraint.activate([
             categoriesScrollView.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 19

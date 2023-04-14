@@ -133,6 +133,7 @@ final class DetailViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: setupFlowLayout())
         collection.dataSource = self
+        collection.backgroundColor = .none
         return collection
     }()
     
@@ -157,9 +158,13 @@ final class DetailViewController: UIViewController {
     private var videoID: String? = nil
     
     private let movieId: Int
+    private var isFavorite: Bool
+    private let currentUser: UserRealm
     
-    init(movieId: Int) {
+    init(movieId: Int, isFavorite: Bool, currentUser: UserRealm) {
         self.movieId = movieId
+        self.isFavorite = isFavorite
+        self.currentUser = currentUser
         super.init(nibName: nil, bundle: nil)
         configure(idMovie: movieId)
     }
@@ -170,7 +175,7 @@ final class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .custom.mainBackground
         collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "\(DetailCollectionViewCell.self)")
         title = "Movie Detail"
         //navigationItem.backBarButtonItem?.image = UIImage(named: "back-button-icon")
@@ -208,6 +213,26 @@ final class DetailViewController: UIViewController {
                 collectionView.reloadData()
             })
         }
+    }
+    
+    @objc private func didTapBack() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func didTapLike() {
+        if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
+            RealmManager.shared.saveMovie(
+                for: currentUser, with: movieId, moviesType: .favorite
+            ) { _ in
+                print("Liked")
+            }
+        } else {
+            RealmManager.shared.removeMovie(for: currentUser, with: movieId) { _ in
+                print("Deleted")
+            }
+        }
+        isFavorite.toggle()
+        navigationItem.rightBarButtonItem?.tintColor = isFavorite ? .custom.mainBlue : .label
     }
     
     @objc private func loadYouTubeVideo() {
@@ -300,6 +325,16 @@ extension DetailViewController: UICollectionViewDataSource {
 extension DetailViewController {
     
     private func setupUI() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: "back-button-icon"),
+            style: .done, target: self, action: #selector(didTapBack)
+        )
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: isFavorite ? "heart-icon-fill" : "heart-icon"),
+            style: .done, target: self, action: #selector(didTapLike))
+        navigationItem.rightBarButtonItem?.tintColor = isFavorite ? .custom.mainBlue : .label
+        
         dateStackView.addArrangedSubview(dateImageView)
         dateStackView.addArrangedSubview(dateLabel)
         

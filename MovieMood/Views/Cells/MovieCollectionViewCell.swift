@@ -214,8 +214,8 @@ extension MovieCollectionViewCell {
             genreView.leadingAnchor.constraint(
                 equalTo: movieImageView.trailingAnchor, constant: 6
             ),
-            genreView.widthAnchor.constraint(equalToConstant: 65),
-            genreView.heightAnchor.constraint(equalToConstant: 24),
+            genreView.widthAnchor.constraint(equalToConstant: 80),
+            genreView.heightAnchor.constraint(equalToConstant: 30),
         ])
         
         view.addSubviewWithoutTranslates(

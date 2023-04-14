@@ -103,7 +103,7 @@ final class AppTextField: UITextField {
         heightAnchor.constraint(equalToConstant: 52).isActive = true
         layer.cornerRadius = 24
         layer.borderWidth = 1
-        layer.borderColor = UIColor.custom.lightGray.cgColor
+        layer.borderColor = UIColor.custom.mainBlue.cgColor
         
         if fieldStyle == .password || fieldStyle == .confirmPassword
             || fieldStyle == .newPassword {
