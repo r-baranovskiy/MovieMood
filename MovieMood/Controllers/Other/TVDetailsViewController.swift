@@ -123,7 +123,7 @@ final class TVDetailsViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 25
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
         stackView.alignment = .center
         stackView.contentMode = .center
         return stackView
@@ -133,7 +133,7 @@ final class TVDetailsViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 5
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fillProportionally
         stackView.alignment = .center
         stackView.contentMode = .center
         return stackView
@@ -145,6 +145,7 @@ final class TVDetailsViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
+        stackView.distribution = .fill
         stackView.spacing = 6
         return stackView
     }()
@@ -225,7 +226,7 @@ final class TVDetailsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "\(DetailCollectionViewCell.self)")
-        title = "Movie Detail"
+        title = "TV Detail"
         navigationController?.navigationBar.backItem?.backBarButtonItem?.image = UIImage(named: "back-button-icon")
         setupUI()
         seasonsAmountLable.text = "Seasons:"
@@ -252,7 +253,7 @@ final class TVDetailsViewController: UIViewController {
             model = try? await apiManager.fetchCastAndCrew(with: tv.id)
             movieVideo = try? await apiManager.fetchMovieVideo(with: tv.id)
             await MainActor.run(body: {
-                textView.text = "По сути, тут должно быть описание из API"
+                textView.text = tv.overview
                 getStarsImage(with: rating ?? 0)
                 if let tvId = movieVideo?.results, !tvId.isEmpty {
                     videoID = tvId[0].key
@@ -370,8 +371,6 @@ extension TVDetailsViewController {
         genreStackView.addArrangedSubview(genreLabel)
         
         horizontalInformationStack.addArrangedSubview(dateStackView)
-        //horizontalInformationStack.addArrangedSubview(seasonsStackView)
-        //horizontalInformationStack.addArrangedSubview(episodesStackView)
         horizontalInformationStack.addArrangedSubview(genreStackView)
         
         secondHorizontalInfoStack.addArrangedSubview(seasonsStackView)
@@ -381,7 +380,6 @@ extension TVDetailsViewController {
         informationStackView.addArrangedSubview(tvNameLabel)
         informationStackView.addArrangedSubview(horizontalInformationStack)
         informationStackView.addArrangedSubview(secondHorizontalInfoStack)
-        //informationStackView.addArrangedSubview(starsStackView)
         
         view.addSubviewWithoutTranslates(mainScrollView)
     
