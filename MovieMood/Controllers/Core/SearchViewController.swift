@@ -2,7 +2,22 @@ import UIKit
 
 final class SearchViewController: UIViewController {
     
-    // MARK: - Collection View
+    // MARK: - Properties
+    
+    private var movies = [MovieDetail]()
+    private let currentUser: UserRealm
+    
+    private let apiManager = ApiManager(
+        networkManager: NetworkManager(jsonService: JSONDecoderManager())
+    )
+    
+    private lazy var tapGesture: UITapGestureRecognizer = {
+        return UITapGestureRecognizer(
+            target: view,action: #selector(view.endEditing)
+        )
+    }()
+    
+    //MARK: - Views
     
     private lazy var movieColletionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -22,126 +37,145 @@ final class SearchViewController: UIViewController {
         return collection
     }()
     
-    //MARK: - Private Properties
-    private let searchMovie = MovieSearchTextField()
-    private let crossButton = CrossButton()
-    private let filterButton = FilterButton()
-    private let searchImageView = SearchView(frame: CGRect())
-    private let filterPopupView = FilterPopupView()
+    private lazy var blurView: UIVisualEffectView = {
+        let effect = UIBlurEffect(style: .light)
+        let blur = UIVisualEffectView(effect: effect)
+        return blur
+    }()
     
-    private var moviesModel = [MovieModel]()
-    private var movies = [MovieDetail]()
-    private let apiManager = ApiManager(
-        networkManager: NetworkManager(jsonService: JSONDecoderManager())
-    )
-    private var moviesID: [Int] = []
+    private lazy var filterPopupView = FilterPopupView()
     
-    private var movieGenre = ""
-    private var movieVotes = ""
+    private let searchTextField = MovieSearchTextField()
     
-    private lazy var tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
+    // MARK: - Init
+    
+    init(currentUser: UserRealm) {
+        self.currentUser = currentUser
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        filterPopupView.delegate = self
-        searchMovie.delegate = self
-        setupSearchUI()
-        addAction()
+        searchTextField.addTarget(self, action: #selector(didChangeSearchText(_:)), for: .editingChanged)
+        searchTextField.delegate = self
+        searchTextField.searchFieldDelegate = self
         setupCollectionView()
-        //fetchMovies()
+        fetchRatingMovies()
+    }
+    
+    @objc
+    private func didChangeSearchText(_ sender: UITextField) {
+        guard let text = sender.text else { return }
+        movies = []
+        fetchSearchMovies(with: text)
     }
     
     //MARK: - Network Methodes
     private func fetchSearchMovies(with movie: String) {
+        movies = []
         Task {
             do {
-                moviesModel = try await apiManager.fetchSearchMovies(with: movie).results
-                for movie in moviesModel {
-                    moviesID.append(movie.id)
+                let movies = try await apiManager.fetchSearchMovies(with: movie).results
+                for movie in movies {
+                    let movie = try await apiManager.fetchMovieDetail(with: movie.id)
+                    self.movies.append(movie)
                 }
-                await MainActor.run(body: {
-                    fetchDetailMovies()
+                await MainActor.run {
                     movieColletionView.reloadData()
-                })
+                }
             } catch {
                 print(error.localizedDescription)
             }
         }
     }
     
-    private func fetchDetailMovies() {
-        for id in moviesID {
-            Task {
-                do {
-                    let movie = try await apiManager.fetchMovieDetail(with: id)
-                    movies.append(movie)
-                    await MainActor.run(body: {
-                        movieColletionView.reloadData()
-                    })
-                } catch {
-                    print(error)
+    private func fetchRatingMovies() {
+        Task {
+            do {
+                let movies = try await apiManager.fetchRaitingMovies().results
+                for movie in movies {
+                    let movie = try await apiManager.fetchMovieDetail(with: movie.id)
+                    self.movies.append(movie)
                 }
+                await MainActor.run(body: {
+                    movieColletionView.reloadData()
+                })
+            } catch {
+                print(error)
             }
         }
     }
     
-//    private func fetchMovies() {
-//        Task {
-//            do {
-//                moviesModel = try await apiManager.fetchMovies().results
-//                await MainActor.run(body: {
-//                    movieColletionView.reloadData()
-//                })
-//            } catch {
-//                print(error.localizedDescription)
-//            }
-//        }
-//    }
-    
-    
-    //MARK: - Private Methodes
-    private func addAction() {
-        crossButton.addTarget(self, action: #selector(crossButtonTapped), for: .touchUpInside)
-        filterButton.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc private func crossButtonTapped() {
-        searchMovie.text = ""
-        searchMovie.endEditing(true)
-    }
-    
-    @objc private func filterButtonTapped() {
-        let heightTabBar = tabBarController?.tabBar.frame.height ?? 0
-        view.addSubview(filterPopupView)
-        filterPopupView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height / 2)
-        print(view.frame.height)
+    private func hideFilter() {
         UIView.animate(withDuration: 0.3) {
-            self.filterPopupView.frame.origin.y -= (self.view.frame.height / 2) + heightTabBar
+            self.filterPopupView.frame.origin.y += self.view.frame.height / 2
+        } completion: { _ in
+            self.filterPopupView.removeFromSuperview()
+            self.blurView.removeFromSuperview()
+            self.tabBarController?.tabBar.isHidden = false
         }
     }
-    
-    //MARK: - Filters Methodes
-    private func searchByGenre(_ sender: UIButton) {
-        switch sender.tag {
-        case 1:
-            print("hi")
-        default:
-            break
-        }
+}
+
+// MARK: - MovieSearchTextFieldDelegate
+
+extension SearchViewController: MovieSearchTextFieldDelegate {
+    func didTapCrossButton() {
+        searchTextField.text = nil
+        searchTextField.endEditing(true)
     }
     
+    func didTapFilterButton() {
+        showFilteView()
+    }
 }
 
 extension SearchViewController: MovieCollectionViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?) {
+        
+    }
+}
+
+//MARK: - FilterPopupViewDelegate
+extension SearchViewController: FilterPopupViewDelegate {
+    func didTapClose() {
+        hideFilter()
     }
     
+    func didTapApplyFilter(with genre: String, votes: String) {
+        movies = []
+        hideFilter()
+        let genres = [
+            "Horror": 27, "Action": 28, "Adventure": 12,
+            "Mystery": 9648, "Fantasy": 14, "Comedy": 35
+        ]
+        
+        Task {
+            do {
+                let movies = try await apiManager.fetchFilterMovies(
+                    with: genres[genre] ?? 28, votes: votes.count * 2
+                ).results
+                for movie in movies {
+                    let movie = try await apiManager.fetchMovieDetail(with: movie.id)
+                    self.movies.append(movie)
+                }
+                await MainActor.run {
+                    movieColletionView.reloadData()
+                }
+            } catch {
+                print("Error")
+            }
+        }
+    }
 }
 
 //MARK: - UITextFieldDelegate
 extension SearchViewController: UITextFieldDelegate {
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         view.removeGestureRecognizer(tapGesture)
     }
@@ -152,23 +186,17 @@ extension SearchViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let movie = textField.text, movie.count != 0 else { return true }
+        movies = []
         fetchSearchMovies(with: movie)
         textField.text = ""
         textField.endEditing(true)
         return true
     }
-    
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        guard let movie = textField.text, movie.count != 0 else { return true }
-//        fetchSearchMovies(with: movie)
-//        return true
-//    }
-    
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension SearchViewController: UICollectionViewDelegate,
-                                 UICollectionViewDataSource {
+                                UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         movies.count
@@ -194,7 +222,8 @@ extension SearchViewController: UICollectionViewDelegate,
             }
             
             cell.configure(url: imageUrl, movieName: movie.title,
-                           duration: movie.runtime ?? 0, creatingDate: movie.release_date,
+                           duration: "\(movie.runtime ?? 0) minutes",
+                           creatingDate: movie.release_date,
                            genre: movieGenre, isFavorite: false)
             return cell
         }
@@ -208,11 +237,24 @@ extension SearchViewController: UICollectionViewDelegate,
     }
 }
 
-//MARK: - FilterPopupViewDelegate
-extension SearchViewController: FilterPopupViewDelegate {
-    func didTapApplyFilter(with filter: [String]) {
-        movieGenre = filter[0]
-        movieVotes = filter[1]
+// MARK: - BlurView
+
+extension SearchViewController {
+    private func showFilteView() {
+        let frameForFilteView = CGRect(
+            x: 0, y: view.frame.height,
+            width: view.frame.width, height: view.frame.height / 2
+        )
+        tabBarController?.tabBar.isHidden = true
+        
+        filterPopupView.delegate = self
+        view.addSubview(blurView)
+        blurView.frame = view.bounds
+        blurView.contentView.addSubview(filterPopupView)
+        filterPopupView.frame = frameForFilteView
+        UIView.animate(withDuration: 0.3) {
+            self.filterPopupView.frame.origin.y -= self.view.frame.height / 2
+        }
     }
 }
 
@@ -220,35 +262,35 @@ extension SearchViewController: FilterPopupViewDelegate {
 extension SearchViewController {
     
     private func setupCollectionView() {
+        movieColletionView.backgroundColor = .none
         view.backgroundColor = .custom.mainBackground
-        view.addSubviewWithoutTranslates(movieColletionView)
+        view.addSubviewWithoutTranslates(searchTextField, movieColletionView)
         
         NSLayoutConstraint.activate([
-            movieColletionView.topAnchor.constraint(equalTo: searchMovie.bottomAnchor, constant: 30),
-            movieColletionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            movieColletionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            movieColletionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            searchTextField.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 35
+            ),
+            searchTextField.leftAnchor.constraint(
+                equalTo: view.leftAnchor, constant: 24
+            ),
+            searchTextField.rightAnchor.constraint(
+                equalTo: view.rightAnchor, constant: -24
+            )
         ])
-    }
-    
-    private func setupSearchUI() {
-        view.addSubviewWithoutTranslates(searchMovie, crossButton, filterButton, searchImageView)
         
         NSLayoutConstraint.activate([
-            searchMovie.topAnchor.constraint(equalTo: navigationItem.titleView?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor, constant: 35),
-            searchMovie.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
-            searchMovie.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24),
-            
-            filterButton.rightAnchor.constraint(equalTo: searchMovie.rightAnchor, constant: -19),
-            filterButton.centerYAnchor.constraint(equalTo: searchMovie.centerYAnchor),
-            
-            crossButton.rightAnchor.constraint(equalTo: searchMovie.rightAnchor, constant: -55),
-            crossButton.centerYAnchor.constraint(equalTo: searchMovie.centerYAnchor),
-            
-            searchImageView.leftAnchor.constraint(equalTo: searchMovie.leftAnchor, constant: 18),
-            searchImageView.centerYAnchor.constraint(equalTo: searchMovie.centerYAnchor)
+            movieColletionView.topAnchor.constraint(
+                equalTo: searchTextField.bottomAnchor, constant: 24
+            ),
+            movieColletionView.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor
+            ),
+            movieColletionView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            movieColletionView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            )
         ])
     }
 }
-
-

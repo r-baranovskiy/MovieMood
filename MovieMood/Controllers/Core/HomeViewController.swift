@@ -31,18 +31,6 @@ final class HomeViewController: UIViewController {
         return userIV
     }()
     
-    private let cateforySegmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: ["Films", "TV"])
-        control.setTitleTextAttributes([
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .bold),
-            NSAttributedString.Key.foregroundColor: UIColor.label
-        ], for: .normal)
-        control.backgroundColor = .custom.mainBackground
-        control.selectedSegmentTintColor = .custom.mainBlue
-        control.selectedSegmentIndex = 0
-        return control
-    }()
-    
     private lazy var spiner: UIActivityIndicatorView = {
         let active = UIActivityIndicatorView(style: .large)
         let size = CGSize(width: 100, height: 100)
@@ -55,6 +43,8 @@ final class HomeViewController: UIViewController {
         active.hidesWhenStopped = true
         return active
     }()
+    
+    private let categoriesScrollView = CategoryScrollView(withTV: true)
     
     private var usernameLabel = UILabel(
         font: .systemFont(ofSize: 18, weight: .bold),
@@ -82,8 +72,6 @@ final class HomeViewController: UIViewController {
         return table
     }()
     
-    private var categories = CategoryCellViewModel.fetchCategories()
-    
     // MARK: - Init
     
     init(currentUser: UserRealm) {
@@ -110,33 +98,10 @@ final class HomeViewController: UIViewController {
         updateUser()
     }
     
-    // MARK: - Actions
-    
-    @objc
-    private func didChangeControl(_ sender: UISegmentedControl) {
-        for subview in animateContainerView.subviews {
-            if subview != spiner {
-                subview.removeFromSuperview()
-            }
-        }
-        switch sender.selectedSegmentIndex {
-        case 0:
-            filmCovers = []
-            updateData(with: .movies)
-        case 1:
-            filmCovers = []
-            updateData(with: .tv)
-        default:
-            break
-        }
-    }
-    
     // MARK: - Behaviour
     
     private func settings() {
-        cateforySegmentedControl.addTarget(
-            self, action: #selector(didChangeControl), for: .valueChanged
-        )
+        categoriesScrollView.buttonDelegate = self
         moviesTableView.delegate = self
         moviesTableView.dataSource = self
     }
@@ -214,6 +179,33 @@ final class HomeViewController: UIViewController {
         }
     }
 }
+
+extension HomeViewController: CategoryScrollViewDelegate {
+    func didChangeCategory(with tag: Int) {
+        switch tag {
+        case 0:
+            filmCovers = []
+            updateData(with: .movies)
+            for subview in animateContainerView.subviews {
+                if subview != spiner {
+                    subview.removeFromSuperview()
+                }
+            }
+        case 1:
+            filmCovers = []
+            updateData(with: .tv)
+            for subview in animateContainerView.subviews {
+                if subview != spiner {
+                    subview.removeFromSuperview()
+                }
+            }
+        default:
+            break
+        }
+    }
+}
+
+// MARK: - MovieTableViewCellDelegate
 
 extension HomeViewController: MovieTableViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?, forType type: ShowType?) {
@@ -294,7 +286,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             )
             let isFavorite = RealmManager.shared.isLikedMovie(for: currentUser, with: movie.id)
             cell.configure(url: imageUrl, movieName: movie.title,
-                           duration: "\(movie.runtime) minutes",
+                           duration: "\(movie.runtime ?? 0) minutes",
                            isFavorite: isFavorite,
                            genre: movie.genres.first?.name ?? "",
                            votesAmoutCount: movie.vote_count,
@@ -359,7 +351,7 @@ extension HomeViewController {
         view.backgroundColor = .custom.mainBackground
         view.addSubviewWithoutTranslates(
             topStackView, animateContainerView,
-            cateforySegmentedControl, moviesTableView
+            categoriesScrollView, moviesTableView
         )
         
         NSLayoutConstraint.activate([
@@ -389,23 +381,23 @@ extension HomeViewController {
         ])
         
         NSLayoutConstraint.activate([
-            cateforySegmentedControl.heightAnchor.constraint(
-                equalToConstant: 30
+            categoriesScrollView.heightAnchor.constraint(
+                equalToConstant: 40
             ),
-            cateforySegmentedControl.topAnchor.constraint(
+            categoriesScrollView.topAnchor.constraint(
                 equalTo: animateContainerView.bottomAnchor, constant: 50
             ),
-            cateforySegmentedControl.leadingAnchor.constraint(
+            categoriesScrollView.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor, constant: 16
             ),
-            cateforySegmentedControl.trailingAnchor.constraint(
+            categoriesScrollView.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor, constant: -16
             )
         ])
         
         NSLayoutConstraint.activate([
             moviesTableView.topAnchor.constraint(
-                equalTo: cateforySegmentedControl.bottomAnchor, constant: 10
+                equalTo: categoriesScrollView.bottomAnchor, constant: 10
             ),
             moviesTableView.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10

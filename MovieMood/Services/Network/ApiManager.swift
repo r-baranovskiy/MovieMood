@@ -2,13 +2,14 @@ import Foundation
 
 protocol ApiManagerProtocol {
     func fetchMovies() async throws -> Movie
+    func fetchRaitingMovies() async throws -> Movie
     func fetchMovieDetail(with movieId: Int) async throws -> MovieDetail
     func fetchCastAndCrew(with movieId: Int) async throws -> CastAndCrew
     func fetchMovieVideo(with movieId: Int) async throws -> MovieVideoModel
     func fetchSearchMovies(with movieName: String) async throws -> Movie
     func fetchRatingTV() async throws -> TV
     func fetchTVDetail(with tvId: Int) async throws -> TVDetail
-    func fetchFilterMovies(with genre: String, votes: String) async throws -> Movie
+    func fetchFilterMovies(with genre: Int, votes: Int) async throws -> Movie
 }
 
 final class ApiManager {
@@ -22,9 +23,13 @@ final class ApiManager {
 }
 
 extension ApiManager: ApiManagerProtocol {
+    func fetchRaitingMovies() async throws -> Movie {
+        let urlString = "https://api.themoviedb.org/3/movie/top_rated?api_key=\(APIKey.apiKey)&language=en-US&page=1"
+        return try await networkManager.request(urlString: urlString)
+    }
     
-    func fetchFilterMovies(with genre: String, votes: String) async throws -> Movie {
-        let urlString = "https://api.themoviedb.org/3/discover/movie?api_key=\(APIKey.apiKey)&with_genres=\(genre)&vote_average.lte=\(votes)"
+    func fetchFilterMovies(with genre: Int, votes: Int) async throws -> Movie {
+        let urlString = "https://api.themoviedb.org/3/discover/movie?api_key=\(APIKey.apiKey)&with_genres=\(genre)&vote_average.gte=\(votes)"
         return try await networkManager.request(urlString: urlString)
     }
     

@@ -83,29 +83,33 @@ final class FavoriteViewController: UIViewController {
 
 extension FavoriteViewController: MovieCollectionViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?) {
-        guard let indexPath = indexPath else { return }
-        let movieId = movies[indexPath.row].id
-        if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
-            RealmManager.shared.saveMovie(
-                for: currentUser, with: movies[indexPath.row].id,
-                moviesType: .favorite) { [weak self] success in
-                print("Liked")
-                DispatchQueue.main.async {
-                    self?.movieColletionView.reloadData()
-                }
-            }
-        } else {
-            RealmManager.shared.removeMovie(for: currentUser,
-                                            with: movieId) { [weak self] success in
-                if success {
-                    print("Disliked")
-                    DispatchQueue.main.async {
-                        self?.movies.remove(at: indexPath.row)
-                        self?.movieColletionView.reloadData()
-                    }
-                }
-            }
-        }
+        //
+    }
+    
+    func didTapLike(withIndexPath indexPath: IndexPath?, forType type: ShowType?) {
+//        guard let indexPath = indexPath else { return }
+//        let movieId = movies[indexPath.row].id
+//        if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
+//            RealmManager.shared.saveMovie(
+//                for: currentUser, with: movies[indexPath.row].id,
+//                moviesType: .favorite) { [weak self] success in
+//                print("Liked")
+//                DispatchQueue.main.async {
+//                    self?.movieColletionView.reloadData()
+//                }
+//            }
+//        } else {
+//            RealmManager.shared.removeMovie(for: currentUser,
+//                                            with: movieId) { [weak self] success in
+//                if success {
+//                    print("Disliked")
+//                    DispatchQueue.main.async {
+//                        self?.movies.remove(at: indexPath.row)
+//                        self?.movieColletionView.reloadData()
+//                    }
+//                }
+//            }
+//        }
     }
 }
 
@@ -136,7 +140,8 @@ extension FavoriteViewController: UICollectionViewDataSource {
         )
         
         cell.configure(url: imageUrl, movieName: movie.title,
-                       duration: 0, creatingDate: movie.release_date,
+                       duration: "\(movie.runtime ?? 0) minutes",
+                       creatingDate: movie.release_date,
                        genre: "Action", isFavorite: isFavorite)
         return cell
     }

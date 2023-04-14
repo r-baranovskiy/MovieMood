@@ -1,7 +1,8 @@
 import UIKit
 
 protocol FilterPopupViewDelegate: AnyObject {
-    func didTapApplyFilter(with filter: [String])
+    func didTapApplyFilter(with genre: String, votes: String)
+    func didTapClose()
 }
 
 final class FilterPopupView: UIView {
@@ -16,16 +17,26 @@ final class FilterPopupView: UIView {
     private let fourStarButton = StarButton(stars: .four)
     private let fiveStarButton = StarButton(stars: .five)
     
-    private let allButton = CategoryButton(category: .all)
+    private let horrorButton = CategoryButton(category: .horror)
     private let actionButton = CategoryButton(category: .action)
     private let adventureButton = CategoryButton(category: .adventure)
     private let mysteryButton = CategoryButton(category: .mystery)
     private let fantasyButton = CategoryButton(category: .fantasy)
-    private let othersButton = CategoryButton(category: .others)
+    private let comedyButton = CategoryButton(category: .comedy)
+    
+    private let closeButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "cross")?
+            .withTintColor(.label), for: .normal)
+        button.heightAnchor.constraint(equalToConstant: 12).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 12).isActive = true
+        return button
+    }()
     
     private let clearFiltersButton: UIButton = {
-        let clearButton = UIButton()
+        let clearButton = UIButton(type: .system)
         clearButton.setTitle("Clear filters", for: .normal)
+        clearButton.contentHorizontalAlignment = .right
         clearButton.setTitleColor(.custom.mainBlue, for: .normal)
         clearButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .regular)
         return clearButton
@@ -33,17 +44,11 @@ final class FilterPopupView: UIView {
     
     private let applyFiltersButton = BlueButton(withStyle: .applyFilters)
     
-    private var isSelectedStarButton: Bool = false {
-        didSet {
-            
-        }
-    }
-    
     // MARK: - Init
     
     override init(frame: CGRect) {
         super .init(frame: frame)
-        backgroundColor = .white //.custom.lightGray
+        backgroundColor = .custom.mainBackground
         setupView()
         setTargets()
     }
@@ -55,16 +60,35 @@ final class FilterPopupView: UIView {
     // MARK: - Actions
     
     @objc
+    private func didTapClear() {
+        [
+            horrorButton, actionButton, adventureButton, mysteryButton,
+            fantasyButton, comedyButton, oneStarButton, twoStarButton,
+            threeStarButton, fourStarButton, fiveStarButton
+        ].forEach({
+            $0.isSelected = false
+            $0.backgroundColor = .clear
+        })
+    }
+    
+    @objc
+    private func didTapClose() {
+        delegate?.didTapClose()
+    }
+    
+    @objc
     private func selectGenreButton(_ sender: UIButton) {
+        
         let buttons = [
-            allButton, actionButton, adventureButton, mysteryButton,
-            fantasyButton, othersButton
+            horrorButton, actionButton, adventureButton, mysteryButton,
+            fantasyButton, comedyButton
         ]
         for button in buttons {
             button.isSelected = false
             button.backgroundColor = .clear
         }
         
+
         sender.isSelected = true
         sender.backgroundColor = .custom.mainBlue
     }
@@ -86,31 +110,46 @@ final class FilterPopupView: UIView {
     
     @objc
     private func didTapApplyFilter(_ sender: UIButton) {
-        let filtersButton = [
-            oneStarButton,twoStarButton, threeStarButton,
-            fourStarButton, fiveStarButton, allButton, actionButton,
-            adventureButton, mysteryButton, fantasyButton, othersButton
+        let filteredGenres = [
+            horrorButton, actionButton, adventureButton,
+            mysteryButton, fantasyButton, comedyButton
         ]
         
-        var isSelectedTitleStrings = [String]()
+        let filteredVotes = [
+            oneStarButton,twoStarButton, threeStarButton,
+            fourStarButton, fiveStarButton
+        ]
         
-        for button in filtersButton {
-            if button.isSelected {
-                if let title = button.currentTitle {
-                    isSelectedTitleStrings.append(title)
-                }
+        var selectedGenre = ""
+        var selectedVote = ""
+        
+        for genre in filteredGenres {
+            if genre.isSelected {
+                selectedGenre = genre.currentTitle ?? ""
             }
         }
         
-        delegate?.didTapApplyFilter(with: isSelectedTitleStrings)
+        for vote in filteredVotes {
+            if vote.isSelected {
+                selectedVote = vote.currentTitle ?? ""
+            }
+        }
+        
+        delegate?.didTapApplyFilter(with: selectedGenre, votes: selectedVote)
     }
     
     private func setTargets() {
+        closeButton.addTarget(self, action: #selector(didTapClose),
+                              for: .touchUpInside)
+        
+        clearFiltersButton.addTarget(self, action: #selector(didTapClear),
+                                     for: .touchUpInside)
+        
         applyFiltersButton.addTarget(self, action: #selector(didTapApplyFilter),
                                      for: .touchUpInside)
         [
-            allButton, actionButton, adventureButton,
-            mysteryButton, fantasyButton, othersButton
+            horrorButton, actionButton, adventureButton,
+            mysteryButton, fantasyButton, comedyButton
         ].forEach({ $0.addTarget(self, action: #selector(selectGenreButton),
                                  for: .touchUpInside) })
         [
@@ -133,12 +172,12 @@ final class FilterPopupView: UIView {
         
         let categoriesLabel = UILabel(
             text: "Categories",
-            font: .systemFont(ofSize: 16, weight: .bold),
+            font: .systemFont(ofSize: 18, weight: .semibold),
             textAlignment: .left, color: .label)
         
         let starRatingLabel = UILabel(
             text: "Star Rating",
-            font: .systemFont(ofSize: 16, weight: .bold),
+            font: .systemFont(ofSize: 18, weight: .semibold),
             textAlignment: .left, color: .label)
         
         let categoriesContainer: UIView = {
@@ -152,25 +191,27 @@ final class FilterPopupView: UIView {
         }()
         
         let upperStackView = UIStackView(
-            subviews: [titleLabel, clearFiltersButton],
-            axis: .horizontal, spacing: 200, aligment: .fill,
+            subviews: [closeButton, titleLabel, clearFiltersButton],
+            axis: .horizontal, spacing: 10, aligment: .fill,
             distribution: .fill
         )
         
         let filtersStackView = UIStackView(
-            subviews: [upperStackView, categoriesLabel, categoriesContainer, starRatingLabel, starRatingContainer, applyFiltersButton],
+            subviews: [upperStackView, categoriesLabel,
+                       categoriesContainer, starRatingLabel,
+                       starRatingContainer, applyFiltersButton],
             axis: .vertical, spacing: 10, aligment: .fill,
             distribution: .fill
         )
         
         let firstRowCategoriesButtons = UIStackView(
-            subviews: [allButton, actionButton, adventureButton],
+            subviews: [horrorButton, actionButton, adventureButton],
             axis: .horizontal, spacing: 12, aligment: .bottom,
             distribution: .equalSpacing
         )
         
         let secondRowCategoriesButtons = UIStackView(
-            subviews: [mysteryButton, fantasyButton, othersButton],
+            subviews: [mysteryButton, fantasyButton, comedyButton],
             axis: .horizontal, spacing: 12, aligment: .top,
             distribution: .equalSpacing
         )
@@ -223,12 +264,12 @@ final class FilterPopupView: UIView {
             categoriesButtons.trailingAnchor.constraint(equalTo: categoriesContainer.trailingAnchor),
             categoriesButtons.bottomAnchor.constraint(equalTo: categoriesContainer.bottomAnchor),
             
-            allButton.widthAnchor.constraint(equalTo: allButton.heightAnchor, multiplier: 1.5/1),
+            horrorButton.widthAnchor.constraint(equalTo: horrorButton.heightAnchor, multiplier: 1.5/1),
             actionButton.widthAnchor.constraint(equalTo: actionButton.heightAnchor, multiplier: 2/1),
             adventureButton.widthAnchor.constraint(equalTo: adventureButton.heightAnchor, multiplier: 2.8/1),
             mysteryButton.widthAnchor.constraint(equalTo: mysteryButton.heightAnchor, multiplier: 2.5/1),
             fantasyButton.widthAnchor.constraint(equalTo: fantasyButton.heightAnchor, multiplier: 2.5/1),
-            othersButton.widthAnchor.constraint(equalTo: othersButton.heightAnchor, multiplier: 2.2/1),
+            comedyButton.widthAnchor.constraint(equalTo: comedyButton.heightAnchor, multiplier: 2.2/1),
             
             starsButtons.topAnchor.constraint(equalTo: starRatingContainer.topAnchor),
             starsButtons.leadingAnchor.constraint(equalTo: starRatingContainer.leadingAnchor),

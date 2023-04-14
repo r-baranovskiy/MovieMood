@@ -8,6 +8,8 @@ final class HistoryViewController: UIViewController {
     
     private var recentMoviesId = [MovieRealm]()
     
+    private let categoriesScrollView = CategoryScrollView(withTV: true)
+    
     // MARK: - Collection View
     
     private lazy var movieColletionView: UICollectionView = {
@@ -48,6 +50,7 @@ final class HistoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        categoriesScrollView.buttonDelegate = self
         setupView()
         updateRecentMoviesId()
         fetchMovies()
@@ -86,6 +89,13 @@ final class HistoryViewController: UIViewController {
     
     private func checkOnContains(movidId: Int) -> Bool {
         return recentMovies.contains(where: { $0.id == movidId })
+    }
+}
+
+extension HistoryViewController: CategoryScrollViewDelegate {
+    func didChangeCategory(with tag: Int) {
+        guard tag != 0 else { return }
+        print(tag)
     }
 }
 
@@ -144,7 +154,8 @@ extension HistoryViewController: UICollectionViewDelegate,
             )
             
             cell.configure(url: imageUrl, movieName: movie.title,
-                           duration: 0, creatingDate: movie.release_date,
+                           duration: "\(movie.runtime ?? 0) minutes",
+                           creatingDate: movie.release_date,
                            genre: "Action", isFavorite: isFavorite)
             return cell
         }
@@ -155,11 +166,25 @@ extension HistoryViewController: UICollectionViewDelegate,
 extension HistoryViewController {
     private func setupView() {
         view.backgroundColor = .custom.mainBackground
+        view.addSubviewWithoutTranslates(categoriesScrollView, movieColletionView)
+
+        NSLayoutConstraint.activate([
+            categoriesScrollView.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 19
+            ),
+            categoriesScrollView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor, constant: 24
+            ),
+            categoriesScrollView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor, constant: -24
+            ),
+            
+            categoriesScrollView.heightAnchor.constraint(equalToConstant: 40)
+        ])
         
-        view.addSubviewWithoutTranslates(movieColletionView)
         NSLayoutConstraint.activate([
             movieColletionView.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor
+                equalTo: categoriesScrollView.bottomAnchor, constant: 24
             ),
             movieColletionView.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor

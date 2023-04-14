@@ -32,12 +32,8 @@
 		8058C56E29E09D90003C4757 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058C56D29E09D90003C4757 /* ChangePasswordViewController.swift */; };
 		806231AC29E556C1003B8CE4 /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806231AB29E556C1003B8CE4 /* DetailCollectionViewCell.swift */; };
 		806231AE29E556E2003B8CE4 /* MovieSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806231AD29E556E2003B8CE4 /* MovieSearchTextField.swift */; };
-		806231B029E556FA003B8CE4 /* CrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806231AF29E556FA003B8CE4 /* CrossButton.swift */; };
-		806231B229E55705003B8CE4 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806231B129E55704003B8CE4 /* FilterButton.swift */; };
-		806231B429E55717003B8CE4 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806231B329E55717003B8CE4 /* SearchView.swift */; };
 		8079B4E729E71A62005E00A9 /* TVDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8079B4E629E71A62005E00A9 /* TVDetail.swift */; };
 		8079B4E929E71DE4005E00A9 /* TVModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8079B4E829E71DE4005E00A9 /* TVModel.swift */; };
-		8081199729E008C9001A0E4A /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081199629E008C9001A0E4A /* CategoryCollectionViewCell.swift */; };
 		8081199929E00A5A001A0E4A /* UIStackView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081199829E00A5A001A0E4A /* UIStackView + Extension.swift */; };
 		8081199B29E00A82001A0E4A /* UILabel + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081199A29E00A82001A0E4A /* UILabel + Extension.swift */; };
 		8081199D29E00ADD001A0E4A /* UIView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081199C29E00ADD001A0E4A /* UIView + Extension.swift */; };
@@ -70,6 +66,7 @@
 		80AD559D29D78C0500A8F1C3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559C29D78C0500A8F1C3 /* RealmManager.swift */; };
 		80AD559F29D78C1B00A8F1C3 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */; };
 		80D0DDB729E43EA300C68B93 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D0DDB629E43EA300C68B93 /* SettingTableViewCell.swift */; };
+		80DD04EB29E838E800090C94 /* CategoryScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DD04EA29E838E800090C94 /* CategoryScrollView.swift */; };
 		80F22DC729E1FE6800F3C659 /* PhotoPickerMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */; };
 		80FBE9C129E2A4EC00849E13 /* GoogleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */; };
 		80FBE9C329E2AF1600849E13 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C229E2AF1600849E13 /* UIViewController + Extension.swift */; };
@@ -106,12 +103,8 @@
 		8058C56D29E09D90003C4757 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		806231AB29E556C1003B8CE4 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		806231AD29E556E2003B8CE4 /* MovieSearchTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieSearchTextField.swift; sourceTree = "<group>"; };
-		806231AF29E556FA003B8CE4 /* CrossButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrossButton.swift; sourceTree = "<group>"; };
-		806231B129E55704003B8CE4 /* FilterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
-		806231B329E55717003B8CE4 /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		8079B4E629E71A62005E00A9 /* TVDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVDetail.swift; sourceTree = "<group>"; };
 		8079B4E829E71DE4005E00A9 /* TVModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVModel.swift; sourceTree = "<group>"; };
-		8081199629E008C9001A0E4A /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		8081199829E00A5A001A0E4A /* UIStackView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView + Extension.swift"; sourceTree = "<group>"; };
 		8081199A29E00A82001A0E4A /* UILabel + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + Extension.swift"; sourceTree = "<group>"; };
 		8081199C29E00ADD001A0E4A /* UIView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Extension.swift"; sourceTree = "<group>"; };
@@ -145,6 +138,7 @@
 		80AD559C29D78C0500A8F1C3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		80AD559E29D78C1B00A8F1C3 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		80D0DDB629E43EA300C68B93 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		80DD04EA29E838E800090C94 /* CategoryScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryScrollView.swift; sourceTree = "<group>"; };
 		80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerMethodView.swift; sourceTree = "<group>"; };
 		80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleButton.swift; sourceTree = "<group>"; };
 		80FBE9C229E2AF1600849E13 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
@@ -176,8 +170,6 @@
 		8058C56729E09A43003C4757 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				806231AF29E556FA003B8CE4 /* CrossButton.swift */,
-				806231B129E55704003B8CE4 /* FilterButton.swift */,
 				808E8CC629DB07B9003DD106 /* BlueButton.swift */,
 				804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */,
 				808119A229E03517001A0E4A /* GenderButton.swift */,
@@ -201,7 +193,6 @@
 			isa = PBXGroup;
 			children = (
 				C57B47C229E0612C0005A3FD /* OnboardingView.swift */,
-				806231B329E55717003B8CE4 /* SearchView.swift */,
 				80182A8329DF5A43002B99DD /* TransformView.swift */,
 				809BD0C629E1FC6800002069 /* PhotoPickerView.swift */,
 				80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */,
@@ -269,7 +260,6 @@
 				806231AB29E556C1003B8CE4 /* DetailCollectionViewCell.swift */,
 				57CD4F2229DCAC12004B73F4 /* MovieTableViewCell.swift */,
 				57D5C9E629DE05DF00C99198 /* MovieCollectionViewCell.swift */,
-				8081199629E008C9001A0E4A /* CategoryCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -374,6 +364,7 @@
 		80AD558429D7889D00A8F1C3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				80DD04E929E838D000090C94 /* ScrollViews */,
 				8058C56A29E09A76003C4757 /* Any */,
 				8058C56929E09A6D003C4757 /* Views */,
 				8058C56829E09A57003C4757 /* TextFields */,
@@ -425,6 +416,14 @@
 				8058C56B29E09A9C003C4757 /* SettingsViewController.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		80DD04E929E838D000090C94 /* ScrollViews */ = {
+			isa = PBXGroup;
+			children = (
+				80DD04EA29E838E800090C94 /* CategoryScrollView.swift */,
+			);
+			path = ScrollViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -521,13 +520,13 @@
 				80182A8429DF5A43002B99DD /* TransformView.swift in Sources */,
 				1E55F50A29DC690C00CE4C5B /* MoviesModelResponse.swift in Sources */,
 				8058C56C29E09A9C003C4757 /* SettingsViewController.swift in Sources */,
-				806231B029E556FA003B8CE4 /* CrossButton.swift in Sources */,
+				80DD04EB29E838E800090C94 /* CategoryScrollView.swift in Sources */,
 				804CB41829DC73C000955FA9 /* AppTextField.swift in Sources */,
 				804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */,
 				E5C1401B29E597CE009E5C05 /* StarButton.swift in Sources */,
 				80D0DDB729E43EA300C68B93 /* SettingTableViewCell.swift in Sources */,
-				5766F36F29E81CE1001535E4 /* TVDetailsViewController.swift in Sources */,
-				8081199729E008C9001A0E4A /* CategoryCollectionViewCell.swift in Sources */,
+        5766F36F29E81CE1001535E4 /* TVDetailsViewController.swift in Sources */,
+        8081199729E008C9001A0E4A /* CategoryCollectionViewCell.swift in Sources */,
 				8079B4E729E71A62005E00A9 /* TVDetail.swift in Sources */,
 				80AD559529D78B4500A8F1C3 /* SearchViewController.swift in Sources */,
 				809FE97B29DD8F3E007EAF7A /* UIAlertController+ Extension.swift in Sources */,
@@ -573,8 +572,6 @@
 				80AD559129D78ACF00A8F1C3 /* AuthViewController.swift in Sources */,
 				80AD556F29D7884A00A8F1C3 /* AppDelegate.swift in Sources */,
 				809FE97629DD7FAE007EAF7A /* MovieUser.swift in Sources */,
-				806231B429E55717003B8CE4 /* SearchView.swift in Sources */,
-				806231B229E55705003B8CE4 /* FilterButton.swift in Sources */,
 				80F22DC729E1FE6800F3C659 /* PhotoPickerMethodView.swift in Sources */,
 				80FBE9CD29E3613100849E13 /* HeaderSectionView.swift in Sources */,
 			);

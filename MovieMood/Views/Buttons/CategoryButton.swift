@@ -1,24 +1,19 @@
-//
-//  CategoryButton.swift
-//  MovieMood
-//
-//  Created by Nikolai Zvonarev on 11.04.2023.
-//
-
 import UIKit
 
 final class CategoryButton: UIButton {
     
     enum Category: String {
+        case tv = "TV"
         case all = "All"
+        case horror = "Horror"
         case action = "Action"
         case adventure = "Adventure"
         case mystery = "Mystery"
         case fantasy = "Fantasy"
-        case others = "Others"
-        }
+        case comedy = "Comedy"
+    }
     
-    let category: Category
+    private let category: Category
     
     init(category: Category) {
         self.category = category
@@ -32,16 +27,20 @@ final class CategoryButton: UIButton {
     
     private func setupButton() {
         backgroundColor = .clear
-        layer.cornerRadius = 19.5
+        layer.cornerRadius = intrinsicContentSize.width / 1.5
         layer.borderWidth = 1
         layer.borderColor = UIColor.custom.mainBlue.cgColor
-
+        
         setTitle(category.rawValue, for: .normal)
         setTitleColor(.label, for: .normal)
         titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
         heightAnchor.constraint(equalToConstant: 39).isActive = true
-
+        
         contentHorizontalAlignment = .center
         
+        if category == .all {
+            isSelected = true
+            backgroundColor = .custom.mainBlue
+        }
     }
 }
