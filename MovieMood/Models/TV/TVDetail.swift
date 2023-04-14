@@ -6,6 +6,7 @@ struct TVDetail: Decodable {
     let lastAirDate: String
     let name: String
     let numberOfEpisodes, numberOfSeasons: Int
+    let overview: String
     let popularity: Double
     let posterPath: String
     let voteAverage: Double
@@ -14,7 +15,7 @@ struct TVDetail: Decodable {
 
     enum CodingKeys: String, CodingKey {
         case firstAirDate = "first_air_date"
-        case id, name, popularity, genres
+        case id, name, popularity, genres, overview
         case lastAirDate = "last_air_date"
         case numberOfEpisodes = "number_of_episodes"
         case numberOfSeasons = "number_of_seasons"
