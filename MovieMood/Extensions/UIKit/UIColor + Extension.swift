@@ -18,5 +18,9 @@ extension UIColor {
         var mainBlue: UIColor {
             return UIColor(named: "Main-Blue") ?? .systemBlue
         }
+        
+        var lightGray: UIColor {
+            return UIColor(named: "LightGray") ?? .lightGray
+        }
     }
 }
