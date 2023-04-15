@@ -4,7 +4,7 @@ final class SearchViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var movies = [MovieDetail]()
+    private var popularMovies = [MovieDetail]()
     private let currentUser: UserRealm
     
     private let apiManager = ApiManager(
@@ -65,25 +65,25 @@ final class SearchViewController: UIViewController {
         searchTextField.delegate = self
         searchTextField.searchFieldDelegate = self
         setupCollectionView()
-        fetchRatingMovies()
+        fetchPopularMovies()
     }
     
     @objc
     private func didChangeSearchText(_ sender: UITextField) {
         guard let text = sender.text else { return }
-        movies = []
+        popularMovies = []
         fetchSearchMovies(with: text)
     }
     
     //MARK: - Network Methodes
     private func fetchSearchMovies(with movie: String) {
-        movies = []
+        popularMovies = []
         Task {
             do {
                 let movies = try await apiManager.fetchSearchMovies(with: movie).results
                 for movie in movies {
                     let movie = try await apiManager.fetchMovieDetail(with: movie.id)
-                    self.movies.append(movie)
+                    self.popularMovies.append(movie)
                 }
                 await MainActor.run {
                     movieColletionView.reloadData()
@@ -94,19 +94,19 @@ final class SearchViewController: UIViewController {
         }
     }
     
-    private func fetchRatingMovies() {
+    private func fetchPopularMovies() {
         Task {
             do {
-                let movies = try await apiManager.fetchRaitingMovies().results
+                let movies = try await apiManager.fetchMovies().results
                 for movie in movies {
                     let movie = try await apiManager.fetchMovieDetail(with: movie.id)
-                    self.movies.append(movie)
+                    self.popularMovies.append(movie)
                 }
                 await MainActor.run(body: {
                     movieColletionView.reloadData()
                 })
             } catch {
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }
@@ -148,7 +148,7 @@ extension SearchViewController: FilterPopupViewDelegate {
     }
     
     func didTapApplyFilter(with genre: String, votes: String) {
-        movies = []
+        popularMovies = []
         hideFilter()
         let genres = [
             "Horror": 27, "Action": 28, "Adventure": 12,
@@ -162,7 +162,7 @@ extension SearchViewController: FilterPopupViewDelegate {
                 ).results
                 for movie in movies {
                     let movie = try await apiManager.fetchMovieDetail(with: movie.id)
-                    self.movies.append(movie)
+                    self.popularMovies.append(movie)
                 }
                 await MainActor.run {
                     movieColletionView.reloadData()
@@ -186,7 +186,7 @@ extension SearchViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let movie = textField.text, movie.count != 0 else { return true }
-        movies = []
+        popularMovies = []
         fetchSearchMovies(with: movie)
         textField.text = ""
         textField.endEditing(true)
@@ -199,7 +199,7 @@ extension SearchViewController: UICollectionViewDelegate,
                                 UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        movies.count
+        popularMovies.count
     }
     
     func collectionView(
@@ -211,7 +211,7 @@ extension SearchViewController: UICollectionViewDelegate,
                 return UICollectionViewCell()
             }
             cell.delegate = self
-            let movie = movies[indexPath.row]
+            let movie = popularMovies[indexPath.row]
             let imageUrl = URL(
                 string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
             )
@@ -229,7 +229,7 @@ extension SearchViewController: UICollectionViewDelegate,
         }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movie = movies[indexPath.item]
+        let movie = popularMovies[indexPath.item]
         let isFavorite = RealmManager.shared.isLikedMovie(for: currentUser, with: movie.id)
         let detailVC = DetailViewController(
             movieId: movie.id, isFavorite: isFavorite,
@@ -272,7 +272,7 @@ extension SearchViewController {
         
         NSLayoutConstraint.activate([
             searchTextField.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 35
+                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16
             ),
             searchTextField.leftAnchor.constraint(
                 equalTo: view.leftAnchor, constant: 24

@@ -105,7 +105,6 @@ extension HistoryViewController: CategoryScrollViewDelegate {
         }
         guard tag != 0 else { return }
         recentMovies = []
-        print(nonFilteredReecentMovies)
         for movie in nonFilteredReecentMovies {
             for genre in movie.genres {
                 if genre.id == tag {

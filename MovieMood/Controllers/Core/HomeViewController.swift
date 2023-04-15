@@ -17,7 +17,7 @@ final class HomeViewController: UIViewController {
     private let currentUser: UserRealm
     
     private var filmCovers = [UIImage]()
-    private var popularMovies = [MovieDetail]()
+    private var ratingMovies = [MovieDetail]()
     private var ratingTV = [TVDetail]()
     private var showType: ShowType?
     
@@ -118,7 +118,7 @@ final class HomeViewController: UIViewController {
     private func updateData(with category: ShowType) {
         switch category {
         case .movies:
-            fetchMovies()
+            fetchRatingMovies()
         case .tv:
             fetchTV()
         }
@@ -143,16 +143,16 @@ final class HomeViewController: UIViewController {
         }
     }
     
-    private func fetchMovies() {
+    private func fetchRatingMovies() {
         showType = .movies
         Task {
             do {
-                let movies = try await apiManager.fetchMovies().results
+                let movies = try await apiManager.fetchRaitingMovies().results
                 for movie in movies {
                     let movie = try await apiManager.fetchMovieDetail(with: movie.id)
-                    popularMovies.append(movie)
+                    ratingMovies.append(movie)
                 }
-                fetchFilmCovers(with: popularMovies)
+                fetchFilmCovers(with: ratingMovies)
                 await MainActor.run {
                     moviesTableView.reloadData()
                 }
@@ -210,7 +210,7 @@ extension HomeViewController: CategoryScrollViewDelegate {
 extension HomeViewController: MovieTableViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?, forType type: ShowType?) {
         guard let indexPath = indexPath, showType == .tv else { return }
-            let movieId = popularMovies[indexPath.row].id
+            let movieId = ratingMovies[indexPath.row].id
         
         if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
             RealmManager.shared.saveMovie(
@@ -233,7 +233,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let type = showType else { return }
         switch type {
         case .movies:
-            let movie = popularMovies[indexPath.row]
+            let movie = ratingMovies[indexPath.row]
             
             if !RealmManager.shared.isAddedToRecentMovie(for: currentUser,
                                                          with: movie.id) {
@@ -267,7 +267,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let type = showType else { return 0 }
         switch type {
         case .movies:
-            return popularMovies.count
+            return ratingMovies.count
         case .tv:
             return ratingTV.count
         }
@@ -282,7 +282,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch type {
         case .movies:
-            let movie = popularMovies[indexPath.row]
+            let movie = ratingMovies[indexPath.row]
             let imageUrl = URL(
                 string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
             )
