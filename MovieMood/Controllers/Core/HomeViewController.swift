@@ -207,6 +207,7 @@ extension HomeViewController: CategoryScrollViewDelegate {
                 }
             }
         default:
+            showType = .movies
             if let showType = showType {
                 if showType == .movies {
                     ratingMovies = []
