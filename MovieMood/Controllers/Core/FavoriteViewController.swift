@@ -147,7 +147,15 @@ extension FavoriteViewController: UICollectionViewDataSource {
 extension FavoriteViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        
+        let movie = movies[indexPath.item]
+        let isFavorite = RealmManager.shared.isLikedMovie(for: currentUser, with: movie.id)
+        let detailVC = DetailViewController(
+            movieId: movie.id, isFavorite: isFavorite,
+            currentUser: currentUser
+        )
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
     }
 }
 
