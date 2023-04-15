@@ -18,28 +18,21 @@ final class HomeViewController: UIViewController {
     
     private var filmCovers = [UIImage]()
     private var ratingMovies = [MovieDetail]()
+    private var nonFilteredRatingMovies = [MovieDetail]()
     private var ratingTV = [TVDetail]()
     private var showType: ShowType?
     
     private var userImageView: UIImageView = {
         let userIV = UIImageView()
-        userIV.clipsToBounds = true
         userIV.contentMode = .scaleAspectFill
         userIV.heightAnchor.constraint(equalToConstant: 40).isActive = true
         userIV.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        userIV.layer.cornerRadius = userIV.frame.height / 2
+        userIV.clipsToBounds = true
         return userIV
     }()
     
     private lazy var spiner: UIActivityIndicatorView = {
         let active = UIActivityIndicatorView(style: .large)
-        let size = CGSize(width: 100, height: 100)
-        active.frame = CGRect(
-            x: (animateContainerView.frame.width - size.width) / 2,
-            y: (animateContainerView.frame.height - size.height) / 2,
-            width: size.width, height: size.height
-        )
-        print(animateContainerView)
         active.hidesWhenStopped = true
         return active
     }()
@@ -62,7 +55,7 @@ final class HomeViewController: UIViewController {
     
     private let moviesTableView: UITableView = {
         let table = UITableView()
-        table.backgroundColor = .clear
+        table.backgroundColor = .none
         table.separatorStyle = .none
         table.showsVerticalScrollIndicator = false
         table.register(
@@ -98,6 +91,17 @@ final class HomeViewController: UIViewController {
         updateUser()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let size = CGSize(width: 100, height: 100)
+        spiner.frame = CGRect(
+            x: (animateContainerView.frame.width - size.width) / 2,
+            y: (animateContainerView.frame.height - size.height) / 2,
+            width: size.width, height: size.height
+        )
+        userImageView.layer.cornerRadius = 20
+    }
+    
     // MARK: - Behaviour
     
     private func settings() {
@@ -116,6 +120,7 @@ final class HomeViewController: UIViewController {
     }
     
     private func updateData(with category: ShowType) {
+        spiner.startAnimating()
         switch category {
         case .movies:
             fetchRatingMovies()
@@ -145,6 +150,7 @@ final class HomeViewController: UIViewController {
     
     private func fetchRatingMovies() {
         showType = .movies
+        ratingMovies = []
         Task {
             do {
                 let movies = try await apiManager.fetchRaitingMovies().results
@@ -154,6 +160,7 @@ final class HomeViewController: UIViewController {
                 }
                 fetchFilmCovers(with: ratingMovies)
                 await MainActor.run {
+                    nonFilteredRatingMovies = ratingMovies
                     moviesTableView.reloadData()
                 }
             } catch {
@@ -200,7 +207,21 @@ extension HomeViewController: CategoryScrollViewDelegate {
                 }
             }
         default:
-            break
+            if let showType = showType {
+                if showType == .movies {
+                    ratingMovies = []
+                    for movie in nonFilteredRatingMovies {
+                        for genre in movie.genres {
+                            if genre.id == tag {
+                                ratingMovies.append(movie)
+                            }
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        self.moviesTableView.reloadData()
+                    }
+                }
+            }
         }
     }
 }
