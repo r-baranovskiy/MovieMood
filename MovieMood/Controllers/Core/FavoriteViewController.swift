@@ -6,7 +6,7 @@ final class FavoriteViewController: UIViewController {
     
     private var currentUser: UserRealm
     
-    private var favoriteMoviesId = [MovieRealm]()
+    private var favoriteMoviesRealm = [MovieRealm]()
     private var movies = [MovieDetail]()
     
     private let apiManager = ApiManager(
@@ -57,25 +57,36 @@ final class FavoriteViewController: UIViewController {
             userId: currentUser.userId, moviesType: .favorite
         ) { [weak self] realmMovies in
             guard let self = self else { return }
-            for movie in realmMovies where !self.favoriteMoviesId.contains(movie) {
-                self.favoriteMoviesId.append(movie)
+            for movie in realmMovies {
+                if !self.checkOnContainsRealmId(movidId: movie.movieId) {
+                    self.favoriteMoviesRealm.append(movie)
+                }
             }
         }
     }
     
     private func fetchMovies() {
-        for id in favoriteMoviesId {
-            Task {
-                do {
-                    let movie = try await apiManager.fetchMovieDetail(with: id.movieId)
-                    
-                    movies.append(movie)
-                    await MainActor.run(body: {
-                        movieColletionView.reloadData()
-                    })
+        for id in favoriteMoviesRealm {
+                Task {
+                    do {
+                        let movie = try await apiManager.fetchMovieDetail(with: id.movieId)
+                        if !checkOnContainsMovie(movidId: movie.id) {
+                            movies.insert(movie, at: 0)
+                        }
+                        await MainActor.run(body: {
+                            movieColletionView.reloadData()
+                        })
+                    }
                 }
-            }
         }
+    }
+    
+    private func checkOnContainsRealmId(movidId: Int) -> Bool {
+        return favoriteMoviesRealm.contains(where: { $0.movieId == movidId })
+    }
+    
+    private func checkOnContainsMovie(movidId: Int) -> Bool {
+        return movies.contains(where: { $0.id == movidId })
     }
 }
 
@@ -83,33 +94,17 @@ final class FavoriteViewController: UIViewController {
 
 extension FavoriteViewController: MovieCollectionViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?) {
-        //
-    }
-    
-    func didTapLike(withIndexPath indexPath: IndexPath?, forType type: ShowType?) {
-//        guard let indexPath = indexPath else { return }
-//        let movieId = movies[indexPath.row].id
-//        if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
-//            RealmManager.shared.saveMovie(
-//                for: currentUser, with: movies[indexPath.row].id,
-//                moviesType: .favorite) { [weak self] success in
-//                print("Liked")
-//                DispatchQueue.main.async {
-//                    self?.movieColletionView.reloadData()
-//                }
-//            }
-//        } else {
-//            RealmManager.shared.removeMovie(for: currentUser,
-//                                            with: movieId) { [weak self] success in
-//                if success {
-//                    print("Disliked")
-//                    DispatchQueue.main.async {
-//                        self?.movies.remove(at: indexPath.row)
-//                        self?.movieColletionView.reloadData()
-//                    }
-//                }
-//            }
-//        }
+        guard let indexPath = indexPath else { return }
+        let movieId = movies[indexPath.row]
+        RealmManager.shared.removeMovie(for: currentUser, with: movieId.id) { [weak self] success in
+            if success {
+                print("Disliked")
+                DispatchQueue.main.async {
+                    self?.movies.remove(at: indexPath.row)
+                    self?.movieColletionView.reloadData()
+                }
+            }
+        }
     }
 }
 

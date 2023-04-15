@@ -137,7 +137,24 @@ extension SearchViewController: MovieSearchTextFieldDelegate {
 
 extension SearchViewController: MovieCollectionViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?) {
-        
+        guard let indexPath = indexPath else { return }
+        let movieId = popularMovies[indexPath.row].id
+        if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
+            RealmManager.shared.saveMovie(
+                for: currentUser, with: movieId, moviesType: .favorite
+            ) { [weak self] success in
+                DispatchQueue.main.async {
+                    self?.movieColletionView.reloadData()
+                }
+            }
+        } else {
+            RealmManager.shared.removeMovie(for: currentUser,
+                                            with: movieId) { success in
+                if success {
+                    print("Deleted")
+                }
+            }
+        }
     }
 }
 
@@ -211,6 +228,7 @@ extension SearchViewController: UICollectionViewDelegate,
                 return UICollectionViewCell()
             }
             cell.delegate = self
+            cell.indexPath = indexPath
             let movie = popularMovies[indexPath.row]
             let imageUrl = URL(
                 string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
@@ -220,11 +238,11 @@ extension SearchViewController: UICollectionViewDelegate,
             if !movie.genres.isEmpty {
                 movieGenre = movie.genres[0].name
             }
-            
+            let isFavorite = RealmManager.shared.isLikedMovie(for: currentUser, with: movie.id)
             cell.configure(url: imageUrl, movieName: movie.title,
                            duration: "\(movie.runtime ?? 0) minutes",
                            creatingDate: movie.release_date,
-                           genre: movieGenre, isFavorite: false)
+                           genre: movieGenre, isFavorite: isFavorite)
             return cell
         }
     
