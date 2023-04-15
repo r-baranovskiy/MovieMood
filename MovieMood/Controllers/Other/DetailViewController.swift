@@ -216,7 +216,9 @@ final class DetailViewController: UIViewController {
     }
     
     @objc private func didTapBack() {
-        self.navigationController?.popViewController(animated: true)
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     @objc private func didTapLike() {

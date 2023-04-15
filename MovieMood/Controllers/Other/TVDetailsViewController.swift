@@ -265,6 +265,13 @@ final class TVDetailsViewController: UIViewController {
         }
     }
     
+    @objc
+    private func didTapBack() {
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     @objc private func loadYouTubeVideo() {
         guard let videoID = videoID,
               let url = URL(
@@ -356,6 +363,11 @@ extension TVDetailsViewController: UICollectionViewDataSource {
 extension TVDetailsViewController {
     
     private func setupUI() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: "back-button-icon"),
+            style: .done, target: self, action: #selector(didTapBack)
+        )
+        
         dateStackView.addArrangedSubview(dateImageView)
         dateStackView.addArrangedSubview(firstAirLabel)
         dateStackView.addArrangedSubview(dashImageView)
