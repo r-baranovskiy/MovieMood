@@ -185,6 +185,7 @@ final class TVDetailsViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: setupFlowLayout())
         collection.dataSource = self
+        collection.backgroundColor = .none
         return collection
     }()
     
@@ -224,7 +225,7 @@ final class TVDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .custom.mainBackground
         collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "\(DetailCollectionViewCell.self)")
         title = "TV Detail"
         navigationController?.navigationBar.backItem?.backBarButtonItem?.image = UIImage(named: "back-button-icon")
