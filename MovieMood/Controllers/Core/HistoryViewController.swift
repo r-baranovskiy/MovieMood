@@ -6,6 +6,8 @@ final class HistoryViewController: UIViewController {
     
     private var recentMovies = [MovieDetail]()
     
+    private var nonFilteredReecentMovies = [MovieDetail]()
+    
     private var recentMoviesId = [MovieRealm]()
     
     private let categoriesScrollView = CategoryScrollView(withTV: true)
@@ -79,6 +81,7 @@ final class HistoryViewController: UIViewController {
                     if !checkOnContains(movidId: id.movieId) {
                         recentMovies.insert(movie, at: 0)
                         await MainActor.run(body: {
+                            nonFilteredReecentMovies = recentMovies
                             movieColletionView.reloadData()
                         })
                     }
@@ -94,8 +97,24 @@ final class HistoryViewController: UIViewController {
 
 extension HistoryViewController: CategoryScrollViewDelegate {
     func didChangeCategory(with tag: Int) {
+        if tag == 0 {
+            recentMovies = nonFilteredReecentMovies
+            DispatchQueue.main.async {
+                self.movieColletionView.reloadData()
+            }
+        }
         guard tag != 0 else { return }
-        print(tag)
+        recentMovies = []
+        for movie in nonFilteredReecentMovies {
+            for genre in movie.genres {
+                if genre.id == tag {
+                    recentMovies.append(movie)
+                }
+            }
+        }
+        DispatchQueue.main.async {
+            self.movieColletionView.reloadData()
+        }
     }
 }
 

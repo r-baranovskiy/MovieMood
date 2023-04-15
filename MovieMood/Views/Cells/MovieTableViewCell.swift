@@ -27,7 +27,7 @@ final class MovieTableViewCell: UITableViewCell {
         let view = UIImageView()
         view.clipsToBounds = true
         view.layer.cornerRadius = 8
-        view.contentMode = .scaleToFill
+        view.contentMode = .scaleAspectFill
         return view
     }()
     

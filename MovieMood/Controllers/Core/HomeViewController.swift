@@ -17,29 +17,22 @@ final class HomeViewController: UIViewController {
     private let currentUser: UserRealm
     
     private var filmCovers = [UIImage]()
-    private var popularMovies = [MovieDetail]()
+    private var ratingMovies = [MovieDetail]()
+    private var nonFilteredRatingMovies = [MovieDetail]()
     private var ratingTV = [TVDetail]()
     private var showType: ShowType?
     
     private var userImageView: UIImageView = {
         let userIV = UIImageView()
-        userIV.clipsToBounds = true
         userIV.contentMode = .scaleAspectFill
         userIV.heightAnchor.constraint(equalToConstant: 40).isActive = true
         userIV.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        userIV.layer.cornerRadius = userIV.frame.height / 2
+        userIV.clipsToBounds = true
         return userIV
     }()
     
     private lazy var spiner: UIActivityIndicatorView = {
         let active = UIActivityIndicatorView(style: .large)
-        let size = CGSize(width: 100, height: 100)
-        active.frame = CGRect(
-            x: (animateContainerView.frame.width - size.width) / 2,
-            y: (animateContainerView.frame.height - size.height) / 2,
-            width: size.width, height: size.height
-        )
-        print(animateContainerView)
         active.hidesWhenStopped = true
         return active
     }()
@@ -62,7 +55,7 @@ final class HomeViewController: UIViewController {
     
     private let moviesTableView: UITableView = {
         let table = UITableView()
-        table.backgroundColor = .clear
+        table.backgroundColor = .none
         table.separatorStyle = .none
         table.showsVerticalScrollIndicator = false
         table.register(
@@ -98,6 +91,17 @@ final class HomeViewController: UIViewController {
         updateUser()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let size = CGSize(width: 100, height: 100)
+        spiner.frame = CGRect(
+            x: (animateContainerView.frame.width - size.width) / 2,
+            y: (animateContainerView.frame.height - size.height) / 2,
+            width: size.width, height: size.height
+        )
+        userImageView.layer.cornerRadius = 20
+    }
+    
     // MARK: - Behaviour
     
     private func settings() {
@@ -116,9 +120,10 @@ final class HomeViewController: UIViewController {
     }
     
     private func updateData(with category: ShowType) {
+        spiner.startAnimating()
         switch category {
         case .movies:
-            fetchMovies()
+            fetchRatingMovies()
         case .tv:
             fetchTV()
         }
@@ -143,17 +148,19 @@ final class HomeViewController: UIViewController {
         }
     }
     
-    private func fetchMovies() {
+    private func fetchRatingMovies() {
         showType = .movies
+        ratingMovies = []
         Task {
             do {
-                let movies = try await apiManager.fetchMovies().results
+                let movies = try await apiManager.fetchRaitingMovies().results
                 for movie in movies {
                     let movie = try await apiManager.fetchMovieDetail(with: movie.id)
-                    popularMovies.append(movie)
+                    ratingMovies.append(movie)
                 }
-                fetchFilmCovers(with: popularMovies)
+                fetchFilmCovers(with: ratingMovies)
                 await MainActor.run {
+                    nonFilteredRatingMovies = ratingMovies
                     moviesTableView.reloadData()
                 }
             } catch {
@@ -200,7 +207,21 @@ extension HomeViewController: CategoryScrollViewDelegate {
                 }
             }
         default:
-            break
+            if let showType = showType {
+                if showType == .movies {
+                    ratingMovies = []
+                    for movie in nonFilteredRatingMovies {
+                        for genre in movie.genres {
+                            if genre.id == tag {
+                                ratingMovies.append(movie)
+                            }
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        self.moviesTableView.reloadData()
+                    }
+                }
+            }
         }
     }
 }
@@ -210,7 +231,7 @@ extension HomeViewController: CategoryScrollViewDelegate {
 extension HomeViewController: MovieTableViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?, forType type: ShowType?) {
         guard let indexPath = indexPath, showType == .tv else { return }
-            let movieId = popularMovies[indexPath.row].id
+            let movieId = ratingMovies[indexPath.row].id
         
         if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
             RealmManager.shared.saveMovie(
@@ -233,7 +254,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let type = showType else { return }
         switch type {
         case .movies:
-            let movie = popularMovies[indexPath.row]
+            let movie = ratingMovies[indexPath.row]
             
             if !RealmManager.shared.isAddedToRecentMovie(for: currentUser,
                                                          with: movie.id) {
@@ -267,7 +288,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let type = showType else { return 0 }
         switch type {
         case .movies:
-            return popularMovies.count
+            return ratingMovies.count
         case .tv:
             return ratingTV.count
         }
@@ -282,7 +303,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch type {
         case .movies:
-            let movie = popularMovies[indexPath.row]
+            let movie = ratingMovies[indexPath.row]
             let imageUrl = URL(
                 string: "https://image.tmdb.org/t/p/w500/\(movie.poster_path ?? "")"
             )
