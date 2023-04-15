@@ -256,43 +256,38 @@ final class DetailViewController: UIViewController {
         
         switch stars {
         case 0..<2:
-            for _ in 1...5 {
-                let star = UIImageView(image: UIImage(named: "star"))
-                starsStackView.addArrangedSubview(star)
-            }
-        case 2..<4:
             let star1 = UIImageView(image: UIImage(named: "star1"))
             starsStackView.addArrangedSubview(star1)
             for _ in 1...4 {
                 let star = UIImageView(image: UIImage(named: "star"))
                 starsStackView.addArrangedSubview(star)
             }
-        case 4..<6:
+        case 2..<4:
             for _ in 1...2 {
                 let star1 = UIImageView(image: UIImage(named: "star1"))
                 starsStackView.addArrangedSubview(star1)
             }
             for _ in 1...3 {
+                let star = UIImageView(image: UIImage(named: "star"))
+                starsStackView.addArrangedSubview(star)
+            }
+        case 4..<6:
+            for _ in 1...3 {
+                let star1 = UIImageView(image: UIImage(named: "star1"))
+                starsStackView.addArrangedSubview(star1)
+            }
+            for _ in 1...2 {
                 let star = UIImageView(image: UIImage(named: "star"))
                 starsStackView.addArrangedSubview(star)
             }
         case 6..<8:
-            for _ in 1...3 {
-                let star1 = UIImageView(image: UIImage(named: "star1"))
-                starsStackView.addArrangedSubview(star1)
-            }
-            for _ in 1...2 {
-                let star = UIImageView(image: UIImage(named: "star"))
-                starsStackView.addArrangedSubview(star)
-            }
-        case 8..<10:
             for _ in 1...4 {
                 let star1 = UIImageView(image: UIImage(named: "star1"))
                 starsStackView.addArrangedSubview(star1)
             }
             let star = UIImageView(image: UIImage(named: "star"))
             starsStackView.addArrangedSubview(star)
-        case 5...:
+        case 8...10:
             for _ in 1...5 {
                 let star1 = UIImageView(image: UIImage(named: "star1"))
                 starsStackView.addArrangedSubview(star1)
