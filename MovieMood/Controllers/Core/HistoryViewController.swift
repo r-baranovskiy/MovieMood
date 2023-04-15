@@ -10,7 +10,7 @@ final class HistoryViewController: UIViewController {
     
     private var recentMoviesId = [MovieRealm]()
     
-    private let categoriesScrollView = CategoryScrollView(withTV: true)
+    private let categoriesScrollView = CategoryScrollView(withTV: false)
     
     // MARK: - Collection View
     
