@@ -231,7 +231,7 @@ extension HomeViewController: CategoryScrollViewDelegate {
 
 extension HomeViewController: MovieTableViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?, forType type: ShowType?) {
-        guard let indexPath = indexPath, showType == .tv else { return }
+        guard let indexPath = indexPath, showType == .movies else { return }
             let movieId = ratingMovies[indexPath.row].id
         
         if !RealmManager.shared.isLikedMovie(for: currentUser, with: movieId) {
