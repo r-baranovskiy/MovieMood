@@ -248,6 +248,15 @@ extension SearchViewController: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movie = popularMovies[indexPath.item]
+        
+        if !RealmManager.shared.isAddedToRecentMovie(for: currentUser,
+                                                     with: movie.id) {
+            RealmManager.shared.saveMovie(for: currentUser, with: movie.id,
+                                          moviesType: .recent) { success in
+                print("Saved")
+            }
+        }
+        
         let isFavorite = RealmManager.shared.isLikedMovie(for: currentUser, with: movie.id)
         let detailVC = DetailViewController(
             movieId: movie.id, isFavorite: isFavorite,

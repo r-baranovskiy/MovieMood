@@ -96,9 +96,9 @@ extension FavoriteViewController: MovieCollectionViewCellDelegate {
     func didTapLike(withIndexPath indexPath: IndexPath?) {
         guard let indexPath = indexPath else { return }
         let movieId = movies[indexPath.row]
-        RealmManager.shared.removeMovie(for: currentUser, with: movieId.id) { [weak self] success in
+        RealmManager.shared.removeMovie(for: currentUser, with: movieId.id)
+        { [weak self] success in
             if success {
-                print("Disliked")
                 DispatchQueue.main.async {
                     self?.movies.remove(at: indexPath.row)
                     self?.movieColletionView.reloadData()
