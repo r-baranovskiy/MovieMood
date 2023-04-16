@@ -20,6 +20,12 @@
 <img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/SearchScreen.png" width="30%">
 <img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/SearchGif.gif" width="30%"></p>
 
+- Your browsing history and favorite movies will be saved on your device using Realm
+
+<p align="center">
+<img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/RecentScreen.png" width="30%">
+<img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/FavoriteScreen.png" width="30%"></p>
+
 - Authorization with google and firebase
 
 <p align="center">
