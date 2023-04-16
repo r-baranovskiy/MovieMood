@@ -17,4 +17,4 @@
 - Authorization with google and firebase
 
 <p align="center">
-<img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/AuthScreen.gif" width="30%"></p>
+<img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/AuthScreen.png" width="30%"></p>
