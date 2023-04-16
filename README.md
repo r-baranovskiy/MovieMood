@@ -11,3 +11,5 @@
 
 * Dark and light theme
 
+<p align="center">
+<img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/ProfileLight.png" width="30%";>           <img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/ProfileDark.png" width="30%"></p>
