@@ -12,7 +12,12 @@
 - Dark and light theme
 
 <p align="center">
-<img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/ProfileLight.png" width="30%";><img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/ProfileDark.png" width="30%"></p>
+<img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/ProfileLight.png" width="30%";>           <img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/ProfileDark.png" width="30%"></p>
+
+- Functional and convenient movie search
+
+<p align="center">
+<img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/SearchGif.gif" width="30%"></p>
 
 - Authorization with google and firebase
 

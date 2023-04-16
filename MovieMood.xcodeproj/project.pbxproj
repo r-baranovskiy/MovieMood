@@ -69,14 +69,13 @@
 		80D19C9929EB62C4008E20C9 /* UIResponder + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D19C9829EB62C4008E20C9 /* UIResponder + Extension.swift */; };
 		80D19CBF29EB6D3B008E20C9 /* RecentScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CB629EB6D39008E20C9 /* RecentScreen.png */; };
 		80D19CC029EB6D3B008E20C9 /* FavoritesScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CB729EB6D39008E20C9 /* FavoritesScreen.png */; };
-		80D19CC129EB6D3B008E20C9 /* SearchFilterScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CB829EB6D3A008E20C9 /* SearchFilterScreen.png */; };
-		80D19CC529EB6D3B008E20C9 /* SearchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CBC29EB6D3A008E20C9 /* SearchScreen.png */; };
 		80D19CC629EB6D3B008E20C9 /* HomeScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CBD29EB6D3A008E20C9 /* HomeScreen.png */; };
 		80D19CC829EB73D4008E20C9 /* HomeScreenDark.png in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CC729EB73D4008E20C9 /* HomeScreenDark.png */; };
 		80D19CCC29EB76EA008E20C9 /* HomeGif.gif in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CCB29EB76E9008E20C9 /* HomeGif.gif */; };
 		80D19CCF29EB77AE008E20C9 /* ProfileDark.png in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CCD29EB77AE008E20C9 /* ProfileDark.png */; };
 		80D19CD029EB77AE008E20C9 /* ProfileLight.png in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CCE29EB77AE008E20C9 /* ProfileLight.png */; };
 		80D19CD429EB7C81008E20C9 /* AuthScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CD329EB7C81008E20C9 /* AuthScreen.png */; };
+		80D19CD629EB7E29008E20C9 /* SearchGif.gif in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CD529EB7E29008E20C9 /* SearchGif.gif */; };
 		80DD04EB29E838E800090C94 /* CategoryScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DD04EA29E838E800090C94 /* CategoryScrollView.swift */; };
 		80F22DC729E1FE6800F3C659 /* PhotoPickerMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */; };
 		80FBE9C129E2A4EC00849E13 /* GoogleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */; };
@@ -152,14 +151,13 @@
 		80D19C9829EB62C4008E20C9 /* UIResponder + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder + Extension.swift"; sourceTree = "<group>"; };
 		80D19CB629EB6D39008E20C9 /* RecentScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RecentScreen.png; sourceTree = "<group>"; };
 		80D19CB729EB6D39008E20C9 /* FavoritesScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FavoritesScreen.png; sourceTree = "<group>"; };
-		80D19CB829EB6D3A008E20C9 /* SearchFilterScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchFilterScreen.png; sourceTree = "<group>"; };
-		80D19CBC29EB6D3A008E20C9 /* SearchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchScreen.png; sourceTree = "<group>"; };
 		80D19CBD29EB6D3A008E20C9 /* HomeScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HomeScreen.png; sourceTree = "<group>"; };
 		80D19CC729EB73D4008E20C9 /* HomeScreenDark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HomeScreenDark.png; sourceTree = "<group>"; };
 		80D19CCB29EB76E9008E20C9 /* HomeGif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = HomeGif.gif; sourceTree = "<group>"; };
 		80D19CCD29EB77AE008E20C9 /* ProfileDark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ProfileDark.png; sourceTree = "<group>"; };
 		80D19CCE29EB77AE008E20C9 /* ProfileLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ProfileLight.png; sourceTree = "<group>"; };
 		80D19CD329EB7C81008E20C9 /* AuthScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AuthScreen.png; sourceTree = "<group>"; };
+		80D19CD529EB7E29008E20C9 /* SearchGif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = SearchGif.gif; sourceTree = "<group>"; };
 		80DD04EA29E838E800090C94 /* CategoryScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryScrollView.swift; sourceTree = "<group>"; };
 		80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerMethodView.swift; sourceTree = "<group>"; };
 		80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleButton.swift; sourceTree = "<group>"; };
@@ -445,6 +443,7 @@
 		80D19C9A29EB6B76008E20C9 /* ReadmeResources */ = {
 			isa = PBXGroup;
 			children = (
+				80D19CD529EB7E29008E20C9 /* SearchGif.gif */,
 				80D19CD329EB7C81008E20C9 /* AuthScreen.png */,
 				80D19CCD29EB77AE008E20C9 /* ProfileDark.png */,
 				80D19CCE29EB77AE008E20C9 /* ProfileLight.png */,
@@ -453,8 +452,6 @@
 				80D19CB729EB6D39008E20C9 /* FavoritesScreen.png */,
 				80D19CBD29EB6D3A008E20C9 /* HomeScreen.png */,
 				80D19CB629EB6D39008E20C9 /* RecentScreen.png */,
-				80D19CB829EB6D3A008E20C9 /* SearchFilterScreen.png */,
-				80D19CBC29EB6D3A008E20C9 /* SearchScreen.png */,
 			);
 			path = ReadmeResources;
 			sourceTree = "<group>";
@@ -545,12 +542,11 @@
 				809FE97829DD8B92007EAF7A /* GoogleService-Info.plist in Resources */,
 				80AD557B29D7884C00A8F1C3 /* LaunchScreen.storyboard in Resources */,
 				80D19CCC29EB76EA008E20C9 /* HomeGif.gif in Resources */,
-				80D19CC129EB6D3B008E20C9 /* SearchFilterScreen.png in Resources */,
 				80D19CD029EB77AE008E20C9 /* ProfileLight.png in Resources */,
 				80D19CD429EB7C81008E20C9 /* AuthScreen.png in Resources */,
 				80D19CCF29EB77AE008E20C9 /* ProfileDark.png in Resources */,
-				80D19CC529EB6D3B008E20C9 /* SearchScreen.png in Resources */,
 				80AD557829D7884C00A8F1C3 /* Assets.xcassets in Resources */,
+				80D19CD629EB7E29008E20C9 /* SearchGif.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
