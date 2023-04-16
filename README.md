@@ -17,6 +17,7 @@
 - Functional and convenient movie search
 
 <p align="center">
+<img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/SearchScreen.png" width="30%">
 <img src="https://github.com/r-baranovskiy/MovieMood/blob/master/ReadmeResources/SearchGif.gif" width="30%"></p>
 
 - Authorization with google and firebase

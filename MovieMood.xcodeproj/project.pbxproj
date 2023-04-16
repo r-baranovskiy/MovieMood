@@ -76,6 +76,7 @@
 		80D19CD029EB77AE008E20C9 /* ProfileLight.png in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CCE29EB77AE008E20C9 /* ProfileLight.png */; };
 		80D19CD429EB7C81008E20C9 /* AuthScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CD329EB7C81008E20C9 /* AuthScreen.png */; };
 		80D19CD629EB7E29008E20C9 /* SearchGif.gif in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CD529EB7E29008E20C9 /* SearchGif.gif */; };
+		80D19CD829EB8058008E20C9 /* SearchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 80D19CD729EB8058008E20C9 /* SearchScreen.png */; };
 		80DD04EB29E838E800090C94 /* CategoryScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DD04EA29E838E800090C94 /* CategoryScrollView.swift */; };
 		80F22DC729E1FE6800F3C659 /* PhotoPickerMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */; };
 		80FBE9C129E2A4EC00849E13 /* GoogleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */; };
@@ -158,6 +159,7 @@
 		80D19CCE29EB77AE008E20C9 /* ProfileLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ProfileLight.png; sourceTree = "<group>"; };
 		80D19CD329EB7C81008E20C9 /* AuthScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AuthScreen.png; sourceTree = "<group>"; };
 		80D19CD529EB7E29008E20C9 /* SearchGif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = SearchGif.gif; sourceTree = "<group>"; };
+		80D19CD729EB8058008E20C9 /* SearchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchScreen.png; sourceTree = "<group>"; };
 		80DD04EA29E838E800090C94 /* CategoryScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryScrollView.swift; sourceTree = "<group>"; };
 		80F22DC629E1FE6800F3C659 /* PhotoPickerMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerMethodView.swift; sourceTree = "<group>"; };
 		80FBE9C029E2A4EB00849E13 /* GoogleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleButton.swift; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 		80D19C9A29EB6B76008E20C9 /* ReadmeResources */ = {
 			isa = PBXGroup;
 			children = (
+				80D19CD729EB8058008E20C9 /* SearchScreen.png */,
 				80D19CD529EB7E29008E20C9 /* SearchGif.gif */,
 				80D19CD329EB7C81008E20C9 /* AuthScreen.png */,
 				80D19CCD29EB77AE008E20C9 /* ProfileDark.png */,
@@ -545,6 +548,7 @@
 				80D19CD029EB77AE008E20C9 /* ProfileLight.png in Resources */,
 				80D19CD429EB7C81008E20C9 /* AuthScreen.png in Resources */,
 				80D19CCF29EB77AE008E20C9 /* ProfileDark.png in Resources */,
+				80D19CD829EB8058008E20C9 /* SearchScreen.png in Resources */,
 				80AD557829D7884C00A8F1C3 /* Assets.xcassets in Resources */,
 				80D19CD629EB7E29008E20C9 /* SearchGif.gif in Resources */,
 			);
