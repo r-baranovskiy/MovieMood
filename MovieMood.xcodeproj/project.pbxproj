@@ -26,7 +26,6 @@
 		804CB41229DC730000955FA9 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 804CB40C29DC6F3D00955FA9 /* SDWebImage */; };
 		804CB41729DC73C000955FA9 /* DontHaveAccButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */; };
 		804CB41829DC73C000955FA9 /* AppTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB41529DC73C000955FA9 /* AppTextField.swift */; };
-		804CB41929DC73C000955FA9 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB41629DC73C000955FA9 /* CustomLabel.swift */; };
 		804CB41B29DC740700955FA9 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804CB41A29DC740700955FA9 /* HapticsManager.swift */; };
 		8058C56C29E09A9C003C4757 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058C56B29E09A9C003C4757 /* SettingsViewController.swift */; };
 		8058C56E29E09D90003C4757 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058C56D29E09D90003C4757 /* ChangePasswordViewController.swift */; };
@@ -108,7 +107,6 @@
 		803898C729DC7BC900103156 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		804CB41429DC73C000955FA9 /* DontHaveAccButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DontHaveAccButton.swift; sourceTree = "<group>"; };
 		804CB41529DC73C000955FA9 /* AppTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppTextField.swift; sourceTree = "<group>"; };
-		804CB41629DC73C000955FA9 /* CustomLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		804CB41A29DC740700955FA9 /* HapticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		8058C56B29E09A9C003C4757 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8058C56D29E09D90003C4757 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
@@ -228,7 +226,6 @@
 			children = (
 				80FBE9CC29E3613100849E13 /* HeaderSectionView.swift */,
 				80AD557929D7884C00A8F1C3 /* LaunchScreen.storyboard */,
-				804CB41629DC73C000955FA9 /* CustomLabel.swift */,
 				57F9311729E0BC01009D9666 /* CollectionReusableViewHeader.swift */,
 			);
 			path = Any;
@@ -583,7 +580,6 @@
 				8081199929E00A5A001A0E4A /* UIStackView + Extension.swift in Sources */,
 				804CB41B29DC740700955FA9 /* HapticsManager.swift in Sources */,
 				808119A329E03517001A0E4A /* GenderButton.swift in Sources */,
-				804CB41929DC73C000955FA9 /* CustomLabel.swift in Sources */,
 				57F9311829E0BC01009D9666 /* CollectionReusableViewHeader.swift in Sources */,
 				80A2E61629E56A64001AF7C6 /* MovieModel.swift in Sources */,
 				80FBE9C929E3234200849E13 /* ImageNetworkLoaderManager.swift in Sources */,
